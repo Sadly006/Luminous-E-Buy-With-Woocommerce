@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "600812186279",
+    "project_id": "new-ecommerce-115f3",
+    "storage_bucket": "new-ecommerce-115f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600812186279:android:7a36e82d5b13a9d48b8982",
+        "android_client_info": {
+          "package_name": "com.example.luminous_e_buy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600812186279-gr8m9qpbghc60m642ih2lns6mimlanlh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoPxPIFNDVjvRdwbxjAC3dk4mktOC4qd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600812186279-gr8m9qpbghc60m642ih2lns6mimlanlh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600812186279:android:998720d89622903d8b8982",
+        "android_client_info": {
+          "package_name": "com.example.new_ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600812186279-gjba4f3f4r49i0757aoo2k61k0thtabl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.new_ecommerce",
+            "certificate_hash": "8e7a635df76e7f47358fa56f12a574a69df3e87f"
+          }
+        },
+        {
+          "client_id": "600812186279-gr8m9qpbghc60m642ih2lns6mimlanlh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoPxPIFNDVjvRdwbxjAC3dk4mktOC4qd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600812186279-gr8m9qpbghc60m642ih2lns6mimlanlh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

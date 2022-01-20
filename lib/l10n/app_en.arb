@@ -1,0 +1,126 @@
+{
+  "order": "Order",
+  "@order": {
+    "description": "Order Text"
+  },
+  "categories": "Categories",
+  "@categories": {
+    "description": "Categories"
+  },
+  "orderValue": "Total Order Value",
+  "@orderValue": {
+    "description": "Total Order Value"
+  },
+  "customer": "Customer",
+  "@customer": {
+    "description": "customer Text"
+  },
+  "customerNum": "Total NUmber of Customer",
+  "@customerNum": {
+    "description": "Total NUmber of Customer"
+  },
+  "avp": "Average Per Order",
+  "@avp": {
+    "description": "Average Per Order"
+  },
+  "avpv": "Average Per Order Value",
+  "@avpv": {
+    "description": "Average Per Order Value"
+  },
+  "tsv": "Total Sales Value",
+  "@tsv": {
+    "description": "tsv"
+  },
+  "totalSale": "Total Sales",
+  "@totalSale": {
+    "description": "Total Sales"
+  },
+  "stock": "Stock",
+  "@stock": {
+    "description": "Stock"
+  },
+  "tpv": "Total Product Value",
+  "@tpv": {
+    "description": "Total Product Value"
+  },
+  "yourStore": "Your DRM app  store",
+  "@yourStore": {
+    "description": "Your DRM app  store"
+  },
+  "tryFree": "TRY IT FOR FREE",
+  "@tryFree": {
+    "description": "Free"
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "logout"
+  },
+  "allP": "All Products",
+  "@allP": {
+    "description": "All Pro"
+  },
+  "manageO": "Manage Orders",
+  "@manageO": {
+    "description": "Manage Orders"
+  },
+  "allC": "All Customers",
+  "@allC": {
+    "description": "AllC"
+  },
+  "syncR": "Sync Report",
+  "@syncR": {
+    "description": "SyncReport"
+  },
+  "projectM": "Project Manager",
+  "@projectM": {
+    "description": "project Manager"
+  },
+  "accounting": "Accounting",
+  "@accounting": {
+    "description": "Accounting"
+  },
+  "on": "On",
+  "@on": {
+    "description": "on"
+  },
+  "listOfOrder": "List Of Order",
+  "@listOfOrder": {
+    "description": "listOfOrder"
+  },
+  "orderId": "Order ID",
+  "@orderId": {
+    "description": "orderId"
+  },
+  "orderNumberApi": "Order Number(API)",
+  "@orderNumberApi": {
+    "description": "orderNumberApi"
+  },
+  "billNumber": "Bill Number",
+  "@billNumber": {
+    "description": "billNumber"
+  },
+  "creditNumber": "Credit Number",
+  "@creditNumber": {
+    "description": "creditNumber"
+  },
+  "total": "Total",
+  "@total": {
+    "description": "total"
+  },
+  "product": "Product",
+  "@product": {
+    "description": "product"
+  },
+  "shopName": "Shop Name",
+  "@shopName": {
+    "description": "shopName"
+  },
+  "purchaseDate": "Date Of Purchase",
+  "@purchaseDate": {
+    "description": "purchaseDate"
+  },
+  "status": "Status",
+  "@status": {
+    "description": "status"
+  }
+}

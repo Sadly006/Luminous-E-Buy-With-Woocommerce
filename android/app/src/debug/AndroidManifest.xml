@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.luminous_e_buy">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application
+        android:label="Luminous E-Buy"
+        tools:replace="android:label"
+        android:usesCleartextTraffic="true">
+    </application>
+    <!-- Flutter needs it to communicate with the running application
+         to allow setting breakpoints, to provide hot reload, etc.
+    -->
+</manifest>
