@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
+import 'package:luminous_e_buy/Screens/address_details.dart';
+import 'package:luminous_e_buy/Screens/order_history.dart';
 import 'package:luminous_e_buy/Screens/profile.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -198,33 +200,43 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 35,
-                              width: 35,
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Center(
-                                child: Icon(
-                                  Icons.featured_play_list,
-                                  size: 20,
-                                  color: Colors.greenAccent,
+                        GestureDetector(
+                          onTap: ((){
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>const OrderHistory(),
+                                )
+                            );
+                          }),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 35,
+                                width: 35,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Center(
+                                  child: Icon(
+                                    Icons.featured_play_list,
+                                    size: 20,
+                                    color: Colors.greenAccent,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const Text(
-                              "Orders",
-                              style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey
+                              const Text(
+                                "Orders",
+                                style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         GestureDetector(
                           onTap: ((){
@@ -266,12 +278,12 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                         ),
                         GestureDetector(
                           onTap: ((){
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) =>const Address(cost: cost),
-                            //     )
-                            // );
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>const AddressDetails(),
+                                )
+                            );
                           }),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,

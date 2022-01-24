@@ -9,15 +9,19 @@ import 'package:flutter_sslcommerz/model/SSLCurrencyType.dart';
 import 'package:flutter_sslcommerz/model/sslproductinitilizer/General.dart';
 import 'package:flutter_sslcommerz/model/sslproductinitilizer/SSLCProductInitializer.dart';
 import 'package:flutter_sslcommerz/sslcommerz.dart';
+import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
+import 'package:luminous_e_buy/Functions/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Toasts/toasts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'front_page.dart';
 
 class Payment extends StatefulWidget {
-  Payment({Key? key, required this.cost}) : super(key: key);
+  Payment({Key? key, required this.cost, required this.addressId}) : super(key: key);
 
   double cost;
+  int addressId;
 
   @override
   _PaymentState createState() => _PaymentState();
@@ -27,8 +31,56 @@ class _PaymentState extends State<Payment> {
 
   final _key = GlobalKey<FormState>();
   dynamic formData = {};
+  late Map<String, dynamic> postBody;
+
+  getPostBody(){
+    List<Map<String, dynamic>> products = [];
+    for(int i=0; i<cartList.length; i++){
+      products.add({
+        "product_id": cartList[i]["id"],
+        "quantity": cart[cartList[i]["id"]]
+      });
+    }
+
+    postBody = {
+      "payment_method": "bKash",
+      "payment_method_title": "Online Payment",
+      "set_paid": true,
+      "billing": {
+        "first_name": addressList[widget.addressId]["first_name"],
+        "last_name": addressList[widget.addressId]["last_name"],
+        "address_1": addressList[widget.addressId]["address"],
+        "city": addressList[widget.addressId]["city"],
+        "country": addressList[widget.addressId]["country"],
+        "phone": addressList[widget.addressId]["contact_number"],
+      },
+      "shipping": {
+        "first_name": addressList[widget.addressId]["first_name"],
+        "last_name": addressList[widget.addressId]["last_name"],
+        "address_1": addressList[widget.addressId]["address"],
+        "city": addressList[widget.addressId]["city"],
+        "country": addressList[widget.addressId]["country"],
+        "phone": addressList[widget.addressId]["contact_number"]
+      },
+      "line_items": products,
+    };
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPostBody();
+  }
 
   Future<void> sslCommerzCustomizedCall() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String consKey = prefs.getString("consKey") as String;
+    String consSecret = prefs.getString("consSecret") as String;
+    WoocommerceAPI woocommerceAPI = WoocommerceAPI(
+        url: API().createOrderApi,
+        consumerKey: consKey,
+        consumerSecret: consSecret);
+
     Sslcommerz sslcommerz = Sslcommerz(
         initializer: SSLCommerzInitialization(
           //   ipn_url: "www.ipnurl.com",
@@ -47,20 +99,20 @@ class _PaymentState extends State<Payment> {
             shipmentMethod: "yes",
             numOfItems: 5,
             shipmentDetails: ShipmentDetails(
-                shipAddress1: "Ship address 1",
-                shipCity: "Faridpur",
-                shipCountry: "Bangladesh",
+                shipAddress1: addressList[widget.addressId]["address"],
+                shipCity: addressList[widget.addressId]["city"],
+                shipCountry: addressList[widget.addressId]["country"],
                 shipName: "Ship name 1",
                 shipPostCode: "7860")))
         .addCustomerInfoInitializer(
         customerInfoInitializer: SSLCCustomerInfoInitializer(
-            customerState: "Chattogram",
-            customerName: "Abu Sayed Chowdhury",
-            customerEmail: "sayem227@gmail.com",
-            customerAddress1: "Anderkilla",
-            customerCity: "Chattogram",
+            customerState: "XYZ",
+            customerName: addressList[widget.addressId]["first_name"],
+            customerEmail: addressList[widget.addressId]["email"],
+            customerAddress1: addressList[widget.addressId]["address"],
+            customerCity: addressList[widget.addressId]["city"],
             customerPostCode: "200",
-            customerCountry: "Bangladesh",
+            customerCountry: addressList[widget.addressId]["country"],
             customerPhone: formData['phone']))
         .addProductInitializer(
         sslcProductInitializer:
@@ -83,10 +135,8 @@ class _PaymentState extends State<Payment> {
           result.code);
     } else {
       print("worked!");
-      setState(() {
-        cart.clear();
-        cartList.clear();
-      });
+      cart.clear();
+      cartList.clear();
       Navigator.popUntil(context, ModalRoute.withName(''));
       Navigator.push(
           context,
@@ -94,6 +144,11 @@ class _PaymentState extends State<Payment> {
             builder: (context) =>FrontPage(consKey: "ck_825fd42d48673cc5acf4505f3d4ade0c50781cee", consSecret: "cs_16950d98f2c9ddfc3112e57fa325302f8390b451",),
           )
       );
+      var response = await woocommerceAPI.postAsync(
+        "",
+        postBody,
+      );
+
       Toasts().paymentSuccessToast(context);
       SSLCTransactionInfoModel model = result;
     }

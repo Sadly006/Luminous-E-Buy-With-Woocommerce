@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
-import 'package:luminous_e_buy/Screens/payment.dart';
+import 'package:luminous_e_buy/Screens/new_address_popup.dart';
 
-class Address extends StatefulWidget {
-  Address({Key? key, required this.cost}) : super(key: key);
-  double cost;
+class AddressDetails extends StatefulWidget {
+  const AddressDetails({Key? key}) : super(key: key);
 
   @override
-  _AddressState createState() => _AddressState();
+  _AddressDetailsState createState() => _AddressDetailsState();
 }
 
-class _AddressState extends State<Address> {
+class _AddressDetailsState extends State<AddressDetails> {
+  final _formKey = GlobalKey<FormState>();
 
   int selectedAddress =1;
 
@@ -32,7 +32,7 @@ class _AddressState extends State<Address> {
           color: Colors.grey,
         ),
         Text(
-          addressList[selectedAddress]["location"],
+          addressList[selectedAddress]["address"],
           style: const TextStyle(
             color: Colors.grey,
             fontSize: 16.0,
@@ -46,31 +46,33 @@ class _AddressState extends State<Address> {
     return Column(
       children: [
         GestureDetector(
+          onTap: (){
+            NewAddressPopUp().NewAddress(_formKey, context, setState);
+          },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
             child: Container(
-              height: 40.0,
-              width: displayWidth(context)*0.45,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  topRight: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0),
-                  bottomRight: Radius.circular(10.0),
-                ),
-              ),
-              child: Align(
+                height: 40.0,
+                width: displayWidth(context)*0.45,
                 alignment: Alignment.center,
-                child: Text(
-                    "Add New Address",
-                    style: Theme.of(context).textTheme.headline5
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0),
+                    bottomLeft: Radius.circular(10.0),
+                    bottomRight: Radius.circular(10.0),
+                  ),
                 ),
-              )
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                      "Add New Address",
+                      style: Theme.of(context).textTheme.headline5
+                  ),
+                )
             ),
           ),
-          onTap: () => debugPrint("Order Done!"),
         ),
         SizedBox(
           height: displayHeight(context)*0.71,
@@ -108,14 +110,14 @@ class _AddressState extends State<Address> {
                                     const Padding(padding: EdgeInsets.only(top: 10)),
                                     Text(addressList[index]['title'], style: TextStyle(color: Theme.of(context).accentColor, fontWeight: FontWeight.w500),),
                                     const Padding(padding: EdgeInsets.only(top: 3)),
-                                    Text(addressList[index]['location'], style: TextStyle(color: Theme.of(context).accentColor, fontSize: 12),),
-                                    Text(addressList[index]['district'], style: TextStyle(color: Theme.of(context).accentColor, fontSize: 12),),
+                                    Text(addressList[index]['address'], style: TextStyle(color: Theme.of(context).accentColor, fontSize: 12),),
+                                    Text(addressList[index]['city'], style: TextStyle(color: Theme.of(context).accentColor, fontSize: 12),),
                                   ],
                                 ),
                               ],
                             ),
                           ),
-                          Padding(padding: EdgeInsets.all(5)),
+                          const Padding(padding: EdgeInsets.all(5)),
                           Container(
                             height: 0.15,
                             color: Theme.of(context).accentColor,
@@ -129,35 +131,6 @@ class _AddressState extends State<Address> {
               ),
               ),
             ],
-          ),
-        ),
-        GestureDetector(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-            child: Container(
-              height: 50.0,
-              width: displayWidth(context)*0.9,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  topRight: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0),
-                  bottomRight: Radius.circular(10.0),
-                ),
-              ),
-              child: Text(
-                "Place Order",
-                style: Theme.of(context).textTheme.headline4
-              ),
-            ),
-          ),
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Payment(cost: widget.cost,),
-              )
           ),
         ),
       ],

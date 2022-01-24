@@ -41,7 +41,7 @@ class ThemeProvider extends ChangeNotifier {
         decoration: TextDecoration.lineThrough,
       ),
       headline4: TextStyle(
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: FontWeight.w800,
         color: Colors.black,
       ),

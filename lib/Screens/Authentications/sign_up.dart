@@ -55,8 +55,8 @@ class _SignUpState extends State<SignUp> {
             'last_name': last_name.text.toString(),
             'user_name': user_name.text.toString(),
             'contact_number': contact_number.text.toString(),
-            'email':email.text.toString(),
-            'password':password.text.toString(),
+            'email': email.text.toString(),
+            'password': password.text.toString(),
             'confirm_password': confirm_password.text.toString(),
           }
       );

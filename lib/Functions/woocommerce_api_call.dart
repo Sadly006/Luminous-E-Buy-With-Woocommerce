@@ -153,10 +153,10 @@ class WoocommerceAPI {
   }
 
   Future<dynamic> postAsync(String endPoint, Map data) async {
-    String url = _getOAuthURL("POST", endPoint);
+    String queryUrl = url+endPoint;
 
     http.Client client = http.Client();
-    http.Request request = http.Request('POST', Uri.parse(url));
+    http.Request request = http.Request('POST', Uri.parse(_getOAuthURL("POST", queryUrl)));
     request.headers[HttpHeaders.contentTypeHeader] =
     'application/json; charset=utf-8';
     request.headers[HttpHeaders.cacheControlHeader] = "no-cache";

@@ -90,6 +90,44 @@ class ProductFunction{
     }
   }
 
+  getLastPriceText(double number, List cartList, int index, BuildContext context) {
+    if(cartList[index]["sale_price"]==''){
+      return Text(
+        "\$" + getCartPrice(number, cartList, index, context).toStringAsFixed(2),
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).primaryColor,
+        ),
+      );
+    }
+    else{
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                "\$" + (double.parse(cartList[index]["sale_price"])*number).toStringAsFixed(2),
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              const Padding(padding: EdgeInsets.only(left: 15)),
+              Text(
+                  "\$" + (double.parse(cartList[index]["price"])*number).toStringAsFixed(2),
+                  style: Theme.of(context).textTheme.headline3
+              )
+            ],
+          ),
+          const Padding(padding: EdgeInsets.all(3)),
+        ],
+      );
+    }
+  }
+
   totalCartPrice(List cartList, BuildContext context){
     num total=0;
     for(int i=0; i<cartList.length; i++){

@@ -5,7 +5,7 @@ import 'package:luminous_e_buy/Functions/product_functions.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/product_details.dart';
 
-import 'address.dart';
+import 'select_address.dart';
 
 class MyCart extends StatefulWidget {
   const MyCart({Key? key}) : super(key: key);
@@ -387,7 +387,7 @@ class _MyCartState extends State<MyCart> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Address(cost: ProductFunction().totalCartPrice(cartList, context),),
+                          builder: (context) => SelectAddress(cost: ProductFunction().totalCartPrice(cartList, context),),
                         )
                       );
                     }
