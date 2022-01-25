@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
-import 'package:luminous_e_buy/Screens/payment.dart';
 import 'package:luminous_e_buy/Screens/processing_order.dart';
 
 class PaymentMethod extends StatelessWidget {
@@ -14,23 +13,23 @@ class PaymentMethod extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Payment Methods"),
+          title: const Text("Payment Methods"),
           backgroundColor: Theme.of(context).primaryColor,
         ),
         body: Column(
           children: [
-            Padding(padding: EdgeInsets.all(5)),
+            const Padding(padding: EdgeInsets.all(5)),
             Container(
               height: 0.5,
               color: Colors.grey,
             ),
-            Padding(padding: EdgeInsets.all(5)),
+            const Padding(padding: EdgeInsets.all(5)),
             GestureDetector(
               onTap: (){
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => OrderProcessing(selectedAddress: selectedAddress, cost: cost, paymentMethod: "ONline Payment")
+                      builder: (context) => OrderProcessing(selectedAddress: selectedAddress, cost: cost, paymentMethod: "Online Payment")
                     )
                 );
               },
@@ -38,13 +37,13 @@ class PaymentMethod extends StatelessWidget {
                 width: displayWidth(context),
                 child: Row(
                   children: [
-                    Padding(padding: EdgeInsets.all(5)),
-                    Container(
+                    const Padding(padding: EdgeInsets.all(5)),
+                    SizedBox(
                       height: 40,
                       width: 40,
                       child: Image.network("https://avatars.githubusercontent.com/u/19384040?s=200&v=4", fit: BoxFit.cover,),
                     ),
-                    Padding(padding: EdgeInsets.all(10)),
+                    const Padding(padding: EdgeInsets.all(10)),
                     Text(
                       "Pay Now",
                       style: TextStyle(
@@ -55,12 +54,12 @@ class PaymentMethod extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(padding: EdgeInsets.all(5)),
+            const Padding(padding: EdgeInsets.all(5)),
             Container(
               height: 0.5,
               color: Colors.grey,
             ),
-            Padding(padding: EdgeInsets.all(5)),
+            const Padding(padding: EdgeInsets.all(5)),
             GestureDetector(
               onTap: (){
                 Navigator.push(
@@ -74,13 +73,13 @@ class PaymentMethod extends StatelessWidget {
                 width: displayWidth(context),
                 child: Row(
                   children: [
-                    Padding(padding: EdgeInsets.all(5)),
-                    Container(
+                    const Padding(padding: EdgeInsets.all(5)),
+                    SizedBox(
                       height: 40,
                       width: 40,
                       child: Image.network("https://cdn.iconscout.com/icon/premium/png-64-thumb/cash-on-delivery-2213933-1855306.png", fit: BoxFit.cover,),
                     ),
-                    Padding(padding: EdgeInsets.all(10)),
+                    const Padding(padding: EdgeInsets.all(10)),
                     Text(
                         "Cash On Delivery",
                       style: TextStyle(
@@ -91,7 +90,7 @@ class PaymentMethod extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(padding: EdgeInsets.all(5)),
+            const Padding(padding: EdgeInsets.all(5)),
 
             Container(
               height: 0.5,

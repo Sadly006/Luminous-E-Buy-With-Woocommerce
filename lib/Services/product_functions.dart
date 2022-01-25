@@ -1,7 +1,8 @@
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
-import 'package:luminous_e_buy/Toasts/toasts.dart';
+import 'package:luminous_e_buy/Services/toasts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductFunction{
@@ -221,9 +222,14 @@ class ProductFunction{
       }
       if(c==0){
         cartList.add(product[index]);
+        cartIndexId.add(product[index]["id"].toString());
         cart.putIfAbsent(product[index]["id"], () => 1);
         cart[product[index]["id"]]=1;
       }
+      // String encodedCartList = const JsonEncoder().convert(cartIndexId);
+      // String encodedCartMap = const JsonEncoder().convert(cart);
+      // pref.setString("cartList", encodedCartList);
+      // pref.setString("cartMap", encodedCartMap);
       Toasts().cartSuccessToast(context);
     }
   }

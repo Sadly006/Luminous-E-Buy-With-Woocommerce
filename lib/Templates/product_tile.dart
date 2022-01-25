@@ -1,18 +1,16 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
-import 'package:luminous_e_buy/Functions/product_functions.dart';
-import 'package:luminous_e_buy/Functions/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/product_details.dart';
 import 'package:luminous_e_buy/Screens/shimmer_loading.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:luminous_e_buy/Services/product_functions.dart';
 
 class ProductTile extends StatefulWidget {
   List<dynamic> productList = [];
   int index = 0;
   bool isLoading;
-  ProductTile({Key? key, required this.productList, required this.index, required this.isLoading});
+  ProductTile({Key? key, required this.productList, required this.index, required this.isLoading}) : super(key: key);
 
   @override
   _ProductTileState createState() => _ProductTileState();

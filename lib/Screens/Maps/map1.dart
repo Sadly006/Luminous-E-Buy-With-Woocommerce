@@ -1,13 +1,12 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
-import 'package:luminous_e_buy/Functions/map_functions.dart';
-import 'package:luminous_e_buy/Functions/socket_func.dart';
+import 'package:luminous_e_buy/Services/map_functions.dart';
+import 'package:luminous_e_buy/Services/socket_func.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 

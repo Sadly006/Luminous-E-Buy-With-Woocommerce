@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
-import 'package:luminous_e_buy/Screens/payment.dart';
 import 'package:luminous_e_buy/Screens/payment_method.dart';
 
 import 'new_address_popup.dart';
@@ -139,40 +138,6 @@ class _SelectAddressState extends State<SelectAddress> {
             ],
           ),
         ),
-        GestureDetector(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-            child: Container(
-              height: 50.0,
-              width: displayWidth(context)*0.9,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  topRight: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0),
-                  bottomRight: Radius.circular(10.0),
-                ),
-              ),
-              child: Text(
-                "Review Payment",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white
-                )
-              ),
-            ),
-          ),
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              // builder: (context) => Payment(cost: widget.cost, addressId: selectedAddress,),
-              builder: (context) => PaymentMethod(cost: widget.cost, selectedAddress: selectedAddress,),
-            )
-          ),
-        ),
       ],
     );
   }
@@ -201,6 +166,30 @@ class _SelectAddressState extends State<SelectAddress> {
         centerTitle: true,
       ),
       body: _getAddressList(),
+      persistentFooterButtons: <Widget>[
+        Align(
+          alignment: Alignment.center,
+          child: SizedBox(
+            height: 30,
+            width: displayWidth(context)*0.8,
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).primaryColor
+                ),
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      // builder: (context) => Payment(cost: widget.cost, addressId: selectedAddress,),
+                      builder: (context) => PaymentMethod(cost: widget.cost, selectedAddress: selectedAddress,),
+                    )
+                ),
+                child: const Text(
+                    "Review Payment"
+                )
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

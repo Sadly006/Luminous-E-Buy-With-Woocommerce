@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
-import 'package:luminous_e_buy/Functions/woocommerce_api_call.dart';
+import 'package:luminous_e_buy/Screens/track_order.dart';
+import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderHistory extends StatefulWidget {
@@ -62,7 +63,7 @@ class _OrderHistoryState extends State<OrderHistory> {
 
           : CustomScrollView(
               slivers: [
-                const SliverAppBar(
+                SliverAppBar(
                   pinned: true,
                   //snap: true,
                   //floating: true,
@@ -74,9 +75,10 @@ class _OrderHistoryState extends State<OrderHistory> {
                           color: Colors.black,
                         ),
                       ),
-                      // background: Image.asset("images/order.gif",
-                      //   fit: BoxFit.contain,
-                      // )
+                      background: Image.asset(
+                        "assets/orderList.png",
+                        fit: BoxFit.contain,
+                      )
                   ),
                 ),
 
@@ -88,7 +90,6 @@ class _OrderHistoryState extends State<OrderHistory> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         elevation: 10,
-                        color: Colors.white70,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,8 +143,18 @@ class _OrderHistoryState extends State<OrderHistory> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: <Widget>[
                                               TextButton(
+                                                style: TextButton.styleFrom(
+                                                  primary: Theme.of(context).primaryColor,
+                                                ),
                                                 child: const Text('Show More'),
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) => TrackOrder(id: index),
+                                                      )
+                                                  );
+                                                },
                                               ),
                                               const SizedBox(width: 8),
                                             ],
@@ -169,7 +180,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                         ),
                       );
                     },
-                    childCount: 20,
+                    childCount: orderList.length,
                   ),
                 )
               ]

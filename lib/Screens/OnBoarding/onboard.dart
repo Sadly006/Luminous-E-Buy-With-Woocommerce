@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
+import 'package:luminous_e_buy/Screens/Authentications/sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../front_page.dart';
@@ -17,9 +18,17 @@ class _OnBoardState extends State<OnBoard> {
   void _onIntroEnd(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("onboarded", true);
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => FrontPage(consKey: "ck_825fd42d48673cc5acf4505f3d4ade0c50781cee", consSecret: "cs_16950d98f2c9ddfc3112e57fa325302f8390b451",)),
-    );
+    Navigator.popUntil(context, ModalRoute.withName(''));
+    if(prefs.getString("token")==null){
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const SignIn()),
+      );
+    }
+    else{
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => FrontPage(consKey: "ck_825fd42d48673cc5acf4505f3d4ade0c50781cee", consSecret: "cs_16950d98f2c9ddfc3112e57fa325302f8390b451",)),
+      );
+    }
   }
 
   Widget _buildImage(String assetName, double width) {

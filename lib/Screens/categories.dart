@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/product_list.dart';
-
 import 'SearchPages/category_search.dart';
 
 class CategoryList extends StatefulWidget {

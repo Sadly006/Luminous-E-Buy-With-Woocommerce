@@ -30,7 +30,6 @@ class GoogleSigning {
       if (result != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('email', user!.email.toString());
-        print("hulululu: "+user.toString());
         Navigator.pop(context, true);
         Navigator.push(
             context,
@@ -38,8 +37,7 @@ class GoogleSigning {
               builder: (context) => FrontPage(consKey: "ck_825fd42d48673cc5acf4505f3d4ade0c50781cee", consSecret: "cs_16950d98f2c9ddfc3112e57fa325302f8390b451",),
             )
         );
-      }  // if result not null we simply call the MaterialpageRoute,
-      // for go to the HomePage screen
+      }
     }
   }
 
@@ -48,7 +46,7 @@ class GoogleSigning {
       backgroundColor: Colors.black,
       content: Text(
         content,
-        style: TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
+        style: const TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
       ),
     );
   }

@@ -7,13 +7,6 @@ import "dart:core";
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:http/http.dart' as http;
 
-/// [url] is you're site's base URL, e.g. `https://www.yourdomain.com`
-///
-/// [consumerKey] is the consumer key provided by WooCommerce, e.g. `ck_1a2b3c4d5e6f7g8h9i`
-///
-/// [consumerSecret] is the consumer secret provided by WooCommerce, e.g. `cs_1a2b3c4d5e6f7g8h9i`
-///
-/// [isHttps] check if [url] is https based
 class WoocommerceAPI {
   String url;
   String consumerKey;
@@ -28,8 +21,6 @@ class WoocommerceAPI {
     url = url;
     consumerKey = consumerKey;
     consumerSecret = consumerSecret;
-    print(consumerKey);
-    print(consumerSecret);
 
     if (url.startsWith("https")) {
       isHttps = true;
@@ -38,10 +29,6 @@ class WoocommerceAPI {
     }
   }
 
-  /// Generate a valid OAuth 1.0 URL
-  ///
-  /// if [isHttps] is true we just return the URL with
-  /// [consumerKey] and [consumerSecret] as query parameters
   String _getOAuthURL(String requestMethod, String queryUrl) {
 
     String token = "";
@@ -53,10 +40,8 @@ class WoocommerceAPI {
       return rand.nextInt(26) + 97;
     });
 
-    /// Random string uniquely generated to identify each signed request
     String nonce = String.fromCharCodes(codeUnits);
 
-    /// The timestamp allows the Service Provider to only keep nonce values for a limited time
     int timestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
     String parameters = "oauth_consumer_key=" +
@@ -103,9 +88,6 @@ class WoocommerceAPI {
     crypto.Hmac hmacSha1 =
     crypto.Hmac(crypto.sha1, utf8.encode(signingKey)); // HMAC-SHA1
 
-    /// The Signature is used by the server to verify the
-    /// authenticity of the request and prevent unauthorized access.
-    /// Here we use HMAC-SHA1 method.
     crypto.Digest signature = hmacSha1.convert(utf8.encode(baseString));
 
     String finalSignature = base64Encode(signature.bytes);
@@ -129,9 +111,6 @@ class WoocommerceAPI {
     return requestUrl;
   }
 
-  /// Handle network errors if [response.statusCode] is not 200 (OK).
-  ///
-  /// WooCommerce supports and give informations about errors 400, 401, 404 and 500
   Exception _handleError(http.Response response) {
     switch (response.statusCode) {
       case 400:
@@ -149,6 +128,7 @@ class WoocommerceAPI {
   Future<dynamic> getAsync(String endPoint) async {
     String queryUrl = url+endPoint;
     final response = await http.get(Uri.parse(_getOAuthURL("GET", queryUrl)));
+    print(response.body);
     return response;
   }
 
@@ -164,16 +144,16 @@ class WoocommerceAPI {
     String response =
     await client.send(request).then((res) => res.stream.bytesToString());
     var dataResponse = await json.decode(response);
+    print(dataResponse);
     return dataResponse;
   }
 }
 
 
 class QueryString {
-  /// Parses the given query string into a Map.
   static Map parse(String query) {
     RegExp search = RegExp('([^&=]+)=?([^&]*)');
-    Map result = Map();
+    Map result = {};
 
     if (query.startsWith('?')) query = query.substring(1);
 
@@ -193,9 +173,9 @@ class WooCommerceError {
   Data? _data;
 
   WooCommerceError({String? code, String? message, Data? data}) {
-    this._code = code;
-    this._message = message;
-    this._data = data;
+    _code = code;
+    _message = message;
+    _data = data;
   }
 
   WooCommerceError.fromJson(Map<String, dynamic> json) {
@@ -214,7 +194,7 @@ class Data {
   int? _status;
 
   Data({required int status}) {
-    this._status = status;
+    _status = status;
   }
 
   int? get status => _status;

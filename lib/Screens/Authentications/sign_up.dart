@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:luminous_e_buy/APIs/apis.dart';
-import 'package:luminous_e_buy/Functions/google_sign_in.dart';
-import 'package:luminous_e_buy/Functions/masked_text.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/Authentications/sign_in.dart';
+import 'package:luminous_e_buy/Services/google_sign_in.dart';
+import 'package:luminous_e_buy/Services/masked_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../front_page.dart';
@@ -18,13 +18,13 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  final first_name = TextEditingController();
-  final last_name = TextEditingController();
-  final user_name = TextEditingController();
-  final contact_number = TextEditingController();
+  final firstName = TextEditingController();
+  final lastName = TextEditingController();
+  final userName = TextEditingController();
+  final contactNumber = TextEditingController();
   final email = TextEditingController();
   final password = TextEditingController();
-  final confirm_password = TextEditingController();
+  final confirmPassword = TextEditingController();
 
   bool _obscureText = true;
 
@@ -39,25 +39,25 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
     email.dispose();
     password.dispose();
-    first_name.dispose();
-    last_name.dispose();
-    user_name.dispose();
-    contact_number.dispose();
-    confirm_password.dispose();
+    firstName.dispose();
+    lastName.dispose();
+    userName.dispose();
+    contactNumber.dispose();
+    confirmPassword.dispose();
   }
 
   _validator() async {
-    if(password.text.toString()==confirm_password.text.toString()){
+    if(password.text.toString()==confirmPassword.text.toString()){
       final response = await http.post(
           Uri.parse(API().signUpApi),
           body:{
-            'first_name': first_name.text.toString(),
-            'last_name': last_name.text.toString(),
-            'user_name': user_name.text.toString(),
-            'contact_number': contact_number.text.toString(),
+            'first_name': firstName.text.toString(),
+            'last_name': lastName.text.toString(),
+            'user_name': userName.text.toString(),
+            'contact_number': contactNumber.text.toString(),
             'email': email.text.toString(),
             'password': password.text.toString(),
-            'confirm_password': confirm_password.text.toString(),
+            'confirm_password': confirmPassword.text.toString(),
           }
       );
       print("res: "+response.body);
@@ -134,7 +134,7 @@ class _SignUpState extends State<SignUp> {
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(20, 3, 0, 10),
+                    padding: const EdgeInsets.fromLTRB(20, 3, 0, 10),
                     child: Text(
                       "JOIN US NOW!!",
                       style: TextStyle(
@@ -149,7 +149,7 @@ class _SignUpState extends State<SignUp> {
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(20, 3, 0, 10),
+                    padding: const EdgeInsets.fromLTRB(20, 3, 0, 10),
                     child: Text(
                       "Already have an account? ",
                       style: TextStyle(
@@ -185,7 +185,7 @@ class _SignUpState extends State<SignUp> {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Center(
                   child: TextFormField(
-                    controller: first_name,
+                    controller: firstName,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.grey[300],
@@ -202,7 +202,7 @@ class _SignUpState extends State<SignUp> {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Center(
                   child: TextFormField(
-                    controller: last_name,
+                    controller: lastName,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.grey[300],
@@ -219,7 +219,7 @@ class _SignUpState extends State<SignUp> {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Center(
                   child: TextFormField(
-                    controller: user_name,
+                    controller: userName,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.grey[300],
@@ -259,7 +259,7 @@ class _SignUpState extends State<SignUp> {
                         separator: '-',
                       ),
                     ],
-                    controller: contact_number,
+                    controller: contactNumber,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.grey[300],
@@ -306,7 +306,7 @@ class _SignUpState extends State<SignUp> {
                 child: Center(
                   child: TextFormField(
                     obscureText: true,
-                    controller: confirm_password,
+                    controller: confirmPassword,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.grey[300],

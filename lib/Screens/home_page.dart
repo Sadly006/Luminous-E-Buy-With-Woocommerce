@@ -126,11 +126,7 @@ class _HomePageState extends State<HomePage> {
                           Padding(padding: const EdgeInsets.fromLTRB(20, 30, 0, 5),
                             child: Text(
                               "Categories",
-                              style: TextStyle( //homePage category accent
-                                color: Theme.of(context).accentColor,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w400,
-                              ),
+                              style: Theme.of(context).textTheme.headline2,
                             ),
                           ),
                           const Padding(

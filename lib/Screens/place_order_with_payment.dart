@@ -11,23 +11,22 @@ import 'package:flutter_sslcommerz/model/sslproductinitilizer/SSLCProductInitial
 import 'package:flutter_sslcommerz/sslcommerz.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
-import 'package:luminous_e_buy/Functions/woocommerce_api_call.dart';
-import 'package:luminous_e_buy/Toasts/toasts.dart';
+import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
+import 'package:luminous_e_buy/Services/toasts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'front_page.dart';
 
-class Payment extends StatefulWidget {
-  Payment({Key? key, required this.cost, required this.addressId}) : super(key: key);
+class OrderWithPayment extends StatefulWidget {
+  OrderWithPayment({Key? key, required this.cost, required this.addressId}) : super(key: key);
 
   double cost;
   int addressId;
 
   @override
-  _PaymentState createState() => _PaymentState();
+  _OrderWithPaymentState createState() => _OrderWithPaymentState();
 }
 
-class _PaymentState extends State<Payment> {
+class _OrderWithPaymentState extends State<OrderWithPayment> {
 
   final _key = GlobalKey<FormState>();
   dynamic formData = {};

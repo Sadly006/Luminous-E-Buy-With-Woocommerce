@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
-
 import '../product_list.dart';
 
 class CategorySearch extends StatelessWidget {

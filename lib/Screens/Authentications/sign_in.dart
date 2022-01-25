@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
-import 'package:luminous_e_buy/Functions/google_sign_in.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
+import 'package:luminous_e_buy/Services/google_sign_in.dart';
 import '../front_page.dart';
 import 'sign_up.dart';
 import 'package:http/http.dart' as http;

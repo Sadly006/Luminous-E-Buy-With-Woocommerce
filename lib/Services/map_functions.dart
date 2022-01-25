@@ -1,15 +1,14 @@
 import 'dart:async';
 import 'dart:math' show cos, sqrt, asin;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
-import 'package:luminous_e_buy/Functions/rating_functions.dart';
-import 'package:luminous_e_buy/Functions/socket_func.dart';
+import 'package:luminous_e_buy/Services/rating_functions.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/seller_overview.dart';
+import 'package:luminous_e_buy/Services/socket_func.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -61,7 +60,7 @@ class MapFunctions {
 
               Center(
                 child: Padding(
-                  padding: EdgeInsets.only(left: 15),
+                  padding: const EdgeInsets.only(left: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -89,7 +88,7 @@ class MapFunctions {
                           SizedBox(
                             width: displayWidth(context)*0.6,
                             child: Padding(
-                              padding: EdgeInsets.only(left: 15),
+                              padding: const EdgeInsets.only(left: 15),
                               child: Text(
                                   id,
                                   style: TextStyle(
@@ -118,11 +117,11 @@ class MapFunctions {
               ),
               const Padding(padding: EdgeInsets.all(10)),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 child: getDistance(points, context),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 child: RatingFunctions().getShopRating(1, shops),
               ),
               Align(
@@ -221,7 +220,7 @@ class MapFunctions {
       setState(() {
         polylines.add(Polyline(
             width: 5,
-            polylineId: PolylineId("poly"),
+            polylineId: const PolylineId("poly"),
             //color: const Color.fromRGBO(141, 15, 15, 1),
             color: Theme.of(context).accentColor,
             points: polylineCoordinates));

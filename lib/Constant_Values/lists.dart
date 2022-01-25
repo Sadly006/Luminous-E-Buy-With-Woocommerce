@@ -1,4 +1,5 @@
 List<dynamic> productList = [];
+List<dynamic> previousOrderProductList = [];
 List<dynamic> orderList = [];
 List<dynamic> relatedProductList = [];
 List<dynamic> newArrival = [];
@@ -9,7 +10,7 @@ List<dynamic> pList = [];
 
 List<Map<String, dynamic>> addressList = [
   {"id": 0, "title": "Home", "first_name": "Taosif", "last_name": "Sadly", "contact_number": "01640682045", "address": "250 Panthapath", "city": "Dhaka", "country": "Bangladesh", "email": "taosifsadly@gmail.com"},
-  {"id": 1, "title": "Office", "first_name": "Taosif", "last_name": "Sadly", "contact_number": "01640682045", "address": "Mirpur DOHS", "city": "Dhaka", "city": "Dhaka", "country": "Bangladesh", "email": "taosifsadly@gmail.com"},
+  {"id": 1, "title": "Office", "first_name": "Taosif", "last_name": "Sadly", "contact_number": "01640682045", "address": "Mirpur DOHS", "city": "Dhaka", "country": "Bangladesh", "email": "taosifsadly@gmail.com"},
   {"id": 2, "title": "Home", "first_name": "Taosif", "last_name": "Sadly", "contact_number": "01640682045", "address": "Maijdee, Noakhali", "city": "Noakhali", "country": "Bangladesh", "email": "taosifsadly@gmail.com"},
 ];
 
@@ -86,13 +87,11 @@ List<String> productName = <String>[
   "Adidas Racer TR21",
 ];
 
-List<Map<String, dynamic>> wishList = [
+List<Map<String, dynamic>> wishList = [];
 
-];
+List<Map<String, dynamic>> cartList = [];
 
-List<Map<String, dynamic>> cartList = [
-
-];
+List<String> cartIndexId = [];
 
 List<Map<String, dynamic>> shops = [
   {"id": 1, "brand": "Razer", "logo": "https://assets2.razerzone.com/images/pnx.assets/09a0c71116e39ef8c882159300d66e29/quad_damage-th.jpg", "rating": 4.8},

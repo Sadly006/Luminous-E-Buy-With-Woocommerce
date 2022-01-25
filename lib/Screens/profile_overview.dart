@@ -189,7 +189,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     child: Container(
                       height: 0.2,
                       color: Colors.grey,
@@ -346,14 +346,14 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     child: Container(
                       height: 0.2,
                       color: Colors.grey,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 30),
+                    padding: const EdgeInsets.only(left: 30),
                     child: Row(
                       children: [
                         Container(

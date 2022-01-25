@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
-import 'package:luminous_e_buy/Functions/masked_text.dart';
+import 'package:luminous_e_buy/Services/masked_text.dart';
 
 class NewAddressPopUp{
   NewAddress(Key formKey, BuildContext context, Function setState){
-    final first_name = TextEditingController();
-    final last_name = TextEditingController();
+    final firstName = TextEditingController();
+    final lastName = TextEditingController();
     final address = TextEditingController();
-    final contact_number = TextEditingController();
+    final contactNumber = TextEditingController();
     final email = TextEditingController();
     final city = TextEditingController();
-    final state = TextEditingController();
     final country = TextEditingController();
     final title = TextEditingController();
 
@@ -61,7 +60,7 @@ class NewAddressPopUp{
                           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                           child: Center(
                             child: TextFormField(
-                              controller: first_name,
+                              controller: firstName,
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.grey[300],
@@ -78,7 +77,7 @@ class NewAddressPopUp{
                           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                           child: Center(
                             child: TextFormField(
-                              controller: last_name,
+                              controller: lastName,
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.grey[300],
@@ -118,7 +117,7 @@ class NewAddressPopUp{
                                   separator: '-',
                                 ),
                               ],
-                              controller: contact_number,
+                              controller: contactNumber,
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.grey[300],
@@ -188,9 +187,9 @@ class NewAddressPopUp{
                           child: ElevatedButton(
                             child: const Text("Submitß"),
                             onPressed: () {
-                              if(title.text.isNotEmpty && first_name.text.isNotEmpty && email.text.isNotEmpty && last_name.text.isNotEmpty && contact_number.text.isNotEmpty && address.text.isNotEmpty && city.text.isNotEmpty && country.text.isNotEmpty){
+                              if(title.text.isNotEmpty && firstName.text.isNotEmpty && email.text.isNotEmpty && lastName.text.isNotEmpty && contactNumber.text.isNotEmpty && address.text.isNotEmpty && city.text.isNotEmpty && country.text.isNotEmpty){
                                 addressList.add({
-                                  "id": addressList.length, "title": title.text, "first_name": first_name.text, "last_name": last_name.text, "email": email.text, "address": address.text, "city": city.text, "country": country.text, "contact_number": contact_number.text
+                                  "id": addressList.length, "title": title.text, "first_name": firstName.text, "last_name": lastName.text, "email": email.text, "address": address.text, "city": city.text, "country": country.text, "contact_number": contactNumber.text
                                 });
                                 print(addressList);
                                 setState((){});

@@ -1,18 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
-import 'package:luminous_e_buy/Functions/woocommerce_api_call.dart';
+import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Screens/profile_overview.dart';
 import 'package:luminous_e_buy/Screens/wishlist.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 import 'Authentications/sign_in.dart';
 import 'Maps/map1.dart';
 import 'home_page.dart';
@@ -53,6 +50,12 @@ class _FrontPageState extends State<FrontPage> {
     setState(() {
       isLoading = true;
     });
+    final pref = await SharedPreferences.getInstance();
+    if(pref.getString("cartList")!=null && pref.getString("cartMap")!=null){
+      cartIndexId = json.decode(pref.getString("cartList") as String);
+      cart = json.decode(pref.getString("cartMap") as String);
+      print(cartIndexId);
+    }
     WoocommerceAPI woocommerceAPI1 = WoocommerceAPI(
         url: API().productApi,
         consumerKey: widget.consKey,

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -6,8 +5,8 @@ class ThemeProvider extends ChangeNotifier {
   ThemeData _selectedTheme = ThemeData.light();
 
   ThemeData dark = ThemeData.dark().copyWith(
-    // primaryColor: Color.fromRGBO(62, 180, 137, 1),
-    primaryColor: const Color.fromRGBO(200, 55, 55, 1),
+    primaryColor: const Color.fromRGBO(255, 95, 31, 1),
+    // primaryColor: const Color.fromRGBO(200, 55, 55, 1),
     //primaryColor: Colors.lightGreenAccent,
     //primaryColor: Color.fromRGBO(241, 87, 72, 1),
     //primaryColor: Color.fromRGBO(66, 251, 16, 1),
@@ -66,8 +65,8 @@ class ThemeProvider extends ChangeNotifier {
   );
 
   ThemeData light = ThemeData.light().copyWith(
-    // primaryColor: Color.fromRGBO(62, 180, 137, 1),
-    primaryColor: const Color.fromRGBO(200, 55, 55, 1),
+    primaryColor: const Color.fromRGBO(255, 95, 31, 1),
+    // primaryColor: const Color.fromRGBO(200, 55, 55, 1),
     //primaryColor: Colors.lightGreenAccent,
     //primaryColor: Color.fromRGBO(241, 87, 72, 1),
     //primaryColor: Color.fromRGBO(66, 251, 16, 1),

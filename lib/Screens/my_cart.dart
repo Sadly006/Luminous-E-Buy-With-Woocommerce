@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:animated_widgets/animated_widgets.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
-import 'package:luminous_e_buy/Functions/product_functions.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/product_details.dart';
+import 'package:luminous_e_buy/Services/product_functions.dart';
 
 import 'select_address.dart';
 

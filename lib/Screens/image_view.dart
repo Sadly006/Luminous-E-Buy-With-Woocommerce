@@ -13,7 +13,7 @@ class ImageView extends StatelessWidget {
       );
     }
     else{
-      return AssetImage(
+      return const AssetImage(
         "assets/no-image.png",
       );
     }

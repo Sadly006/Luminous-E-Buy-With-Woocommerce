@@ -46,17 +46,17 @@ class RatingFunctions {
             size: 15,
             color: Colors.white,
           ),
-          Icon(
+          const Icon(
             Icons.star,
             size: 15,
             color: Colors.white,
           ),
-          Icon(
+          const Icon(
             Icons.star,
             size: 15,
             color: Colors.white,
           ),
-          Icon(
+          const Icon(
             Icons.star,
             size: 15,
             color: Colors.white,
@@ -77,17 +77,17 @@ class RatingFunctions {
             size: 15,
             color: Colors.deepOrange[900],
           ),
-          Icon(
+          const Icon(
             Icons.star,
             size: 15,
             color: Colors.white,
           ),
-          Icon(
+          const Icon(
             Icons.star,
             size: 15,
             color: Colors.white,
           ),
-          Icon(
+          const Icon(
             Icons.star,
             size: 15,
             color: Colors.white,
@@ -113,12 +113,12 @@ class RatingFunctions {
             size: 15,
             color: Colors.deepOrange[900],
           ),
-          Icon(
+          const Icon(
             Icons.star,
             size: 15,
             color: Colors.white,
           ),
-          Icon(
+          const Icon(
             Icons.star,
             size: 15,
             color: Colors.white,
@@ -149,7 +149,7 @@ class RatingFunctions {
             size: 15,
             color: Colors.deepOrange[900],
           ),
-          Icon(
+          const Icon(
             Icons.star,
             size: 15,
             color: Colors.white,
