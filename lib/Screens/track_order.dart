@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
+import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Services/product_functions.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,10 +20,10 @@ class _TrackOrderState extends State<TrackOrder> {
   bool isLoading = true;
 
   getImage(int index){
-    if(cartList[index]["images"].length!=0){
+    if(previousOrderProductList[index]["images"].length!=0){
       return DecorationImage(
         image: NetworkImage(
-            cartList[index]["images"][0]["src"].toString()
+            previousOrderProductList[index]["images"][0]["src"].toString()
         ),
         fit: BoxFit.cover,
       );
@@ -36,6 +39,30 @@ class _TrackOrderState extends State<TrackOrder> {
     }
   }
 
+  getColor(String status){
+    if(status == "processing"){
+      return Colors.green;
+    }
+    else if(status == "pending"){
+      return Colors.deepOrange;
+    }
+    else if(status == "on-hold"){
+      return Colors.grey;
+    }
+    else if(status == "completed"){
+      return Colors.blueAccent;
+    }
+    else if(status == "cancelled"){
+      return Colors.redAccent;
+    }
+    else if(status == "refunded"){
+      return Colors.deepPurple;
+    }
+    else if(status == "failed"){
+      return Colors.yellow;
+    }
+  }
+
   getProduct() async {
     previousOrderProductList.clear();
     final pref = await SharedPreferences.getInstance();
@@ -45,10 +72,12 @@ class _TrackOrderState extends State<TrackOrder> {
         url: API().productApi,
         consumerKey: consKey,
         consumerSecret: consSecret);
-    for(int i=0; i<orderList[widget.id]["line_items"].length(); i++){
-      final response = await woocommerceAPI.getAsync("/"+orderList[widget.id]["line_items"][i]["id"].toString());
-      previousOrderProductList.add(response.body);
+    for(int i=0; i<orderList[widget.id]["line_items"].length; i++){
+      final response = await woocommerceAPI.getAsync("/"+orderList[widget.id]["line_items"][i]["product_id"].toString());
+      Map<String, dynamic> product = json.decode(response.body);
+      previousOrderProductList.add(product);
     }
+    print(previousOrderProductList);
     setState(() {
       isLoading = false;
     });
@@ -64,18 +93,20 @@ class _TrackOrderState extends State<TrackOrder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: const Text("Track Your Package"),
       ),
       body: isLoading == true
         ? Container()
         : SingleChildScrollView(
-        physics: ScrollPhysics(),
+        physics: const ScrollPhysics(),
         child: Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Padding(padding: EdgeInsets.all(10)),
               Row(
                 children: [
                   Text(
@@ -88,6 +119,7 @@ class _TrackOrderState extends State<TrackOrder> {
                   )
                 ],
               ),
+              const Padding(padding: EdgeInsets.all(10)),
               Row(
                 children: [
                   const Text(
@@ -95,24 +127,48 @@ class _TrackOrderState extends State<TrackOrder> {
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 15,
+                      fontWeight: FontWeight.w600
                     ),
                   ),
                   Text(
-                    "#"+orderList[widget.id]["id"],
-                    style: const TextStyle(
-                      color: Colors.grey,
+                    "#"+orderList[widget.id]["id"].toString(),
+                    style: TextStyle(
+                      color: Theme.of(context).accentColor,
                       fontSize: 15,
+                        fontWeight: FontWeight.w600
                     ),
                   ),
                 ],
               ),
+              const Padding(padding: EdgeInsets.all(3)),
+              Row(
+                children: [
+                  const Text(
+                    "Status ",
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600
+                    ),
+                  ),
+                  Text(
+                    orderList[widget.id]["status"].toString(),
+                    style: TextStyle(
+                        color: getColor(orderList[widget.id]["status"].toString()),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600
+                    ),
+                  ),
+                ],
+              ),
+              const Padding(padding: EdgeInsets.all(5)),
               ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: cartList.length,
+                  itemCount: previousOrderProductList.length,
                   itemBuilder: (BuildContext context, int index){
                     return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -130,38 +186,131 @@ class _TrackOrderState extends State<TrackOrder> {
                                     ),
                                   ),
                                 ),
-                                const Padding(padding: EdgeInsets.all(5)),
+                                const Padding(padding: EdgeInsets.all(15)),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      previousOrderProductList[index]['name'].toString(),
+                                      previousOrderProductList[index]["name"],
                                       style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
                                           color: Theme.of(context).accentColor
                                       ),
                                     ),
                                     const Padding(padding: EdgeInsets.all(2)),
-
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: Text(
+                                        "Quantity: " + orderList[widget.id]["line_items"][index]["quantity"].toString(),
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                            color: Theme.of(context).accentColor
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 )
                               ],
-                            ),
-
-                            Padding(
-                              padding: const EdgeInsets.all(2),
-                              child: SizedBox(
-                                width: 45,
-                                height: 45,
-                                child: Center(
-                                  child: ProductFunction().getCartNumber(cart[cartList[index]["id"]]!.toInt(), context),
-                                ),
-                              ),
                             ),
                           ],
                         )
                     );
                   }
+              ),
+              Container(
+                height: 1,
+                color: Colors.grey,
+              ),
+              const Padding(padding: EdgeInsets.all(5)),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Shipping Details",
+                      style: TextStyle(
+                        color: Theme.of(context).accentColor,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.all(10)),
+                    Text(
+                      orderList[widget.id]["shipping"]["first_name"],
+                      style: TextStyle(
+                          color: Theme.of(context).accentColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.all(3)),
+                    Text(
+                      orderList[widget.id]["shipping"]["address_1"],
+                      style: TextStyle(
+                          color: Theme.of(context).accentColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.all(3)),
+                    Text(
+                      orderList[widget.id]["shipping"]["city"],
+                      style: TextStyle(
+                          color: Theme.of(context).accentColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.all(3)),
+                    Text(
+                      orderList[widget.id]["shipping"]["country"],
+                      style: TextStyle(
+                          color: Theme.of(context).accentColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 1,
+                color: Colors.grey,
+              ),
+              const Padding(padding: EdgeInsets.all(5)),
+
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Questions?",
+                      style: TextStyle(
+                          color: Theme.of(context).accentColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.all(10)),
+                    Text(
+                      "Visit Help Center",
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
+              Container(
+                height: 1,
+                color: Colors.grey,
               ),
             ],
           ),

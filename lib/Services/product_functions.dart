@@ -132,7 +132,7 @@ class ProductFunction{
   totalCartPrice(List cartList, BuildContext context){
     num total=0;
     for(int i=0; i<cartList.length; i++){
-      total = total + getCartPrice(cart[cartList[i]["id"]]!.toDouble(), cartList, i, context);
+      total = total + getCartPrice(cart[cartList[i]["id"].toString()]!.toDouble(), cartList, i, context);
     }
     return total;
   }
@@ -205,6 +205,21 @@ class ProductFunction{
     }
   }
 
+  setCartMemory() async {
+    final pref = await SharedPreferences.getInstance();
+    String encodedCartList = const JsonEncoder().convert(cartList);
+    String encodedCartMap = const JsonEncoder().convert(cart);
+    pref.setString("cartList", encodedCartList);
+    pref.setString("cartMap", encodedCartMap);
+  }
+
+  removeFromCart(var x) async {
+    final pref = await SharedPreferences.getInstance();
+    cartList.remove(x);
+    cart.remove(x);
+    setCartMemory();
+  }
+
   addToCart(List product, int index, BuildContext context) async {
     int c=0;
     final pref = await SharedPreferences.getInstance();
@@ -215,21 +230,17 @@ class ProductFunction{
     else if(pref.getString('token') != null) {
       for(int i=0; i<cartList.length; i++){
         if(cartList[i]['id']==product[index]['id']){
-          cart[cartList[i]["id"]] = cart[cartList[i]["id"]]! + 1;
+          cart[cartList[i]["id"].toString()] = cart[cartList[i]["id"].toString()]! + 1;
           c++;
           break;
         }
       }
       if(c==0){
         cartList.add(product[index]);
-        cartIndexId.add(product[index]["id"].toString());
-        cart.putIfAbsent(product[index]["id"], () => 1);
-        cart[product[index]["id"]]=1;
+        cart.putIfAbsent(product[index]["id"].toString(), () => 1);
+        cart[product[index]["id"].toString()]=1;
       }
-      // String encodedCartList = const JsonEncoder().convert(cartIndexId);
-      // String encodedCartMap = const JsonEncoder().convert(cart);
-      // pref.setString("cartList", encodedCartList);
-      // pref.setString("cartMap", encodedCartMap);
+      setCartMemory();
       Toasts().cartSuccessToast(context);
     }
   }

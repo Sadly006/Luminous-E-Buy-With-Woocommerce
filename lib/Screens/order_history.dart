@@ -40,6 +40,7 @@ class _OrderHistoryState extends State<OrderHistory> {
 
     if(response.statusCode == 200){
       orderList = json.decode(response.body);
+      print(orderList.length);
       setState(() {
         isLoading = false;
       });
@@ -70,7 +71,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                   stretch: true,
                   expandedHeight: 160.0,
                   flexibleSpace: FlexibleSpaceBar(
-                      title: Text('Order List',
+                      title: const Text('Order List',
                         style: TextStyle(
                           color: Colors.black,
                         ),

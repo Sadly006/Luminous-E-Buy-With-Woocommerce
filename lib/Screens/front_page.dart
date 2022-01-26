@@ -52,9 +52,8 @@ class _FrontPageState extends State<FrontPage> {
     });
     final pref = await SharedPreferences.getInstance();
     if(pref.getString("cartList")!=null && pref.getString("cartMap")!=null){
-      cartIndexId = json.decode(pref.getString("cartList") as String);
+      cartList = json.decode(pref.getString("cartList") as String);
       cart = json.decode(pref.getString("cartMap") as String);
-      print(cartIndexId);
     }
     WoocommerceAPI woocommerceAPI1 = WoocommerceAPI(
         url: API().productApi,

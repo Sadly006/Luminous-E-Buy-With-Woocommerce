@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:animated_widgets/animated_widgets.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/product_details.dart';
 import 'package:luminous_e_buy/Services/product_functions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'select_address.dart';
 
@@ -83,9 +86,10 @@ class _MyCartState extends State<MyCart> {
             children: [
               GestureDetector(
                 onTap: () {
-                  cart[cartList[index]["id"]] == 1
-                      ? cart[cartList[index]["id"]] = 1
-                      : cart[cartList[index]["id"]] = cart[cartList[index]["id"]]-1;
+                  cart[cartList[index]["id"].toString()] == 1
+                      ? cart[cartList[index]["id"].toString()] = 1
+                      : cart[cartList[index]["id"].toString()] = cart[cartList[index]["id"].toString()]-1;
+                  ProductFunction().setCartMemory();
                   setState(() {
                     // ProductFunction().getCartNumber(cart[cartList[index]]!.toInt(), context);
                     // ProductFunction().getCartPriceText(cart[cartList[index]]!.toDouble(), cartList, index, context);
@@ -113,7 +117,8 @@ class _MyCartState extends State<MyCart> {
               ),
               GestureDetector(
                 onTap: () {
-                  cart[cartList[index]["id"]] = cart[cartList[index]["id"]]+1;
+                  cart[cartList[index]["id"].toString()] = cart[cartList[index]["id"].toString()]+1;
+                  ProductFunction().setCartMemory();
                   setState(() {
                     // ProductFunction().getCartNumber(cart[cartList[index]]!.toInt(), context);
                   });
@@ -200,7 +205,8 @@ class _MyCartState extends State<MyCart> {
                 onDismissed: (DismissDirection direction) {
                   setState(() {
                     cartList.removeAt(index);
-                    _removeFromCart(index);
+                    ProductFunction().removeFromCart(index);
+                    // _removeFromCart(index);
                   });
                 },
                 child: GestureDetector(
@@ -248,7 +254,7 @@ class _MyCartState extends State<MyCart> {
                             const Padding(padding: EdgeInsets.all(5)),
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
-                              child: ProductFunction().getCartPriceText(cart[cartList[index]["id"]]!.toDouble(), cartList, index, context),
+                              child: ProductFunction().getCartPriceText(cart[cartList[index]["id"].toString()]!.toDouble(), cartList, index, context),
                               //child: ProductFunction().getCartPriceText(cart[cartList[index]]!.toDouble(), cartList, index, context),
                             ),
 
@@ -293,7 +299,7 @@ class _MyCartState extends State<MyCart> {
                                               child: Card(
                                                 elevation: 6,
                                                 child: Center(
-                                                  child: ProductFunction().getCartNumber(cart[cartList[index]["id"]]!.toInt(), context),
+                                                  child: ProductFunction().getCartNumber(cart[cartList[index]["id"].toString()]!.toInt(), context),
                                                 ),
                                               ),
                                             ),

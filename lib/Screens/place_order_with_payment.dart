@@ -11,6 +11,7 @@ import 'package:flutter_sslcommerz/model/sslproductinitilizer/SSLCProductInitial
 import 'package:flutter_sslcommerz/sslcommerz.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
+import 'package:luminous_e_buy/Services/product_functions.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Services/toasts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -136,6 +137,7 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
       print("worked!");
       cart.clear();
       cartList.clear();
+      ProductFunction().setCartMemory();
       Navigator.popUntil(context, ModalRoute.withName(''));
       Navigator.push(
           context,

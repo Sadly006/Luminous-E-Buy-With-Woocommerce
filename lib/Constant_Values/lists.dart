@@ -89,7 +89,7 @@ List<String> productName = <String>[
 
 List<Map<String, dynamic>> wishList = [];
 
-List<Map<String, dynamic>> cartList = [];
+List<dynamic> cartList = [];
 
 List<String> cartIndexId = [];
 
@@ -113,7 +113,7 @@ List<Map<String, dynamic>> followingShops = [
 
 ];
 //
-Map<dynamic, int> cart = {};
+Map<String, dynamic> cart = {};
 
 List<Map<String, dynamic>> positionList = [
   {"title": "taosifsadly@gmail.com", "name": "Taosif Sadly", "lat": 23.751131, "lon": 90.387167},

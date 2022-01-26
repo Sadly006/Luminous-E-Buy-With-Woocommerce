@@ -194,7 +194,7 @@ class OrderProcessing extends StatelessWidget {
                                       const Padding(padding: EdgeInsets.all(2)),
                                       Padding(
                                         padding: const EdgeInsets.only(right: 10),
-                                        child: ProductFunction().getLastPriceText(cart[cartList[index]["id"]]!.toDouble(), cartList, index, context),
+                                        child: ProductFunction().getLastPriceText(cart[cartList[index]["id"].toString()]!.toDouble(), cartList, index, context),
                                       ),
                                     ],
                                   )
@@ -207,7 +207,7 @@ class OrderProcessing extends StatelessWidget {
                                   width: 45,
                                   height: 45,
                                   child: Center(
-                                    child: ProductFunction().getCartNumber(cart[cartList[index]["id"]]!.toInt(), context),
+                                    child: ProductFunction().getCartNumber(cart[cartList[index]["id"].toString()]!.toInt(), context),
                                   ),
                                 ),
                               ),
@@ -327,6 +327,7 @@ class OrderProcessing extends StatelessWidget {
                             builder: (context) =>FrontPage(consKey: "ck_825fd42d48673cc5acf4505f3d4ade0c50781cee", consSecret: "cs_16950d98f2c9ddfc3112e57fa325302f8390b451",),
                           )
                       );
+                      ProductFunction().setCartMemory();
                       var response = await woocommerceAPI.postAsync(
                         "",
                         postBody,
