@@ -180,7 +180,7 @@ class _SelectAddressState extends State<SelectAddress> {
                     context,
                     MaterialPageRoute(
                       // builder: (context) => Payment(cost: widget.cost, addressId: selectedAddress,),
-                      builder: (context) => PaymentMethod(cost: widget.cost, selectedAddress: selectedAddress,),
+                      builder: (context) => PaymentMethods(cost: widget.cost, selectedAddress: selectedAddress,),
                     )
                 ),
                 child: const Text(

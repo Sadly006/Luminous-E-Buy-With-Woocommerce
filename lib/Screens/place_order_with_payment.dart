@@ -9,6 +9,7 @@ import 'package:flutter_sslcommerz/model/SSLCurrencyType.dart';
 import 'package:flutter_sslcommerz/model/sslproductinitilizer/General.dart';
 import 'package:flutter_sslcommerz/model/sslproductinitilizer/SSLCProductInitializer.dart';
 import 'package:flutter_sslcommerz/sslcommerz.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Services/product_functions.dart';
@@ -70,6 +71,7 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
   void initState() {
     super.initState();
     getPostBody();
+    Stripe.publishableKey = "pk_test_51KMUcMLQfbdHsu5AMMRAx55TScDvgY03S7c56cJJP7561raSVBBUCs8XHrQHMEHXbIevYJl4CUH4ANEIlTw7dWYm00CzNfxA7L";
   }
 
   Future<void> sslCommerzCustomizedCall() async {
@@ -206,12 +208,14 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
                     primary: Theme.of(context).primaryColor,
                   ),
                   child: const Text("Pay now"),
-                  onPressed: () {
-                    if (_key.currentState != null) {
-                      _key.currentState?.save();
-                      //sslCommerzGeneralCall();
-                      sslCommerzCustomizedCall();
-                    }
+                  onPressed: () async {
+                    final paymentMethod =
+                        await Stripe.instance.createPaymentMethod(PaymentMethodParams.card());
+                    // if (_key.currentState != null) {
+                    //   _key.currentState?.save();
+                    //   //sslCommerzGeneralCall();
+                    //   sslCommerzCustomizedCall();
+                    // }
                   },
                 )
               ],

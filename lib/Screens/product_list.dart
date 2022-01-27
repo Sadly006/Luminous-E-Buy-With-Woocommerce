@@ -5,6 +5,7 @@ import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/shimmer.dart';
+import 'package:luminous_e_buy/Templates/loader.dart';
 import 'package:luminous_e_buy/Templates/product_tile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -68,14 +69,17 @@ class _ProductListState extends State<ProductList> {
     double itemWidth = displayWidth(context) / 2;
     double itemHeight = 300;
     return SingleChildScrollView(
+      controller: _controller,
+      physics: const ScrollPhysics(),
       child: Column(
         children: [
-          SizedBox(
-            height: getHeight(),
+          Padding(
+            padding: const EdgeInsets.all(5),
             child: Shimmer(
               linearGradient: _shimmerGradient,
               child: GridView.builder(
-                  controller: _controller,
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: (itemWidth / itemHeight),
@@ -91,10 +95,8 @@ class _ProductListState extends State<ProductList> {
             ),
           ),
           SizedBox(
-            height: 40,
-            child: fetchingMore == true
-              ? Image.asset("assets/loader.gif", fit: BoxFit.fitHeight,)
-              : const Padding(padding: EdgeInsets.only(left: 1)),
+            height: 60,
+            child: Image.asset("assets/loader.gif", fit: BoxFit.fitHeight,)
           )
         ],
       ),
@@ -148,7 +150,7 @@ class _ProductListState extends State<ProductList> {
     _controller.addListener(() {
       double maxScroll=_controller.position.maxScrollExtent;
       double currentScroll=_controller.position.pixels;
-      double delta = 0.0;
+      double delta = 50.0;
       if (maxScroll-currentScroll<=delta && fetchingMore == false) {
         setState(() {
           fetchingMore = true;

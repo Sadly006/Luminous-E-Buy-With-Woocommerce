@@ -6,6 +6,7 @@ import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Services/product_functions.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
+import 'package:luminous_e_buy/Templates/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TrackOrder extends StatefulWidget {
@@ -97,7 +98,11 @@ class _TrackOrderState extends State<TrackOrder> {
         title: const Text("Track Your Package"),
       ),
       body: isLoading == true
-        ? Container()
+        ? Container(
+            child: Center(
+              child: Loader(),
+            ),
+        )
         : SingleChildScrollView(
         physics: const ScrollPhysics(),
         child: Padding(
