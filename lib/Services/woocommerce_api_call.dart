@@ -144,6 +144,7 @@ class WoocommerceAPI {
     String response =
     await client.send(request).then((res) => res.stream.bytesToString());
     var dataResponse = await json.decode(response);
+    print("POST");
     print(dataResponse);
     return dataResponse;
   }

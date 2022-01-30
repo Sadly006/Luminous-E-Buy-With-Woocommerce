@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Providers/theme_provider.dart';
@@ -9,7 +10,9 @@ import 'Screens/front_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = "pk_test_51KMUcMLQfbdHsu5AMMRAx55TScDvgY03S7c56cJJP7561raSVBBUCs8XHrQHMEHXbIevYJl4CUH4ANEIlTw7dWYm00CzNfxA7L";
   await Firebase.initializeApp();
+  //await Stripe.instance.applySettings();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString('consKey', "ck_825fd42d48673cc5acf4505f3d4ade0c50781cee");
   prefs.setString('consSecret', "cs_16950d98f2c9ddfc3112e57fa325302f8390b451");

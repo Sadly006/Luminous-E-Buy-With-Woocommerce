@@ -1,6 +1,8 @@
 package com.example.luminous_e_buy
 
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
+import io.flutter.plugins.GeneratedPluginRegistrant;
+import android.os.Bundle;
 
-class MainActivity: FlutterActivity() {
+class MainActivity: FlutterFragmentActivity() {
 }

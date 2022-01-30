@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_credit_card/credit_card_brand.dart';
+import 'package:flutter_credit_card/credit_card_widget.dart';
+import 'package:flutter_credit_card/custom_card_type_icon.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_sslcommerz/model/SSLCCustomerInfoInitializer.dart';
 import 'package:flutter_sslcommerz/model/SSLCSdkType.dart';
 import 'package:flutter_sslcommerz/model/SSLCShipmentInfoInitializer.dart';
@@ -30,22 +36,25 @@ class OrderWithPayment extends StatefulWidget {
 
 class _OrderWithPaymentState extends State<OrderWithPayment> {
 
-  final _key = GlobalKey<FormState>();
+  String kApiUrl = "https://api.stripe.com/v1/";
   dynamic formData = {};
   late Map<String, dynamic> postBody;
+  CardDetails _card = CardDetails();
+  bool? _saveCard = false;
+  String tokenId = "sk_test_51KMUcMLQfbdHsu5AqSDUZok2haPoIhnuKosmsNG7eOfYUKkZGPQhu1RSyV6PpPquIN0S3vU2RJWkBKn0DvvIsZS800ypdncc6H";
 
   getPostBody(){
     List<Map<String, dynamic>> products = [];
     for(int i=0; i<cartList.length; i++){
       products.add({
         "product_id": cartList[i]["id"],
-        "quantity": cart[cartList[i]["id"]]
+        "quantity": cart[cartList[i]["id"].toString()]
       });
     }
 
     postBody = {
-      "payment_method": "bKash",
-      "payment_method_title": "Online Payment",
+      "payment_method": "stripe_cc",
+      "payment_method_title": "Credit Cards",
       "set_paid": true,
       "billing": {
         "first_name": addressList[widget.addressId]["first_name"],
@@ -71,7 +80,129 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
   void initState() {
     super.initState();
     getPostBody();
-    Stripe.publishableKey = "pk_test_51KMUcMLQfbdHsu5AMMRAx55TScDvgY03S7c56cJJP7561raSVBBUCs8XHrQHMEHXbIevYJl4CUH4ANEIlTw7dWYm00CzNfxA7L";
+  }
+
+  Future<void> _handlePayPress() async {
+    await Stripe.instance.dangerouslyUpdateCardDetails(_card);
+
+    try {
+      // 1. Gather customer billing information (ex. email)
+
+      const billingDetails = BillingDetails(
+        email: 'email@stripe.com',
+        phone: '+48888000888',
+        address: Address(
+          city: 'Houston',
+          country: 'US',
+          line1: '1459  Circle Drive',
+          line2: '',
+          state: 'Texas',
+          postalCode: '77063',
+        ),
+      ); // mocked data for tests
+
+      // 2. Create payment method
+      final paymentMethod = await Stripe.instance.createPaymentMethod(const PaymentMethodParams.card(
+        billingDetails: billingDetails,
+      ));
+
+      // 3. call API to create PaymentIntent
+      final paymentIntentResult = await callNoWebhookPayEndpointMethodId(
+        useStripeSdk: true,
+        paymentMethodId: paymentMethod.id,
+        currency: 'usd', // mocked data
+        items: [
+          {'id': 'id'}
+        ],
+      );
+
+      if (paymentIntentResult['error'] != null) {
+        // Error during creating or confirming Intent
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${paymentIntentResult['error']}')));
+        return;
+      }
+
+      if (paymentIntentResult['clientSecret'] != null &&
+          paymentIntentResult['requiresAction'] == null) {
+        // Payment succedeed
+
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content:
+            Text('Success!: The payment was confirmed successfully!')));
+        return;
+      }
+
+      if (paymentIntentResult['clientSecret'] != null &&
+          paymentIntentResult['requiresAction'] == true) {
+        // 4. if payment requires action calling handleCardAction
+        final paymentIntent = await Stripe.instance
+            .handleCardAction(paymentIntentResult['clientSecret']);
+
+        if (paymentIntent.status == PaymentIntentsStatus.RequiresConfirmation) {
+          // 5. Call API to confirm intent
+          await confirmIntent(paymentIntent.id);
+        } else {
+          // Payment succedeed
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Error: ${paymentIntentResult['error']}')));
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Error: $e')));
+      rethrow;
+    }
+  }
+
+  Future<void> confirmIntent(String paymentIntentId) async {
+    final result = await callNoWebhookPayEndpointIntentId(
+        paymentIntentId: paymentIntentId);
+    if (result['error'] != null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Error: ${result['error']}')));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Success!: The payment was confirmed successfully!')));
+    }
+  }
+
+  Future<Map<String, dynamic>> callNoWebhookPayEndpointIntentId({
+    required String paymentIntentId,
+  }) async {
+    final url = Uri.parse('$kApiUrl/charge-card-off-session');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $tokenId',
+      },
+      body: json.encode({'paymentIntentId': paymentIntentId}),
+    );
+    return json.decode(response.body);
+  }
+
+  Future<Map<String, dynamic>> callNoWebhookPayEndpointMethodId({
+    required bool useStripeSdk,
+    required String paymentMethodId,
+    required String currency,
+    List<Map<String, dynamic>>? items,
+  }) async {
+    final url = Uri.parse('$kApiUrl/pay-without-webhooks');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $tokenId',
+      },
+      body: json.encode({
+        'useStripeSdk': useStripeSdk,
+        'paymentMethodId': paymentMethodId,
+        'currency': currency,
+        'items': items
+      }),
+    );
+    return json.decode(response.body);
   }
 
   Future<void> sslCommerzCustomizedCall() async {
@@ -151,7 +282,6 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
         "",
         postBody,
       );
-
       Toasts().paymentSuccessToast(context);
       SSLCTransactionInfoModel model = result;
     }
@@ -160,69 +290,207 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('SSLCommerz'),
-      ),
-      body: Form(
-        key: _key,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    keyboardType: TextInputType.phone,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(8.0))),
-                      hintText: "Phone number",
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+                margin: EdgeInsets.all(16),
+                padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Text(
+                    'If you don\'t want to or can\'t rely on the CardField you'
+                        ' can use the dangerouslyUpdateCardDetails in combination with '
+                        'your own card field implementation. \n\n'
+                        'Please beware that this will potentially break PCI compliance: '
+                        'https://stripe.com/docs/security/guide#validating-pci-compliance')),
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                      decoration: InputDecoration(hintText: 'Number'),
+                      onChanged: (number) {
+                        setState(() {
+                          _card = _card.copyWith(number: number);
+                        });
+                      },
+                      keyboardType: TextInputType.number,
                     ),
-                    onSaved: (value) {
-                      formData['phone'] = value;
-                    },
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Amount",
-                        style: TextStyle(
-                          color: Colors.black
-                        ),
-                      ),
-                      Text(widget.cost.toString(),
-                        style: const TextStyle(
-                            color: Colors.black
-                        ),
-                      ),
-                    ],
-                  )
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    width: 80,
+                    child: TextField(
+                      decoration: InputDecoration(hintText: 'Exp. Year'),
+                      onChanged: (number) {
+                        setState(() {
+                          _card = _card.copyWith(
+                              expirationYear: int.tryParse(number));
+                        });
+                      },
+                      keyboardType: TextInputType.number,
+                    ),
                   ),
-                  child: const Text("Pay now"),
-                  onPressed: () async {
-                    final paymentMethod =
-                        await Stripe.instance.createPaymentMethod(PaymentMethodParams.card());
-                    // if (_key.currentState != null) {
-                    //   _key.currentState?.save();
-                    //   //sslCommerzGeneralCall();
-                    //   sslCommerzCustomizedCall();
-                    // }
-                  },
-                )
-              ],
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    width: 80,
+                    child: TextField(
+                      decoration: InputDecoration(hintText: 'Exp. Month'),
+                      onChanged: (number) {
+                        setState(() {
+                          _card = _card.copyWith(
+                              expirationMonth: int.tryParse(number));
+                        });
+                      },
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    width: 80,
+                    child: TextField(
+                      decoration: InputDecoration(hintText: 'CVC'),
+                      onChanged: (number) {
+                        setState(() {
+                          _card = _card.copyWith(cvc: number);
+                        });
+                      },
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+            CheckboxListTile(
+              value: _saveCard,
+              onChanged: (value) {
+                setState(() {
+                  _saveCard = value;
+                });
+              },
+              title: Text('Save card during payment'),
+            ),
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).primaryColor,
+                ),
+                onPressed: () { _handlePayPress(); },
+                child: const Text("Pay now"),
+
+                // onPressed: () async {
+                //   // if (_key.currentState != null) {
+                //   //   _key.currentState?.save();
+                //   //   //sslCommerzGeneralCall();
+                //   //   sslCommerzCustomizedCall();
+                //   // }
+                //   final paymentMethod = await Stripe.instance.createPaymentMethod(PaymentMethodParams.card());
+                //   print(paymentMethod);
+                // },
+              )
+            ),
+          ],
         ),
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: const Text('SSLCommerz'),
+  //     ),
+  //     body: Form(
+  //       key: _key,
+  //       child: Padding(
+  //         padding: const EdgeInsets.all(16.0),
+  //         child: SingleChildScrollView(
+  //           child: Column(
+  //             children: [
+  //               CardField(
+  //                 onCardChanged: (card: card) {
+  //                   print(card);
+  //                 },
+  //               ),
+  //               // Padding(
+  //               //   padding: const EdgeInsets.all(8.0),
+  //               //   child: CreditCardWidget(
+  //               //     glassmorphismConfig:
+  //               //     useGlassMorphism ? Glassmorphism.defaultConfig() : null,
+  //               //     cardNumber: cardNumber,
+  //               //     expiryDate: expiryDate,
+  //               //     cardHolderName: cardHolderName,
+  //               //     cvvCode: cvvCode,
+  //               //     showBackView: isCvvFocused,
+  //               //     obscureCardNumber: true,
+  //               //     obscureCardCvv: true,
+  //               //     isHolderNameVisible: true,
+  //               //     cardBgColor: Colors.red,
+  //               //     backgroundImage:
+  //               //     useBackgroundImage ? 'assets/card_bg.png' : null,
+  //               //     isSwipeGestureEnabled: true,
+  //               //     onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
+  //               //     customCardTypeIcons: <CustomCardTypeIcon>[
+  //               //       CustomCardTypeIcon(
+  //               //         cardType: CardType.mastercard,
+  //               //         cardImage: Image.asset(
+  //               //           'assets/mastercard.png',
+  //               //           height: 48,
+  //               //           width: 48,
+  //               //         ),
+  //               //       ),
+  //               //     ],
+  //               //   ),
+  //               // ),
+  //               Padding(
+  //                 padding: const EdgeInsets.all(8.0),
+  //                 child: Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     const Text("Amount",
+  //                       style: TextStyle(
+  //                         color: Colors.black
+  //                       ),
+  //                     ),
+  //                     Text(widget.cost.toString(),
+  //                       style: const TextStyle(
+  //                           color: Colors.black
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 )
+  //               ),
+  //               ElevatedButton(
+  //                 style: ElevatedButton.styleFrom(
+  //                   primary: Theme.of(context).primaryColor,
+  //                 ),
+  //                 onPressed: () { _handlePayPress(card); },
+  //                 child: const Text("Pay now"),
+  //
+  //                 // onPressed: () async {
+  //                 //   // if (_key.currentState != null) {
+  //                 //   //   _key.currentState?.save();
+  //                 //   //   //sslCommerzGeneralCall();
+  //                 //   //   sslCommerzCustomizedCall();
+  //                 //   // }
+  //                 //   final paymentMethod = await Stripe.instance.createPaymentMethod(PaymentMethodParams.card());
+  //                 //   print(paymentMethod);
+  //                 // },
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
