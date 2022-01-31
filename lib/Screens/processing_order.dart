@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
+import 'package:luminous_e_buy/Screens/Payment/stripe_payment.dart';
 import 'package:luminous_e_buy/Services/product_functions.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
@@ -305,7 +306,8 @@ class OrderProcessing extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => OrderWithPayment(cost: cost+50, addressId: selectedAddress),
+                            builder: (context) => StripePayment(cost: cost+50, addressId: selectedAddress,),
+                            // builder: (context) => OrderWithPayment(cost: cost+50, addressId: selectedAddress),
                           )
                       );
                     }

@@ -19,6 +19,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Services/product_functions.dart';
+import 'package:luminous_e_buy/Services/stripe.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Services/toasts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,12 +37,15 @@ class OrderWithPayment extends StatefulWidget {
 
 class _OrderWithPaymentState extends State<OrderWithPayment> {
 
-  String kApiUrl = "https://api.stripe.com/v1/";
+  String kApiUrl = "http://10.13.3.2:80";
   dynamic formData = {};
   late Map<String, dynamic> postBody;
-  CardDetails _card = CardDetails();
-  bool? _saveCard = false;
   String tokenId = "sk_test_51KMUcMLQfbdHsu5AqSDUZok2haPoIhnuKosmsNG7eOfYUKkZGPQhu1RSyV6PpPquIN0S3vU2RJWkBKn0DvvIsZS800ypdncc6H";
+  final controller = CardFormEditController();
+   Map<String, dynamic> customerInfo = {
+     "name": "Sadly",
+     "email": "sadly@gmail.com"
+   };
 
   getPostBody(){
     List<Map<String, dynamic>> products = [];
@@ -79,15 +83,251 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
   @override
   void initState() {
     super.initState();
+    controller.addListener(update);
     getPostBody();
   }
 
-  Future<void> _handlePayPress() async {
-    await Stripe.instance.dangerouslyUpdateCardDetails(_card);
+  //
+  // Future<void> _handlePayPress() async {
+  //   await Stripe.instance.dangerouslyUpdateCardDetails(_card);
+  //
+  //   try {
+  //     // 1. Gather customer billing information (ex. email)
+  //
+  //     const billingDetails = BillingDetails(
+  //       email: 'email@stripe.com',
+  //       phone: '+48888000888',
+  //       address: Address(
+  //         city: 'Houston',
+  //         country: 'US',
+  //         line1: '1459  Circle Drive',
+  //         line2: '',
+  //         state: 'Texas',
+  //         postalCode: '77063',
+  //       ),
+  //     ); // mocked data for tests
+  //
+  //     // 2. Create payment method
+  //     final paymentMethod = await Stripe.instance.createPaymentMethod(const PaymentMethodParams.card(
+  //       billingDetails: billingDetails,
+  //     ));
+  //
+  //     // 3. call API to create PaymentIntent
+  //     final paymentIntentResult = await callNoWebhookPayEndpointMethodId(
+  //       useStripeSdk: true,
+  //       paymentMethodId: paymentMethod.id,
+  //       currency: 'usd', // mocked data
+  //       items: [
+  //         {'id': 'id'}
+  //       ],
+  //     );
+  //
+  //     if (paymentIntentResult['error'] != null) {
+  //       // Error during creating or confirming Intent
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(content: Text('Error: ${paymentIntentResult['error']}')));
+  //       return;
+  //     }
+  //
+  //     if (paymentIntentResult['clientSecret'] != null &&
+  //         paymentIntentResult['requiresAction'] == null) {
+  //       // Payment succedeed
+  //
+  //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+  //           content:
+  //           Text('Success!: The payment was confirmed successfully!')));
+  //       return;
+  //     }
+  //
+  //     if (paymentIntentResult['clientSecret'] != null &&
+  //         paymentIntentResult['requiresAction'] == true) {
+  //       // 4. if payment requires action calling handleCardAction
+  //       final paymentIntent = await Stripe.instance
+  //           .handleCardAction(paymentIntentResult['clientSecret']);
+  //
+  //       if (paymentIntent.status == PaymentIntentsStatus.RequiresConfirmation) {
+  //         // 5. Call API to confirm intent
+  //         await confirmIntent(paymentIntent.id);
+  //       } else {
+  //         // Payment succedeed
+  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //             content: Text('Error: ${paymentIntentResult['error']}')));
+  //         print(paymentIntentResult['error']);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //     ScaffoldMessenger.of(context)
+  //         .showSnackBar(SnackBar(content: Text('Error: $e')));
+  //     rethrow;
+  //   }
+  // }
+  //
+  // Future<void> confirmIntent(String paymentIntentId) async {
+  //   final result = await callNoWebhookPayEndpointIntentId(
+  //       paymentIntentId: paymentIntentId);
+  //   if (result['error'] != null) {
+  //     ScaffoldMessenger.of(context)
+  //         .showSnackBar(SnackBar(content: Text('Error: ${result['error']}')));
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+  //         content: Text('Success!: The payment was confirmed successfully!')));
+  //   }
+  // }
+  //
+  // Future<Map<String, dynamic>> callNoWebhookPayEndpointIntentId({
+  //   required String paymentIntentId,
+  // }) async {
+  //   final url = Uri.parse('$kApiUrl/charge-card-off-session');
+  //   final response = await http.post(
+  //     url,
+  //     headers: {
+  //       'Content-Type': 'application/x-www-form-urlencoded',
+  //       'Authorization': 'Bearer $tokenId',
+  //     },
+  //     body: json.encode({'paymentIntentId': paymentIntentId}),
+  //   );
+  //   return json.decode(response.body);
+  // }
+  //
+  // Future<Map<String, dynamic>> callNoWebhookPayEndpointMethodId({
+  //   required bool useStripeSdk,
+  //   required String paymentMethodId,
+  //   required String currency,
+  //   List<Map<String, dynamic>>? items,
+  // }) async {
+  //   final url = Uri.parse('$kApiUrl/pay-without-webhooks');
+  //   final response = await http.post(
+  //     url,
+  //     headers: {
+  //       'Content-Type': 'application/x-www-form-urlencoded',
+  //       'Authorization': 'Bearer $tokenId',
+  //     },
+  //     body: json.encode({
+  //       'useStripeSdk': useStripeSdk,
+  //       'paymentMethodId': paymentMethodId,
+  //       'currency': currency,
+  //       'items': items
+  //     }),
+  //   );
+  //   return json.decode(response.body);
+  // }
+  //
+  // Future<void> sslCommerzCustomizedCall() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String consKey = prefs.getString("consKey") as String;
+  //   String consSecret = prefs.getString("consSecret") as String;
+  //   WoocommerceAPI woocommerceAPI = WoocommerceAPI(
+  //       url: API().createOrderApi,
+  //       consumerKey: consKey,
+  //       consumerSecret: consSecret);
+  //
+  //   Sslcommerz sslcommerz = Sslcommerz(
+  //       initializer: SSLCommerzInitialization(
+  //         //   ipn_url: "www.ipnurl.com",
+  //           multi_card_name: "visa,master,bkash",
+  //           currency: SSLCurrencyType.BDT,
+  //           product_category: "Food",
+  //           sdkType: SSLCSdkType.TESTBOX,
+  //           store_id: "ll61c2ae8fbb271",
+  //           store_passwd: "ll61c2ae8fbb271@ssl",
+  //           total_amount: widget.cost,
+  //           tran_id: formData['phone'])
+  //   );
+  //   sslcommerz
+  //       .addShipmentInfoInitializer(
+  //       sslcShipmentInfoInitializer: SSLCShipmentInfoInitializer(
+  //           shipmentMethod: "yes",
+  //           numOfItems: 5,
+  //           shipmentDetails: ShipmentDetails(
+  //               shipAddress1: addressList[widget.addressId]["address"],
+  //               shipCity: addressList[widget.addressId]["city"],
+  //               shipCountry: addressList[widget.addressId]["country"],
+  //               shipName: "Ship name 1",
+  //               shipPostCode: "7860")))
+  //       .addCustomerInfoInitializer(
+  //       customerInfoInitializer: SSLCCustomerInfoInitializer(
+  //           customerState: "XYZ",
+  //           customerName: addressList[widget.addressId]["first_name"],
+  //           customerEmail: addressList[widget.addressId]["email"],
+  //           customerAddress1: addressList[widget.addressId]["address"],
+  //           customerCity: addressList[widget.addressId]["city"],
+  //           customerPostCode: "200",
+  //           customerCountry: addressList[widget.addressId]["country"],
+  //           customerPhone: formData['phone']))
+  //       .addProductInitializer(
+  //       sslcProductInitializer:
+  //       // ***** ssl product initializer for general product STARTS*****
+  //       SSLCProductInitializer(
+  //           productName: "Water Filter",
+  //           productCategory: "Widgets",
+  //           general: General(
+  //               general: "General Purpose",
+  //               productProfile: "Product Profile"
+  //           )
+  //       )
+  //   );
+  //   var result = await sslcommerz.payNow();
+  //   if (result is PlatformException) {
+  //     Toasts().paymentFailedToast(context);
+  //     print("the response is: " +
+  //         result.message.toString() +
+  //         " code: " +
+  //         result.code);
+  //   } else {
+  //     print("worked!");
+  //     cart.clear();
+  //     cartList.clear();
+  //     ProductFunction().setCartMemory();
+  //     Navigator.popUntil(context, ModalRoute.withName(''));
+  //     Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) =>FrontPage(consKey: "ck_825fd42d48673cc5acf4505f3d4ade0c50781cee", consSecret: "cs_16950d98f2c9ddfc3112e57fa325302f8390b451",),
+  //         )
+  //     );
+  //     var response = await woocommerceAPI.postAsync(
+  //       "",
+  //       postBody,
+  //     );
+  //     Toasts().paymentSuccessToast(context);
+  //     SSLCTransactionInfoModel model = result;
+  //   }
+  // }
 
+  void update() => setState(() {});
+  @override
+  void dispose() {
+    controller.removeListener(update);
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          CardField(
+            onCardChanged: (card) {
+              print(card);
+            },
+          ),
+          TextButton(
+            onPressed: () async {
+              StripePay().handlePayment(customerInfo, widget.cost, widget.addressId);
+            },
+            child: Text('pay'),
+          )
+        ],
+      ),
+    );
+  }
+
+  Future<void> _handlePayPress() async {
     try {
       // 1. Gather customer billing information (ex. email)
-
       const billingDetails = BillingDetails(
         email: 'email@stripe.com',
         phone: '+48888000888',
@@ -102,7 +342,8 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
       ); // mocked data for tests
 
       // 2. Create payment method
-      final paymentMethod = await Stripe.instance.createPaymentMethod(const PaymentMethodParams.card(
+      final paymentMethod =
+      await Stripe.instance.createPaymentMethod(PaymentMethodParams.card(
         billingDetails: billingDetails,
       ));
 
@@ -139,6 +380,14 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
         final paymentIntent = await Stripe.instance
             .handleCardAction(paymentIntentResult['clientSecret']);
 
+        // todo handle error
+        /*if (cardActionError) {
+        Alert.alert(
+        `Error code: ${cardActionError.code}`,
+        cardActionError.message
+        );
+      } else*/
+
         if (paymentIntent.status == PaymentIntentsStatus.RequiresConfirmation) {
           // 5. Call API to confirm intent
           await confirmIntent(paymentIntent.id);
@@ -162,7 +411,7 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Error: ${result['error']}')));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Success!: The payment was confirmed successfully!')));
     }
   }
@@ -174,8 +423,7 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
     final response = await http.post(
       url,
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $tokenId',
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       body: json.encode({'paymentIntentId': paymentIntentId}),
     );
@@ -192,8 +440,7 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
     final response = await http.post(
       url,
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $tokenId',
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       body: json.encode({
         'useStripeSdk': useStripeSdk,
@@ -203,204 +450,6 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
       }),
     );
     return json.decode(response.body);
-  }
-
-  Future<void> sslCommerzCustomizedCall() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String consKey = prefs.getString("consKey") as String;
-    String consSecret = prefs.getString("consSecret") as String;
-    WoocommerceAPI woocommerceAPI = WoocommerceAPI(
-        url: API().createOrderApi,
-        consumerKey: consKey,
-        consumerSecret: consSecret);
-
-    Sslcommerz sslcommerz = Sslcommerz(
-        initializer: SSLCommerzInitialization(
-          //   ipn_url: "www.ipnurl.com",
-            multi_card_name: "visa,master,bkash",
-            currency: SSLCurrencyType.BDT,
-            product_category: "Food",
-            sdkType: SSLCSdkType.TESTBOX,
-            store_id: "ll61c2ae8fbb271",
-            store_passwd: "ll61c2ae8fbb271@ssl",
-            total_amount: widget.cost,
-            tran_id: formData['phone'])
-    );
-    sslcommerz
-        .addShipmentInfoInitializer(
-        sslcShipmentInfoInitializer: SSLCShipmentInfoInitializer(
-            shipmentMethod: "yes",
-            numOfItems: 5,
-            shipmentDetails: ShipmentDetails(
-                shipAddress1: addressList[widget.addressId]["address"],
-                shipCity: addressList[widget.addressId]["city"],
-                shipCountry: addressList[widget.addressId]["country"],
-                shipName: "Ship name 1",
-                shipPostCode: "7860")))
-        .addCustomerInfoInitializer(
-        customerInfoInitializer: SSLCCustomerInfoInitializer(
-            customerState: "XYZ",
-            customerName: addressList[widget.addressId]["first_name"],
-            customerEmail: addressList[widget.addressId]["email"],
-            customerAddress1: addressList[widget.addressId]["address"],
-            customerCity: addressList[widget.addressId]["city"],
-            customerPostCode: "200",
-            customerCountry: addressList[widget.addressId]["country"],
-            customerPhone: formData['phone']))
-        .addProductInitializer(
-        sslcProductInitializer:
-        // ***** ssl product initializer for general product STARTS*****
-        SSLCProductInitializer(
-            productName: "Water Filter",
-            productCategory: "Widgets",
-            general: General(
-                general: "General Purpose",
-                productProfile: "Product Profile"
-            )
-        )
-    );
-    var result = await sslcommerz.payNow();
-    if (result is PlatformException) {
-      Toasts().paymentFailedToast(context);
-      print("the response is: " +
-          result.message.toString() +
-          " code: " +
-          result.code);
-    } else {
-      print("worked!");
-      cart.clear();
-      cartList.clear();
-      ProductFunction().setCartMemory();
-      Navigator.popUntil(context, ModalRoute.withName(''));
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>FrontPage(consKey: "ck_825fd42d48673cc5acf4505f3d4ade0c50781cee", consSecret: "cs_16950d98f2c9ddfc3112e57fa325302f8390b451",),
-          )
-      );
-      var response = await woocommerceAPI.postAsync(
-        "",
-        postBody,
-      );
-      Toasts().paymentSuccessToast(context);
-      SSLCTransactionInfoModel model = result;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-                margin: EdgeInsets.all(16),
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Text(
-                    'If you don\'t want to or can\'t rely on the CardField you'
-                        ' can use the dangerouslyUpdateCardDetails in combination with '
-                        'your own card field implementation. \n\n'
-                        'Please beware that this will potentially break PCI compliance: '
-                        'https://stripe.com/docs/security/guide#validating-pci-compliance')),
-            Padding(
-              padding: EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: TextField(
-                      decoration: InputDecoration(hintText: 'Number'),
-                      onChanged: (number) {
-                        setState(() {
-                          _card = _card.copyWith(number: number);
-                        });
-                      },
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    width: 80,
-                    child: TextField(
-                      decoration: InputDecoration(hintText: 'Exp. Year'),
-                      onChanged: (number) {
-                        setState(() {
-                          _card = _card.copyWith(
-                              expirationYear: int.tryParse(number));
-                        });
-                      },
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    width: 80,
-                    child: TextField(
-                      decoration: InputDecoration(hintText: 'Exp. Month'),
-                      onChanged: (number) {
-                        setState(() {
-                          _card = _card.copyWith(
-                              expirationMonth: int.tryParse(number));
-                        });
-                      },
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    width: 80,
-                    child: TextField(
-                      decoration: InputDecoration(hintText: 'CVC'),
-                      onChanged: (number) {
-                        setState(() {
-                          _card = _card.copyWith(cvc: number);
-                        });
-                      },
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            CheckboxListTile(
-              value: _saveCard,
-              onChanged: (value) {
-                setState(() {
-                  _saveCard = value;
-                });
-              },
-              title: Text('Save card during payment'),
-            ),
-            Padding(
-              padding: EdgeInsets.all(16),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
-                ),
-                onPressed: () { _handlePayPress(); },
-                child: const Text("Pay now"),
-
-                // onPressed: () async {
-                //   // if (_key.currentState != null) {
-                //   //   _key.currentState?.save();
-                //   //   //sslCommerzGeneralCall();
-                //   //   sslCommerzCustomizedCall();
-                //   // }
-                //   final paymentMethod = await Stripe.instance.createPaymentMethod(PaymentMethodParams.card());
-                //   print(paymentMethod);
-                // },
-              )
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   // @override
