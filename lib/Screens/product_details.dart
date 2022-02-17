@@ -223,7 +223,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         transitionType: ContainerTransitionType.fadeThrough,
                         closedBuilder: (BuildContext _, VoidCallback openContainer) {
                           return Container(
-                            height: displayHeight(context)*0.55,
+                            height: displayHeight(context)*0.45,
                             width: displayWidth(context)*1,
                             color: Colors.grey,
                             child: getImage(),
@@ -296,7 +296,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 borderRadius: const BorderRadius.all(Radius.circular(8))
                             ),
                             height: 75,
-                            width: displayWidth(context)*0.8,
+                            width: displayWidth(context)*0.85,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -411,7 +411,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
+                  padding: const EdgeInsets.fromLTRB(15, 0, 5, 0),
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(width: 1.5, color: Theme.of(context).primaryColor),
@@ -438,7 +438,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
             BottomNavigationBarItem(
               icon: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
+                  padding: const EdgeInsets.fromLTRB(5, 0, 15, 0),
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Theme.of(context).primaryColor,
@@ -450,10 +450,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.shopping_cart_outlined, color: Colors.black,),
+                          const Icon(Icons.shopping_cart_outlined, color: Colors.white,),
                           Text("Add To Cart",
                             style: TextStyle(
-                                color: Theme.of(context).accentColor,
+                                color: Colors.white,
                             ),
                           ),
                         ],

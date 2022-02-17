@@ -132,7 +132,7 @@ class WoocommerceAPI {
     return response;
   }
 
-  Future<dynamic> postAsync(String endPoint, Map data) async {
+  postAsync(String endPoint, Map data) async {
     String queryUrl = url+endPoint;
 
     http.Client client = http.Client();

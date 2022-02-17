@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
@@ -11,7 +10,7 @@ import 'package:luminous_e_buy/Screens/profile_overview.dart';
 import 'package:luminous_e_buy/Screens/wishlist.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Authentications/sign_in.dart';
-import 'Maps/map1.dart';
+import 'categories.dart';
 import 'home_page.dart';
 import 'my_cart.dart';
 
@@ -24,25 +23,11 @@ class FrontPage extends StatefulWidget {
 }
 
 class _FrontPageState extends State<FrontPage> {
-  late BitmapDescriptor myIcon;
-  late LocationData _locationData;
-  late StreamSubscription<LocationData> subscription;
-  late Location location;
-  late LocationData currentLocation;
   bool isLoading = false;
 
   @override
   initState() {
     super.initState();
-    location = Location();
-    BitmapDescriptor.fromAssetImage(
-        const ImageConfiguration(size: Size(500, 500)), 'assets/bicycle.png')
-        .then((onValue) {
-      myIcon = onValue;
-    });
-    subscription = location.onLocationChanged.listen((clocation) {
-      currentLocation = clocation;
-    });
     getProduct();
   }
 
@@ -105,7 +90,7 @@ class _FrontPageState extends State<FrontPage> {
       return const MyCart();
     }
     else if(index == 0){
-      return MapPage1(myIcon: myIcon, currentLocation: currentLocation,);
+      return const CategoryList();
     }
     else if(index == 3){
       return const WishList();

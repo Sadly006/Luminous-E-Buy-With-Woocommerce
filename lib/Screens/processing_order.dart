@@ -5,7 +5,6 @@ import 'package:luminous_e_buy/Screens/Payment/stripe_payment.dart';
 import 'package:luminous_e_buy/Services/product_functions.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
-import 'package:luminous_e_buy/Screens/place_order_with_payment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'front_page.dart';
 
@@ -326,7 +325,7 @@ class OrderProcessing extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>FrontPage(consKey: "ck_825fd42d48673cc5acf4505f3d4ade0c50781cee", consSecret: "cs_16950d98f2c9ddfc3112e57fa325302f8390b451",),
+                            builder: (context) =>FrontPage(consKey: consKey, consSecret: consSecret,),
                           )
                       );
                       ProductFunction().setCartMemory();

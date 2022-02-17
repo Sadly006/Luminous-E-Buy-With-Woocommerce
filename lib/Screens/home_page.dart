@@ -7,6 +7,7 @@ import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/product_list.dart';
 import 'package:luminous_e_buy/Templates/sample_listing_template.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'SearchPages/product_search.dart';
 import 'categories.dart';
@@ -125,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Padding(padding: const EdgeInsets.fromLTRB(20, 30, 0, 5),
                             child: Text(
-                              "Categories",
+                              AppLocalizations.of(context)!.categories,
                               style: Theme.of(context).textTheme.headline2,
                             ),
                           ),

@@ -5,7 +5,6 @@ import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/shimmer.dart';
-import 'package:luminous_e_buy/Templates/loader.dart';
 import 'package:luminous_e_buy/Templates/product_tile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -41,7 +40,7 @@ class _ProductListState extends State<ProductList> {
   );
   
   int pageIndex=1, increment = 6;
-  bool _isLoading = true, fetchingMore = false;
+  bool _isLoading = true, fetchingMore = false, endProduct = false;
   List<dynamic> lazyList = [];
   final _controller = ScrollController();
   late String consKey;
@@ -62,6 +61,18 @@ class _ProductListState extends State<ProductList> {
     }
     else{
       return productList.length;
+    }
+  }
+
+  getWidget(){
+    if(endProduct == false){
+      return SizedBox(
+          height: 60,
+          child: Image.asset("assets/loader.gif", fit: BoxFit.fitHeight,)
+      );
+    }
+    else{
+      return Padding(padding: EdgeInsets.only(top: 1));
     }
   }
 
@@ -94,10 +105,7 @@ class _ProductListState extends State<ProductList> {
               ),
             ),
           ),
-          SizedBox(
-            height: 60,
-            child: Image.asset("assets/loader.gif", fit: BoxFit.fitHeight,)
-          )
+          getWidget()
         ],
       ),
     );
@@ -137,9 +145,17 @@ class _ProductListState extends State<ProductList> {
       for(int i=0; i<lazyList.length; i++){
         productList.add(lazyList[i]);
       }
-      setState(() {
-        fetchingMore = false;
-      });
+      if(lazyList.length==0){
+        setState(() {
+          endProduct = true;
+          fetchingMore = false;
+        });
+      }
+      else{
+        setState(() {
+          fetchingMore = false;
+        });
+      }
       pageIndex++;
     }
   }
@@ -151,7 +167,7 @@ class _ProductListState extends State<ProductList> {
       double maxScroll=_controller.position.maxScrollExtent;
       double currentScroll=_controller.position.pixels;
       double delta = 50.0;
-      if (maxScroll-currentScroll<=delta && fetchingMore == false) {
+      if (maxScroll-currentScroll<=delta && fetchingMore == false && endProduct == false) {
         setState(() {
           fetchingMore = true;
           fetchMore();

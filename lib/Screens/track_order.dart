@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
-import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
-import 'package:luminous_e_buy/Services/product_functions.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Templates/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Models/timeline.dart';
 
 class TrackOrder extends StatefulWidget {
   TrackOrder({Key? key, required this.id}) : super(key: key);
@@ -88,6 +88,32 @@ class _TrackOrderState extends State<TrackOrder> {
   void initState() {
     super.initState();
     getProduct();
+  }
+
+  getTimeLineColor(String date){
+    if(date == "null"){
+      return Colors.grey;
+    }
+    else{
+      return Colors.green;
+    }
+  }
+
+  getTimeLineDate(String date){
+    if(date == "null"){
+      return const SizedBox(height: 0,);
+    }
+    else{
+      return Padding(
+        padding: EdgeInsets.only(top: 5),
+        child: Text(
+          date,
+          style: const TextStyle(
+            color: Colors.black
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -286,6 +312,93 @@ class _TrackOrderState extends State<TrackOrder> {
                 color: Colors.grey,
               ),
               const Padding(padding: EdgeInsets.all(5)),
+
+              Card(
+                elevation: 10,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Timeline(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 80,
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Delivered",
+                                style: TextStyle(
+                                    color: Theme.of(context).accentColor
+                                ),
+                              ),
+                              getTimeLineDate(orderList[widget.id]["date_completed"].toString())
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 80,
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Processing",
+                                style: TextStyle(
+                                    color: Theme.of(context).accentColor
+                                ),
+                              ),
+                              getTimeLineDate(orderList[widget.id]["date_modified"].toString())
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 80,
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Order Placed",
+                                style: TextStyle(
+                                    color: Theme.of(context).accentColor
+                                ),
+                              ),
+                              getTimeLineDate(orderList[widget.id]["date_created"].toString())
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                    indicators: <Widget>[
+                      Icon(
+                        Icons.circle,
+                        color: getTimeLineColor(orderList[widget.id]["date_completed"].toString()),
+                      ),
+                      Icon(
+                        Icons.circle,
+                        color: getTimeLineColor(orderList[widget.id]["date_modified"].toString()),
+                      ),
+                      Icon(
+                        Icons.circle,
+                        color: getTimeLineColor(orderList[widget.id]["date_created"].toString()),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+
 
               Padding(
                 padding: const EdgeInsets.all(10),

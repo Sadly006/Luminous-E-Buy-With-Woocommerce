@@ -178,28 +178,26 @@ class ProductFunction{
           Row(
             children: [
               Text(
-                "\$" + (product[index]["sale_price"]).toString(),
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  color: Theme.of(context).primaryColor,
-                  //decoration: TextDecoration.lineThrough,
+                "\$" + (product[index]["regular_price"]).toString(),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: Colors.grey,
+                  decoration: TextDecoration.lineThrough,
                   fontSize: 18,
                 ),
               ),
               const Padding(padding: EdgeInsets.only(left: 10)),
               Text(
-                "\$" + (product[index]["price"]).toString(),
+                "\$" + (product[index]["sale_price"]).toString(),
                 style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: Theme.of(context).accentColor,
-                  decoration: TextDecoration.lineThrough,
+                  fontWeight: FontWeight.w800,
+                  color: Theme.of(context).primaryColor,
                   fontSize: 18,
                 ),
               )
             ],
           ),
           const Padding(padding: EdgeInsets.all(3)),
-          Text("Save " + product[index]["doNotApplyDiscounts"].toString() + "%", style: TextStyle(color: Theme.of(context).secondaryHeaderColor, fontSize: 16),)
         ],
       );
     }

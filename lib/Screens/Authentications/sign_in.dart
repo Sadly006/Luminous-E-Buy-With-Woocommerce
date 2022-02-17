@@ -32,10 +32,6 @@ class _SignInState extends State<SignIn> {
     print(userName.text.toString());
     print(password.text.toString());
 
-    // String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoic2FkbHkgaGFzYW4iLCJpYXQiOjE2NDExMDU3NTksImV4cCI6MTY0MTEwOTM1OX0.3PTol36JB6sDxtyMxFGj18kaP81c0k7hV0lUT_pF5Yg';
-    //
-
-
     final response = await http.post(
         Uri.parse(API().signInApi),
         headers: {
@@ -55,7 +51,7 @@ class _SignInState extends State<SignIn> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>FrontPage(consKey: "ck_825fd42d48673cc5acf4505f3d4ade0c50781cee", consSecret: "cs_16950d98f2c9ddfc3112e57fa325302f8390b451",),
+            builder: (context) =>FrontPage(consKey: "ck_0c6098aaa736c3ae5869de1c701ba3c7b76bff1b", consSecret: "cs_b2fc56341982a8217eb9415643fa4c5f3628b163",),
           )
       );
     }
@@ -261,7 +257,7 @@ class _SignInState extends State<SignIn> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => FrontPage(consKey: "ck_825fd42d48673cc5acf4505f3d4ade0c50781cee", consSecret: "cs_16950d98f2c9ddfc3112e57fa325302f8390b451",),
+                            builder: (context) =>FrontPage(consKey: "ck_0c6098aaa736c3ae5869de1c701ba3c7b76bff1b", consSecret: "cs_b2fc56341982a8217eb9415643fa4c5f3628b163",),
                           )
                       );
                     },

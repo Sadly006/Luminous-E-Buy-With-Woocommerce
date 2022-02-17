@@ -209,113 +209,113 @@ class _MyCartState extends State<MyCart> {
                     // _removeFromCart(index);
                   });
                 },
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ProductDetails(productList2: cartList, index: index)),
-                    );
-                  },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    elevation: 5,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  elevation: 5,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ProductDetails(productList2: cartList, index: index)),
+                            );
+                          },
                           child: Container(
                             width: 80,
                             height: 80,
                             decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                                image: getImage(index),
+                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              image: getImage(index),
                             ),
                           ),
                         ),
-                        const Padding(padding: EdgeInsets.all(5)),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Padding(padding: EdgeInsets.only(top: 15)),
-                            textShortener(cartList[index]['name'].toString(),),
-                            const Padding(padding: EdgeInsets.all(2)),
-                            const Text(
-                              "Size: L || Color: Black",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.green
-                              ),
+                      ),
+                      const Padding(padding: EdgeInsets.all(5)),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(padding: EdgeInsets.only(top: 15)),
+                          textShortener(cartList[index]['name'].toString(),),
+                          const Padding(padding: EdgeInsets.all(2)),
+                          const Text(
+                            "Size: L || Color: Black",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.green
                             ),
-                            const Padding(padding: EdgeInsets.all(5)),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: ProductFunction().getCartPriceText(cart[cartList[index]["id"].toString()]!.toDouble(), cartList, index, context),
-                              //child: ProductFunction().getCartPriceText(cart[cartList[index]]!.toDouble(), cartList, index, context),
-                            ),
+                          ),
+                          const Padding(padding: EdgeInsets.all(5)),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: ProductFunction().getCartPriceText(cart[cartList[index]["id"].toString()]!.toDouble(), cartList, index, context),
+                            //child: ProductFunction().getCartPriceText(cart[cartList[index]]!.toDouble(), cartList, index, context),
+                          ),
 
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                  height: 35,
-                                  width: displayWidth(context)*0.4,
-                                ),
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: SizedBox(
-                                    width: 150,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        const Padding(padding: EdgeInsets.all(2)),
-                                        Container(
-                                          child: _getWidget(cartTapped, index, cart, cartList),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(2),
-                                          child: SizedBox(
-                                            width: 45,
-                                            height: 45,
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                if(cartTapped[cartList[index]] == 0) {
-                                                  cartTapped[cartList[index]] = 1;
-                                                  setState(() {
-                                                    _getWidget(cartTapped, index, cart, cartList);
-                                                  });
-                                                }
-                                                else{
-                                                  cartTapped[cartList[index]] = 0;
-                                                  setState(() {
-                                                    _getWidget(cartTapped, index, cart, cartList);
-                                                  });
-                                                }
-                                              },
-                                              child: Card(
-                                                elevation: 6,
-                                                child: Center(
-                                                  child: ProductFunction().getCartNumber(cart[cartList[index]["id"].toString()]!.toInt(), context),
-                                                ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                height: 35,
+                                width: displayWidth(context)*0.4,
+                              ),
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: SizedBox(
+                                  width: 150,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      const Padding(padding: EdgeInsets.all(2)),
+                                      Container(
+                                        child: _getWidget(cartTapped, index, cart, cartList),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(2),
+                                        child: SizedBox(
+                                          width: 45,
+                                          height: 45,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              if(cartTapped[cartList[index]] == 0) {
+                                                cartTapped[cartList[index]] = 1;
+                                                setState(() {
+                                                  _getWidget(cartTapped, index, cart, cartList);
+                                                });
+                                              }
+                                              else{
+                                                cartTapped[cartList[index]] = 0;
+                                                setState(() {
+                                                  _getWidget(cartTapped, index, cart, cartList);
+                                                });
+                                              }
+                                            },
+                                            child: Card(
+                                              elevation: 6,
+                                              child: Center(
+                                                child: ProductFunction().getCartNumber(cart[cartList[index]["id"].toString()]!.toInt(), context),
                                               ),
                                             ),
                                           ),
                                         ),
+                                      ),
 
-                                      ],
-                                    ),
+                                    ],
                                   ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -30,11 +30,13 @@ class GoogleSigning {
       if (result != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('email', user!.email.toString());
+        String consKey = prefs.getString("consKey") as String;
+        String consSecret = prefs.getString("consSecret") as String;
         Navigator.pop(context, true);
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => FrontPage(consKey: "ck_825fd42d48673cc5acf4505f3d4ade0c50781cee", consSecret: "cs_16950d98f2c9ddfc3112e57fa325302f8390b451",),
+              builder: (context) => FrontPage(consKey: consKey, consSecret: consSecret,),
             )
         );
       }

@@ -158,7 +158,7 @@ class _StripePaymentState extends State<StripePayment> {
                           ),
                         ),
                         onPressed: () async {
-                          StripePay().handlePayment(customerInfo, widget.cost, widget.addressId);
+                          StripePay().handlePayment(customerInfo, widget.cost, widget.addressId, context);
                         },
                       ),
                     ],

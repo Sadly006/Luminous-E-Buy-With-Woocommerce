@@ -1,10 +1,14 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
+import 'package:luminous_e_buy/Services/product_functions.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:http/http.dart' as http;
+
+import '../Screens/front_page.dart';
 
 class StripePay {
 
@@ -43,10 +47,9 @@ class StripePay {
     return postBody;
   }
 
-  handlePayment(Map<String, dynamic> customerInfo, double cost, int addressId) async {
+  handlePayment(Map<String, dynamic> customerInfo, double cost, int addressId, BuildContext context) async {
     Map<String, dynamic> customer = await createUser(customerInfo);
-    String stat = confirmPayment((cost*100).toInt(), customer, addressId);
-    return stat;
+    confirmPayment((cost*100).toInt(), customer, addressId, context);
   }
 
   createUser(Map<String, dynamic> customer) async {
@@ -79,7 +82,7 @@ class StripePay {
   //   );
   // }
 
-  confirmPayment(int cost, Map<String, dynamic> customer, int addressId) async {
+  confirmPayment(int cost, Map<String, dynamic> customer, int addressId, BuildContext context) async {
     final response = await http.post(
         Uri.parse("https://api.stripe.com/v1/payment_intents"),
         headers: {
@@ -109,6 +112,16 @@ class StripePay {
       var response1 = await woocommerceAPI.postAsync(
         "",
         postBody,
+      );
+      cart.clear();
+      cartList.clear();
+      ProductFunction().setCartMemory();
+      Navigator.popUntil(context, ModalRoute.withName(''));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>FrontPage(consKey: consKey, consSecret: consSecret,),
+          )
       );
     }
   }

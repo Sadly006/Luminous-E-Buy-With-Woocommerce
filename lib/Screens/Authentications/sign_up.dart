@@ -74,7 +74,8 @@ class _SignUpState extends State<SignUp> {
             MaterialPageRoute(
               builder: (context) =>FrontPage(consKey: "ck_825fd42d48673cc5acf4505f3d4ade0c50781cee", consSecret: "cs_16950d98f2c9ddfc3112e57fa325302f8390b451",),
             )
-        );      }
+        );
+      }
       else{
         showDialog(
           context: context,
