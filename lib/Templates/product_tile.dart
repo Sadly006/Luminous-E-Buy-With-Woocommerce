@@ -52,7 +52,7 @@ class _ProductTileState extends State<ProductTile> {
       return Container(
           color: Theme.of(context).backgroundColor,
           height: 300,
-          width: displayWidth(context) * 0.49,
+          width: displayWidth(context) * 0.2,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -91,7 +91,7 @@ class _ProductTileState extends State<ProductTile> {
                     height: 15,
                     decoration: BoxDecoration(
                       color: Colors.black,
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),
@@ -102,22 +102,30 @@ class _ProductTileState extends State<ProductTile> {
     }
     else{
       return OpenContainer(
+        closedShape: const RoundedRectangleBorder(
+          borderRadius:  BorderRadius.all(Radius.circular(10)),),
         closedElevation: 6,
+        closedColor: Theme.of(context).scaffoldBackgroundColor,
         transitionType: ContainerTransitionType.fadeThrough,
         closedBuilder: (BuildContext _, VoidCallback openContainer) {
           return GestureDetector(
             child: Container(
-                color: Theme.of(context).backgroundColor,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 height: 300,
-                width: displayWidth(context) * 0.49,
+                width: displayWidth(context) * 0.46,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       height: 200,
                       decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(4.0), topRight: Radius.circular(4.0)),
+                        color: Theme.of(context).backgroundColor,
+                        shape: BoxShape.rectangle,
+                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
                           image: getImage(),
                       ),
                       child: Row(
@@ -187,7 +195,7 @@ class _ProductTileState extends State<ProductTile> {
           width: 40,
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
-            borderRadius: const BorderRadius.only(bottomRight: Radius.circular(8), topLeft: Radius.circular(4)),
+            borderRadius: const BorderRadius.only(bottomRight: Radius.circular(10), topLeft: Radius.circular(10)),
           ),
           child: const Center(child: Text("Sale")),
         ),
@@ -197,10 +205,6 @@ class _ProductTileState extends State<ProductTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 1),
-      child: getTile()
-      //child: getTile(),
-    );
+    return getTile();
   }
 }

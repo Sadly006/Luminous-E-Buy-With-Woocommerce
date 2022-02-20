@@ -17,6 +17,8 @@ class ProductSearch extends StatefulWidget {
 class _ProductSearchState extends State<ProductSearch> {
   String selectedProduct = "";
   final _text = TextEditingController();
+  late String text2;
+  String text1 = "";
   List searchResult = [];
   bool isLoading = false;
   late String consSecret;
@@ -30,22 +32,26 @@ class _ProductSearchState extends State<ProductSearch> {
   }
 
   void searchSuggestion() async {
-    setState(() {
-      isLoading = true;
-    });
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    consKey = prefs.getString("consKey") as String;
-    consSecret = prefs.getString("consSecret") as String;
-    WoocommerceAPI woocommerceAPI = WoocommerceAPI(
-        url: API().productApi,
-        consumerKey: consKey,
-        consumerSecret: consSecret);
-    final response = await woocommerceAPI.getAsync("");
-    searchResult = jsonDecode(response.body);
-    print(searchResult.length);
-    setState(() {
-      isLoading = false;
-    });
+    text2 = _text.text;
+    if(text2.length != text1.length){
+      text1=text2;
+      setState(() {
+        isLoading = true;
+      });
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      consKey = prefs.getString("consKey") as String;
+      consSecret = prefs.getString("consSecret") as String;
+      WoocommerceAPI woocommerceAPI = WoocommerceAPI(
+          url: API().productApi,
+          consumerKey: consKey,
+          consumerSecret: consSecret);
+      final response = await woocommerceAPI.getAsync("");
+      searchResult = jsonDecode(response.body);
+      print(searchResult.length);
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   getStock(String stock){
@@ -92,7 +98,7 @@ class _ProductSearchState extends State<ProductSearch> {
   getResult(){
     if(isLoading == true){
       return Container(
-        color: Colors.white,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: Center(
           child: Image.asset("assets/product.gif"),
         ),

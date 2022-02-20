@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
+import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/product_list.dart';
 import 'package:luminous_e_buy/Templates/product_tile.dart';
 
@@ -37,7 +38,7 @@ class _SampleListingState extends State<SampleListing> {
                     ),
                   ],
                 ),
-                const Padding(padding: EdgeInsets.fromLTRB(5, 5, 5, 5)),
+                const Padding(padding: EdgeInsets.fromLTRB(5, 5, 5, 0)),
                 GestureDetector(
                   onTap: () {
                     productList.clear();
@@ -51,7 +52,7 @@ class _SampleListingState extends State<SampleListing> {
                   child: Row(
                     children: const [
                       Text(
-                        "SHOW MORE",
+                        "Show More",
                         style: TextStyle( //show more
                           fontSize: 18,
                           color: Colors.blueGrey,
@@ -68,19 +69,26 @@ class _SampleListingState extends State<SampleListing> {
             )
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ProductTile(productList: widget.sampleProductList, index: 0, isLoading: false),
-            ProductTile(productList: widget.sampleProductList, index: 1, isLoading: false),
-          ],
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ProductTile(productList: widget.sampleProductList, index: 0, isLoading: false),
+              ProductTile(productList: widget.sampleProductList, index: 1, isLoading: false),
+            ],
+          ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ProductTile(productList: widget.sampleProductList, index: 2, isLoading: false),
-            ProductTile(productList: widget.sampleProductList, index: 3, isLoading: false),
-          ],
+        Padding(padding: EdgeInsets.only(top: 12)),
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ProductTile(productList: widget.sampleProductList, index: 2, isLoading: false),
+              ProductTile(productList: widget.sampleProductList, index: 3, isLoading: false),
+            ],
+          ),
         ),
         const Padding(padding: EdgeInsets.all(5))
       ],

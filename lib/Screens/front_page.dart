@@ -117,9 +117,9 @@ class _FrontPageState extends State<FrontPage> {
           : _getHomePageContent(index),
         bottomNavigationBar: ConvexAppBar(
             style: TabStyle.textIn,
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Theme.of(context).backgroundColor,
             color: Theme.of(context).accentColor,
-            activeColor: Theme.of(context).backgroundColor,
+            activeColor: Theme.of(context).primaryColor,
             items: const [
               TabItem(
                   icon: (Icons.grid_view_outlined),

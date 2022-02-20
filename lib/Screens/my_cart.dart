@@ -210,6 +210,8 @@ class _MyCartState extends State<MyCart> {
                   });
                 },
                 child: Card(
+                  color: Theme.of(context).backgroundColor,
+                  shadowColor: Theme.of(context).shadowColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),

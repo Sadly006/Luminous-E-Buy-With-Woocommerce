@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
     return Consumer<ThemeProvider>(
         builder: (context, value, child) {
           return MaterialApp(
-            localizationsDelegates: [
+            localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,

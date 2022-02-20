@@ -98,7 +98,7 @@ class _ProductListState extends State<ProductList> {
                   itemCount: getLength(),
                   itemBuilder: (BuildContext context, index) {
                     return Padding(
-                        padding: const EdgeInsets.all(2),
+                        padding: const EdgeInsets.all(5),
                         child: ProductTile(productList: productList, index: index, isLoading: _isLoading,)
                     );
                   }

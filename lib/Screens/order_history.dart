@@ -105,13 +105,15 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             children: [
                                               Column(
-                                                children: const [
+                                                children: [
                                                   Text("Order #",
                                                     style: TextStyle(
+                                                      color: Theme.of(context).accentColor,
                                                       fontSize: 17,
                                                       fontWeight: FontWeight.bold,
                                                     ),),
@@ -120,7 +122,8 @@ class _OrderHistoryState extends State<OrderHistory> {
                                               Column(
                                                 children: [
                                                   Text(orderList[index]["id"].toString(),
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
+                                                      color: Theme.of(context).accentColor,
                                                       fontSize: 17,
                                                       fontWeight: FontWeight.bold,
                                                     ),
@@ -132,33 +135,33 @@ class _OrderHistoryState extends State<OrderHistory> {
 
                                           Row(
                                             children: [
-
                                               Column(
                                                 children: [
-                                                  Text(orderList[index]["date_created"]),
+                                                  Text(
+                                                    orderList[index]["date_created"].substring(0, 10) + " || " + orderList[index]["date_created"].substring(11, 18),
+                                                    style: TextStyle(
+                                                      color: Theme.of(context).accentColor,
+                                                      fontSize: 17,
+                                                      // fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
                                                 ],
                                               )
                                             ],
                                           ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: <Widget>[
-                                              TextButton(
-                                                style: TextButton.styleFrom(
-                                                  primary: Theme.of(context).primaryColor,
-                                                ),
-                                                child: const Text('Show More'),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) => TrackOrder(id: index),
-                                                      )
-                                                  );
-                                                },
-                                              ),
-                                              const SizedBox(width: 8),
-                                            ],
+                                          TextButton(
+                                            style: TextButton.styleFrom(
+                                              primary: Theme.of(context).primaryColor,
+                                            ),
+                                            child: const Text('Show More'),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => TrackOrder(id: index),
+                                                  )
+                                              );
+                                            },
                                           ),
                                         ],
                                       ),

@@ -104,8 +104,9 @@ class _TrackOrderState extends State<TrackOrder> {
       return const SizedBox(height: 0,);
     }
     else{
+      date = date.substring(0, 10) + " || " + date.substring(11, 19);
       return Padding(
-        padding: EdgeInsets.only(top: 5),
+        padding: const EdgeInsets.only(top: 5),
         child: Text(
           date,
           style: const TextStyle(
@@ -124,15 +125,13 @@ class _TrackOrderState extends State<TrackOrder> {
         title: const Text("Track Your Package"),
       ),
       body: isLoading == true
-        ? Container(
-            child: Center(
-              child: Loader(),
-            ),
+        ? const Center(
+          child: Loader(),
         )
         : SingleChildScrollView(
         physics: const ScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

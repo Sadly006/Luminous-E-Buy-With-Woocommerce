@@ -5,16 +5,24 @@ class ThemeProvider extends ChangeNotifier {
   ThemeData _selectedTheme = ThemeData.light();
 
   ThemeData dark = ThemeData.dark().copyWith(
-    primaryColor: const Color.fromRGBO(255, 95, 31, 1),
+    // primaryColor: const Color.fromRGBO(255, 95, 31, 1),
     // primaryColor: const Color.fromRGBO(200, 55, 55, 1),
     //primaryColor: Colors.lightGreenAccent,
     //primaryColor: Color.fromRGBO(241, 87, 72, 1),
-    //primaryColor: Color.fromRGBO(66, 251, 16, 1),
+    primaryColor: Color.fromRGBO(138, 51, 36, 1),
     secondaryHeaderColor: Colors.green,
-    accentColor: Colors.white,
+    // cardColor: const Color.fromRGBO(31, 7, 1, 1),,
+    accentColor: Colors.white70,
     errorColor: Colors.black,
-    backgroundColor: const Color.fromRGBO(44, 46, 52, 1),
+    brightness: Brightness.dark,
+    //backgroundColor: Colors.redAccent,
+    //backgroundColor: const Color.fromRGBO(44, 46, 52, 1),
+    backgroundColor: Colors.black54,
+    scaffoldBackgroundColor: const Color.fromRGBO(15, 2, 0, 1),
+    // scaffoldBackgroundColor: const Color.fromRGBO(13, 3, 1, 1),
+    // backgroundColor: const Color.fromRGBO(15, 2, 0, 1),
     focusColor: Colors.blueGrey[900],
+    shadowColor: Colors.white30,
     appBarTheme: const AppBarTheme(
         color: Colors.black12
     ),
@@ -65,19 +73,20 @@ class ThemeProvider extends ChangeNotifier {
   );
 
   ThemeData light = ThemeData.light().copyWith(
-    primaryColor: const Color.fromRGBO(255, 95, 31, 1),
+    // primaryColor: const Color.fromRGBO(255, 95, 31, 1),
     // primaryColor: const Color.fromRGBO(200, 55, 55, 1),
     //primaryColor: Colors.lightGreenAccent,
     //primaryColor: Color.fromRGBO(241, 87, 72, 1),
-    //primaryColor: Color.fromRGBO(66, 251, 16, 1),
+    primaryColor: Color.fromRGBO(138, 51, 36, 1),
     secondaryHeaderColor: Colors.green,
     appBarTheme: const AppBarTheme(
       color: Colors.white
     ),
+    scaffoldBackgroundColor: Color.fromRGBO(240, 220, 216, 1),
     focusColor: Colors.white24,
     errorColor: Colors.white,
-    backgroundColor: Colors.white,
-    accentColor: Colors.black87,
+    backgroundColor: Colors.white24,
+    accentColor: const Color.fromRGBO(49, 52, 56, 1),
     cardTheme: CardTheme(
       color: Colors.grey[300],
     ),

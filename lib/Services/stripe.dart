@@ -48,6 +48,7 @@ class StripePay {
   }
 
   handlePayment(Map<String, dynamic> customerInfo, double cost, int addressId, BuildContext context) async {
+    print("cost: "+cost.toString());
     Map<String, dynamic> customer = await createUser(customerInfo);
     confirmPayment((cost*100).toInt(), customer, addressId, context);
   }

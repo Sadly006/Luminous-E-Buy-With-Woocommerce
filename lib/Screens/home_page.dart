@@ -40,15 +40,17 @@ class _HomePageState extends State<HomePage> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(15, 5, 5, 5),
                               child: SizedBox(
+                                height: displayHeight(context)*0.05,
                                 width: displayWidth(context)*0.82,
                                 child: OpenContainer(
                                     closedElevation: 6,
                                     closedBuilder: (BuildContext context, VoidCallback openContainer){
                                       return Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.all(5),
+                                            padding: const EdgeInsets.only(left: 1),
                                             child: IconButton(
                                               onPressed: openContainer,
                                               icon: const Icon(Icons.search,
@@ -80,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 30),
+                      padding: const EdgeInsets.only(top: 20),
                       child: CarouselSlider(
                         options: CarouselOptions(
                           enlargeCenterPage: true,
@@ -88,22 +90,23 @@ class _HomePageState extends State<HomePage> {
                           autoPlay: true,
                         ),
                         items: carousalImageList.map((item) => ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(00),
                           child: Stack(
                               fit: StackFit.loose,
                               children: <Widget>[
-                                Container(
-                                  width: displayWidth(context)*0.8,
-                                  height: 300,
-                                  color: Theme.of(context).primaryColor,
-                                  child: GestureDetector(
+                                Card(
+                                  // width: displayWidth(context)*0.8,
+                                  // height: 300,
+                                  elevation: 10,
+                                  shadowColor: Theme.of(context).shadowColor,
+                                  // color: Theme.of(context).primaryColor,
+                                  child: SizedBox(
+                                    width: displayWidth(context)*0.8,
+                                    height: 300,
                                     child: Image.network(
                                       item,
                                       fit: BoxFit.fill,
                                     ),
-                                    onTap: () {
-
-                                    },
                                   ),
                                 )
                               ]
@@ -121,23 +124,21 @@ class _HomePageState extends State<HomePage> {
                             )
                         );
                       },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(padding: const EdgeInsets.fromLTRB(20, 30, 0, 5),
-                            child: Text(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 50, 0, 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
                               AppLocalizations.of(context)!.categories,
                               style: Theme.of(context).textTheme.headline2,
                             ),
-                          ),
-                          const Padding(
-                            child: Icon(
+                            Icon(
                               Icons.arrow_right,
                               size: 40,
                             ),
-                            padding: EdgeInsets.fromLTRB(0, 30, 20, 5),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -175,9 +176,13 @@ class _HomePageState extends State<HomePage> {
                           )
                       ),
                     ),
-                    SampleListing(sampleProductList: newArrival, catName: "NEW ARRIVAL"),
-                    SampleListing(sampleProductList: topPicks, catName: "TOP PICKS"),
-                    SampleListing(sampleProductList: forYou, catName: "FOR YOU"),
+                    Padding(padding: EdgeInsets.all(10)),
+                    SampleListing(sampleProductList: newArrival, catName: "New Arrival"),
+                    Padding(padding: EdgeInsets.all(10)),
+                    SampleListing(sampleProductList: topPicks, catName: "Top Picks"),
+                    Padding(padding: EdgeInsets.all(10)),
+
+                    SampleListing(sampleProductList: forYou, catName: "For You"),
                   ],
                 );
               },

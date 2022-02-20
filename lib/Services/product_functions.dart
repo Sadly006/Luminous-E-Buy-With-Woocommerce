@@ -134,6 +134,7 @@ class ProductFunction{
     for(int i=0; i<cartList.length; i++){
       total = total + getCartPrice(cart[cartList[i]["id"].toString()]!.toDouble(), cartList, i, context);
     }
+    print("Total: "+total.toString());
     return total;
   }
 
