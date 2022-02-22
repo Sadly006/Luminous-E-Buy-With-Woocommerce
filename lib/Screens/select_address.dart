@@ -147,14 +147,13 @@ class _SelectAddressState extends State<SelectAddress> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             const Text("My Address",
               style: TextStyle(
-                color: Colors.black,
                 fontWeight: FontWeight.w800,
                 fontSize: 18.0,
               )

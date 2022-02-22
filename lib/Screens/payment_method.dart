@@ -39,6 +39,33 @@ class _PaymentMethodsState extends State<PaymentMethods> {
     }
   }
 
+  navigateToMethod(int index){
+    if(index==0||index==1){
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => OrderProcessing(selectedAddress: widget.selectedAddress, cost: widget.cost, paymentMethod: "SSLCommerze")
+          )
+      );
+    }
+    else if(index == 2){
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => OrderProcessing(selectedAddress: widget.selectedAddress, cost: widget.cost, paymentMethod: "COD")
+          )
+      );
+    }
+    else{
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => OrderProcessing(selectedAddress: widget.selectedAddress, cost: widget.cost, paymentMethod: "Stripe")
+          )
+      );
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -52,7 +79,7 @@ class _PaymentMethodsState extends State<PaymentMethods> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Payment Methods"),
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
         ),
 
         body: isLoading == true
@@ -73,12 +100,7 @@ class _PaymentMethodsState extends State<PaymentMethods> {
                         const Padding(padding: EdgeInsets.all(5)),
                         GestureDetector(
                           onTap: (){
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => OrderProcessing(selectedAddress: widget.selectedAddress, cost: widget.cost, paymentMethod: "Online Payment")
-                                )
-                            );
+                            navigateToMethod(index);
                           },
                           child: SizedBox(
                             width: displayWidth(context),

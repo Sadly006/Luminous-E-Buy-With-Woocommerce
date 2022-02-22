@@ -16,8 +16,8 @@ class StripePay {
     List<Map<String, dynamic>> products = [];
     for(int i=0; i<cartList.length; i++){
       products.add({
-        "product_id": cartList[i]["id"],
-        "quantity": cart[cartList[i]["id"].toString()]
+        "product_id": cartList[i][0]["id"],
+        "quantity": cart[cartList[i].toString()]
       });
     }
 

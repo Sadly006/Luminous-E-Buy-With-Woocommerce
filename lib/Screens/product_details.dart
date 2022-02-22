@@ -6,7 +6,11 @@ import 'package:luminous_e_buy/Services/product_functions.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Templates/product_tile.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Constant_Values/lists.dart';
+import '../Constant_Values/lists.dart';
 import 'Shop/shop_product_list.dart';
 import 'image_view.dart';
 
@@ -24,6 +28,8 @@ class _ProductDetailsState extends State<ProductDetails> {
   late String consKey;
   late String consSecret;
   bool isLoading = true;
+  int selectedSize = 0;
+  int selectedColor = 0;
 
   static const _shimmerGradient = LinearGradient(
     colors: [
@@ -178,9 +184,23 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   getImage(){
     if(widget.productList2[widget.index]["images"].length!=0){
-      return Image.network(
-        widget.productList2[widget.index]["images"][0]["src"].toString(),
-        fit: BoxFit.fitHeight,
+      return PhotoViewGallery.builder(
+        itemCount: widget.productList2[widget.index]["images"].length,
+        builder: (context, index) {
+          return PhotoViewGalleryPageOptions(
+            imageProvider: NetworkImage(
+              widget.productList2[widget.index]["images"][index]['src'],
+            ),
+            minScale: PhotoViewComputedScale.contained * 0.8,
+            maxScale: PhotoViewComputedScale.covered * 2,
+          );
+        },
+        scrollPhysics: BouncingScrollPhysics(),
+        backgroundDecoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        enableRotation: true,
       );
     }
     else{
@@ -204,7 +224,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
           centerTitle: true,
           title: Text(
             widget.productList2[widget.index]["name"].toString(),
@@ -225,7 +245,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           return Container(
                             height: displayHeight(context)*0.45,
                             width: displayWidth(context)*1,
-                            color: Colors.grey,
+                            color: Theme.of(context).scaffoldBackgroundColor,
                             child: getImage(),
                           );
                         },
@@ -316,6 +336,93 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                       ),
 
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                              child: Text(
+                                "Available Sizes",
+                                style: TextStyle(
+                                  color: Theme.of(context).accentColor
+                                ),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                for(int i=0; i<productSizeList.length; i++)
+                                  GestureDetector(
+                                    onTap: (){
+                                      selectedSize = i;
+                                      setState(() {});
+                                      },
+                                    child: Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          border: Border.all(
+                                            color: Colors.blueAccent,
+                                            // width: getSBorderWidth(i)
+                                          ),
+                                          color: ProductFunction().getSelectedSizeColor(i, context, selectedSize),
+                                        ),
+                                        height: 20,
+                                        width: 50,
+                                        child: Center(
+                                          child: Text(
+                                            productSizeList[i],
+                                            style: TextStyle(
+                                                color: Theme.of(context).accentColor
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                              child: Text(
+                                "Available Colors",
+                                style: TextStyle(
+                                    color: Theme.of(context).accentColor
+                                ),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                for(int i=0; i<productColorList.length; i++)
+                                  GestureDetector(
+                                    onTap: (){
+                                      selectedColor = i;
+                                      setState(() {});
+                                      },
+                                    child: Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: Colors.blueAccent,
+                                            width: ProductFunction().getSelectedColorBorderWidth(i, selectedColor)
+                                          ),
+                                          color: ProductFunction().getProductColor(productColorList[i].toString()),
+                                        ),
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                    ),
+                                  )
+                              ],
+                            ),
+                          ],
+                        )
+                      ),
+
                       // const Padding(padding: EdgeInsets.all(1.5)),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -328,6 +435,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 preferredSize: const Size.fromHeight(50),
                                 child: AppBar(
                                   elevation: 0,
+                                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                                   automaticallyImplyLeading: false,
                                   title: TabBar(
                                       indicatorColor: Theme.of(context).primaryColor,
@@ -447,13 +555,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                       backgroundColor: Theme.of(context).primaryColor,
                     ),
                     onPressed: () {
-                      ProductFunction().addToCart(widget.productList2, widget.index, context);
+                      ProductFunction().addToCart(widget.productList2, widget.index, context, productSizeList[selectedSize], productColorList[selectedColor]);
                     },
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.shopping_cart_outlined, color: Colors.white,),
+                        children: const [
+                          Icon(Icons.shopping_cart_outlined, color: Colors.white,),
                           Text("Add To Cart",
                             style: TextStyle(
                                 color: Colors.white,

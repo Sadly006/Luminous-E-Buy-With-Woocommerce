@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screens/Payment/stripe_payment.dart';
+import 'package:luminous_e_buy/Screens/sslcommerze_payment.dart';
 import 'package:luminous_e_buy/Services/product_functions.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
@@ -16,11 +19,24 @@ class OrderProcessing extends StatelessWidget {
   String paymentMethod;
   late Map<String, dynamic> postBody;
 
+  double roundDouble(double value, int places){
+    num mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
+  }
+
+  getTotalCost(){
+    return roundDouble(((cost+50+0.3)/(1-0.029)), 1);
+  }
+
+  getStripeFee(){
+    return (((((cost+50+0.3)/(1-0.029))*2.9)/100)+0.3).toStringAsFixed(1);
+  }
+
   getImage(int index){
-    if(cartList[index]["images"].length!=0){
+    if(cartList[index][0]["images"].length!=0){
       return DecorationImage(
         image: NetworkImage(
-            cartList[index]["images"][0]["src"].toString()
+            cartList[index][0]["images"][0]["src"].toString()
         ),
         fit: BoxFit.cover,
       );
@@ -40,8 +56,8 @@ class OrderProcessing extends StatelessWidget {
     List<Map<String, dynamic>> products = [];
     for(int i=0; i<cartList.length; i++){
       products.add({
-        "product_id": cartList[i]["id"],
-        "quantity": cart[cartList[i]["id"]]
+        "product_id": cartList[i][0]["id"],
+        "quantity": cart[cartList[i].toString()]
       });
     }
 
@@ -76,7 +92,7 @@ class OrderProcessing extends StatelessWidget {
         title: const Text(
           "CheckOut",
         ),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
       ),
       body: SingleChildScrollView(
         physics: const ScrollPhysics(),
@@ -155,7 +171,7 @@ class OrderProcessing extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Card(
-                color: Colors.white70,
+                color: Theme.of(context).secondaryHeaderColor,
                 child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -185,7 +201,7 @@ class OrderProcessing extends StatelessWidget {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        cartList[index]['name'].toString(),
+                                        cartList[index][0]['name'].toString(),
                                         style: TextStyle(
                                             fontSize: 14,
                                             color: Theme.of(context).accentColor
@@ -194,7 +210,7 @@ class OrderProcessing extends StatelessWidget {
                                       const Padding(padding: EdgeInsets.all(2)),
                                       Padding(
                                         padding: const EdgeInsets.only(right: 10),
-                                        child: ProductFunction().getLastPriceText(cart[cartList[index]["id"].toString()]!.toDouble(), cartList, index, context),
+                                        child: ProductFunction().getLastPriceText(cart[cartList[index].toString()]!.toDouble(), cartList, index, context),
                                       ),
                                     ],
                                   )
@@ -207,7 +223,7 @@ class OrderProcessing extends StatelessWidget {
                                   width: 45,
                                   height: 45,
                                   child: Center(
-                                    child: ProductFunction().getCartNumber(cart[cartList[index]["id"].toString()]!.toInt(), context),
+                                    child: ProductFunction().getCartNumber(cart[cartList[index].toString()]!.toInt(), context),
                                   ),
                                 ),
                               ),
@@ -221,7 +237,7 @@ class OrderProcessing extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Card(
-                color: Colors.white70,
+                color: Theme.of(context).secondaryHeaderColor,
                 child: Column(
                   children: [
                     Row(
@@ -268,6 +284,25 @@ class OrderProcessing extends StatelessWidget {
                         Padding(
                             padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
                             child: Text(
+                              "Stripe Fee: ",
+                              style: Theme.of(context).textTheme.subtitle2,
+                            )
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+                            child: Text(
+                              getStripeFee(),
+                              style: Theme.of(context).textTheme.subtitle2,
+                            )
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+                            child: Text(
                               "Total Cost: ",
                               style: Theme.of(context).textTheme.subtitle2,
                             )
@@ -275,7 +310,7 @@ class OrderProcessing extends StatelessWidget {
                         Padding(
                             padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
                             child: Text(
-                              "BDT "+(cost+50).toString(),
+                              "\$"+getTotalCost().toString(),
                               style: Theme.of(context).textTheme.subtitle2,
                             )
                         ),
@@ -297,15 +332,24 @@ class OrderProcessing extends StatelessWidget {
             width: displayWidth(context)*0.8,
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor
+                    primary: Theme.of(context).secondaryHeaderColor
                 ),
                 onPressed: () async {
                   if(cartList.isNotEmpty){
-                    if(paymentMethod == "Online Payment"){
+                    if(paymentMethod == "Stripe"){
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => StripePayment(cost: cost+50, addressId: selectedAddress,),
+                            builder: (context) => StripePayment(cost: getTotalCost(), addressId: selectedAddress,),
+                            // builder: (context) => OrderWithPayment(cost: cost+50, addressId: selectedAddress),
+                          )
+                      );
+                    }
+                    else if(paymentMethod == "SSLCommerze"){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SSLCommerzePayment(cost: cost+50, addressId: selectedAddress,),
                             // builder: (context) => OrderWithPayment(cost: cost+50, addressId: selectedAddress),
                           )
                       );

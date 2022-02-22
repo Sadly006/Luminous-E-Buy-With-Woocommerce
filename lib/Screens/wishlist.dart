@@ -197,7 +197,7 @@ class _WishListState extends State<WishList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
         toolbarHeight: MediaQuery.of(context).size.height/8,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(

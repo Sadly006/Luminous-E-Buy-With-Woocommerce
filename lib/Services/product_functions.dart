@@ -45,16 +45,16 @@ class ProductFunction{
   }
 
   getCartPrice(double number, List cartList, int index, BuildContext context) {
-    if(cartList[index]["sale_price"]==''){
-      return (double.parse(cartList[index]["price"])*number);
+    if(cartList[index][0]["sale_price"]==''){
+      return (double.parse(cartList[index][0]["price"])*number);
     }
     else{
-      return (double.parse(cartList[index]["sale_price"])*number);
+      return (double.parse(cartList[index][0]["sale_price"])*number);
     }
   }
 
   getCartPriceText(double number, List cartList, int index, BuildContext context) {
-    if(cartList[index]["sale_price"]==''){
+    if(cartList[index][0]["sale_price"]==''){
       return Text(
         "\$" + getCartPrice(number, cartList, index, context).toStringAsFixed(2),
         style: TextStyle(
@@ -71,7 +71,7 @@ class ProductFunction{
           Row(
             children: [
               Text(
-                "\$" + (double.parse(cartList[index]["sale_price"])*number).toStringAsFixed(2),
+                "\$" + (double.parse(cartList[index][0]["sale_price"])*number).toStringAsFixed(2),
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
@@ -80,7 +80,7 @@ class ProductFunction{
               ),
               const Padding(padding: EdgeInsets.only(left: 15)),
               Text(
-                  "\$" + (double.parse(cartList[index]["price"])*number).toStringAsFixed(2),
+                  "\$" + (double.parse(cartList[index][0]["regular_price"])*number).toStringAsFixed(2),
                   style: Theme.of(context).textTheme.headline3
               )
             ],
@@ -92,7 +92,7 @@ class ProductFunction{
   }
 
   getLastPriceText(double number, List cartList, int index, BuildContext context) {
-    if(cartList[index]["sale_price"]==''){
+    if(cartList[index][0]["sale_price"]==''){
       return Text(
         "\$" + getCartPrice(number, cartList, index, context).toStringAsFixed(2),
         style: TextStyle(
@@ -109,7 +109,7 @@ class ProductFunction{
           Row(
             children: [
               Text(
-                "\$" + (double.parse(cartList[index]["sale_price"])*number).toStringAsFixed(2),
+                "\$" + (double.parse(cartList[index][0]["sale_price"])*number).toStringAsFixed(2),
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -118,7 +118,7 @@ class ProductFunction{
               ),
               const Padding(padding: EdgeInsets.only(left: 15)),
               Text(
-                  "\$" + (double.parse(cartList[index]["price"])*number).toStringAsFixed(2),
+                  "\$" + (double.parse(cartList[index][0]["price"])*number).toStringAsFixed(2),
                   style: Theme.of(context).textTheme.headline3
               )
             ],
@@ -132,7 +132,7 @@ class ProductFunction{
   totalCartPrice(List cartList, BuildContext context){
     num total=0;
     for(int i=0; i<cartList.length; i++){
-      total = total + getCartPrice(cart[cartList[i]["id"].toString()]!.toDouble(), cartList, i, context);
+      total = total + getCartPrice(cart[cartList[i].toString()]!.toDouble(), cartList, i, context);
     }
     print("Total: "+total.toString());
     return total;
@@ -204,6 +204,40 @@ class ProductFunction{
     }
   }
 
+  getProductColor(String color){
+    if(color == 'red'){
+      return Colors.redAccent;
+    }
+    else if(color == 'black'){
+      return Colors.black;
+    }
+    else if(color == 'green'){
+      return Colors.green;
+    }
+    else if(color == 'blue'){
+      return Colors.blue;
+    }
+    else if(color == 'white'){
+      return Colors.white;
+    }
+  }
+
+  getSelectedSizeColor(int index, BuildContext context, int selectedSize){
+    if(index == selectedSize){
+      return Theme.of(context).canvasColor;
+    }
+    else
+      return Theme.of(context).scaffoldBackgroundColor;
+  }
+
+  getSelectedColorBorderWidth(int index, int selectedColor){
+    if(index == selectedColor){
+      return 3.toDouble();
+    }
+    else
+      return 1.toDouble();
+  }
+
   setCartMemory() async {
     final pref = await SharedPreferences.getInstance();
     String encodedCartList = const JsonEncoder().convert(cartList);
@@ -212,14 +246,39 @@ class ProductFunction{
     pref.setString("cartMap", encodedCartMap);
   }
 
-  removeFromCart(var x) async {
-    final pref = await SharedPreferences.getInstance();
+  removeFromCart(var x) {
     cartList.remove(x);
     cart.remove(x);
     setCartMemory();
   }
 
-  addToCart(List product, int index, BuildContext context) async {
+  // addToCart(List product, int index, BuildContext context, String size, String color) async {
+  //   int c=0;
+  //   final pref = await SharedPreferences.getInstance();
+  //   if(pref.getString('token') == null) {
+  //     Toasts().cartFailedToast(context);
+  //   }
+  //
+  //   else if(pref.getString('token') != null) {
+  //     List<dynamic> productDetails = [product[index], size, color];
+  //     for(int i=0; i<cartList.length; i++){
+  //       if(cartList[i]['id']==product[index]['id']){
+  //         cart[cartList[i]["id"].toString()] = cart[cartList[i]["id"].toString()]! + 1;
+  //         c++;
+  //         break;
+  //       }
+  //     }
+  //     if(c==0){
+  //       cartList.add(product[index]);
+  //       cart.putIfAbsent(product[index]["id"].toString(), () => 1);
+  //       cart[product[index]["id"].toString()]=1;
+  //     }
+  //     setCartMemory();
+  //     Toasts().cartSuccessToast(context);
+  //   }
+  // }
+
+  addToCart(List product, int index, BuildContext context, String size, String color) async {
     int c=0;
     final pref = await SharedPreferences.getInstance();
     if(pref.getString('token') == null) {
@@ -227,21 +286,25 @@ class ProductFunction{
     }
 
     else if(pref.getString('token') != null) {
+      List<dynamic> productDetails = [product[index], size, color];
+      print(productDetails[1]);
       for(int i=0; i<cartList.length; i++){
-        if(cartList[i]['id']==product[index]['id']){
-          cart[cartList[i]["id"].toString()] = cart[cartList[i]["id"].toString()]! + 1;
+        if(cartList[i].toString()==productDetails.toString()){
+          print("Exists");
+          cart[cartList[i].toString()] = cart[cartList[i].toString()]! + 1;
           c++;
           break;
         }
       }
       if(c==0){
-        cartList.add(product[index]);
-        cart.putIfAbsent(product[index]["id"].toString(), () => 1);
-        cart[product[index]["id"].toString()]=1;
+        cartList.add(productDetails);
+        cart.putIfAbsent(productDetails.toString(), () => 1);
+        cart[productDetails.toString()]=1;
       }
       setCartMemory();
       Toasts().cartSuccessToast(context);
     }
+    print("cartLength:" + cartList.length.toString());
   }
 
   addToWList(List product, int index, BuildContext context, Function setState) async {

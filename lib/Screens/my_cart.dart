@@ -86,9 +86,9 @@ class _MyCartState extends State<MyCart> {
             children: [
               GestureDetector(
                 onTap: () {
-                  cart[cartList[index]["id"].toString()] == 1
-                      ? cart[cartList[index]["id"].toString()] = 1
-                      : cart[cartList[index]["id"].toString()] = cart[cartList[index]["id"].toString()]-1;
+                  cart[cartList[index].toString()] == 1
+                      ? cart[cartList[index].toString()] = 1
+                      : cart[cartList[index].toString()] = cart[cartList[index].toString()]-1;
                   ProductFunction().setCartMemory();
                   setState(() {
                     // ProductFunction().getCartNumber(cart[cartList[index]]!.toInt(), context);
@@ -117,7 +117,7 @@ class _MyCartState extends State<MyCart> {
               ),
               GestureDetector(
                 onTap: () {
-                  cart[cartList[index]["id"].toString()] = cart[cartList[index]["id"].toString()]+1;
+                  cart[cartList[index].toString()] = cart[cartList[index].toString()]+1;
                   ProductFunction().setCartMemory();
                   setState(() {
                     // ProductFunction().getCartNumber(cart[cartList[index]]!.toInt(), context);
@@ -151,10 +151,10 @@ class _MyCartState extends State<MyCart> {
   }
 
   getImage(int index){
-    if(cartList[index]["images"].length!=0){
+    if(cartList[index][0]["images"].length!=0){
       return DecorationImage(
         image: NetworkImage(
-            cartList[index]["images"][0]["src"].toString()
+            cartList[index][0]["images"][0]["src"].toString()
         ),
         fit: BoxFit.cover,
       );
@@ -224,9 +224,10 @@ class _MyCartState extends State<MyCart> {
                         padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
                         child: GestureDetector(
                           onTap: () {
+                            List<dynamic> product = cartList[index];
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => ProductDetails(productList2: cartList, index: index)),
+                              MaterialPageRoute(builder: (context) => ProductDetails(productList2: product, index: 0)),
                             );
                           },
                           child: Container(
@@ -244,20 +245,53 @@ class _MyCartState extends State<MyCart> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Padding(padding: EdgeInsets.only(top: 15)),
-                          textShortener(cartList[index]['name'].toString(),),
+                          textShortener(cartList[index][0]['name'].toString(),),
                           const Padding(padding: EdgeInsets.all(2)),
-                          const Text(
-                            "Size: L || Color: Black",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.green
-                            ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Colors.blueAccent,
+                                      // width: getSBorderWidth(i)
+                                    ),
+                                  ),
+                                  height: 20,
+                                  width: 40,
+                                  child: Center(
+                                    child: Text(
+                                      cartList[index][1],
+                                      style: TextStyle(
+                                          color: Theme.of(context).accentColor
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: Colors.blueAccent,
+                                        width: 1
+                                    ),
+                                    color: ProductFunction().getProductColor(cartList[index][2]),
+                                  ),
+                                  height: 15,
+                                  width: 15,
+                                ),
+                              ),
+                            ],
                           ),
                           const Padding(padding: EdgeInsets.all(5)),
                           Padding(
                             padding: const EdgeInsets.only(right: 10),
-                            child: ProductFunction().getCartPriceText(cart[cartList[index]["id"].toString()]!.toDouble(), cartList, index, context),
+                            child: ProductFunction().getCartPriceText(cart[cartList[index].toString()]!.toDouble(), cartList, index, context),
                             //child: ProductFunction().getCartPriceText(cart[cartList[index]]!.toDouble(), cartList, index, context),
                           ),
 
@@ -302,7 +336,7 @@ class _MyCartState extends State<MyCart> {
                                             child: Card(
                                               elevation: 6,
                                               child: Center(
-                                                child: ProductFunction().getCartNumber(cart[cartList[index]["id"].toString()]!.toInt(), context),
+                                                child: ProductFunction().getCartNumber(cart[cartList[index].toString()]!.toInt(), context),
                                               ),
                                             ),
                                           ),
@@ -342,7 +376,7 @@ class _MyCartState extends State<MyCart> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
         toolbarHeight: MediaQuery.of(context).size.height/8,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(

@@ -17,19 +17,19 @@ class _CategoryListState extends State<CategoryList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
         centerTitle: true,
         title: const Text(
             "Categories"
         ),
         actions: <Widget>[
           OpenContainer(
-            closedColor: Theme.of(context).primaryColor,
+            closedColor: Theme.of(context).secondaryHeaderColor,
             closedElevation: 0,
             transitionType: ContainerTransitionType.fadeThrough,
             closedBuilder: (BuildContext _, VoidCallback openContainer) {
               return Container(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).secondaryHeaderColor,
                 child: IconButton(
                   onPressed: openContainer,
                   icon: const Icon(Icons.search),

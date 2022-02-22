@@ -19,17 +19,17 @@ import 'package:luminous_e_buy/Services/toasts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'front_page.dart';
 
-class OrderWithPayment extends StatefulWidget {
-  OrderWithPayment({Key? key, required this.cost, required this.addressId}) : super(key: key);
+class SSLCommerzePayment extends StatefulWidget {
+  SSLCommerzePayment({Key? key, required this.cost, required this.addressId}) : super(key: key);
 
   double cost;
   int addressId;
 
   @override
-  _OrderWithPaymentState createState() => _OrderWithPaymentState();
+  _SSLCommerzePaymentState createState() => _SSLCommerzePaymentState();
 }
 
-class _OrderWithPaymentState extends State<OrderWithPayment> {
+class _SSLCommerzePaymentState extends State<SSLCommerzePayment> {
 
   late String consKey;
   late String consSecret;
@@ -41,6 +41,7 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
      "name": "Sadly",
      "email": "sadly@gmail.com"
    };
+  final _key = GlobalKey<FormState>();
 
   getPostBody() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -49,13 +50,13 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
     List<Map<String, dynamic>> products = [];
     for(int i=0; i<cartList.length; i++){
       products.add({
-        "product_id": cartList[i]["id"],
-        "quantity": cart[cartList[i]["id"].toString()]
+        "product_id": cartList[i][0]["id"],
+        "quantity": cart[cartList[i].toString()]
       });
     }
 
     postBody = {
-      "payment_method": "stripe_cc",
+      "payment_method": "sslcommerze",
       "payment_method_title": "Credit Cards",
       "set_paid": true,
       "billing": {
@@ -144,6 +145,11 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
           result.code);
     } else {
       print("worked!");
+      await getPostBody();
+      var response = await woocommerceAPI.postAsync(
+        "",
+        postBody,
+      );
       cart.clear();
       cartList.clear();
       ProductFunction().setCartMemory();
@@ -153,10 +159,6 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
           MaterialPageRoute(
             builder: (context) =>FrontPage(consKey: consKey, consSecret: consSecret,),
           )
-      );
-      var response = await woocommerceAPI.postAsync(
-        "",
-        postBody,
       );
       Toasts().paymentSuccessToast(context);
       SSLCTransactionInfoModel model = result;
@@ -173,20 +175,63 @@ class _OrderWithPaymentState extends State<OrderWithPayment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        children: [
-          const TextField(
-            decoration: InputDecoration(
-                hintText: 'Phone'
+      body: Form(
+        key: _key,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    keyboardType: TextInputType.phone,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(8.0))),
+                      hintText: "Phone number",
+                    ),
+                    onSaved: (value) {
+                      formData['phone'] = value;
+                    },
+                  ),
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Amount",
+                          style: TextStyle(
+                              color: Colors.black
+                          ),
+                        ),
+                        Text(widget.cost.toString(),
+                          style: const TextStyle(
+                              color: Colors.black
+                          ),
+                        ),
+                      ],
+                    )
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).primaryColor,
+                  ),
+                  child: const Text("Pay now"),
+                  onPressed: () {
+                    if (_key.currentState != null) {
+                      _key.currentState?.save();
+                      //sslCommerzGeneralCall();
+                      sslCommerzCustomizedCall();
+                    }
+                  },
+                )
+              ],
             ),
           ),
-          TextButton(
-            onPressed: () async {
-              StripePay().handlePayment(customerInfo, widget.cost, widget.addressId, context);
-            },
-            child: const Text('pay'),
-          )
-        ],
+        ),
       ),
     );
   }

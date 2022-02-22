@@ -17,11 +17,23 @@ class ProductList extends StatefulWidget {
 
 class _ProductListState extends State<ProductList> {
 
-  AppBar appBar = AppBar(
-    backgroundColor: Colors.red,
-    centerTitle: true,
-    title: const Text("All Products"),
-  );
+
+
+  getAppBarHeight(){
+    AppBar appBar = AppBar(
+      centerTitle: true,
+      title: const Text("All Products"),
+    );
+    return appBar.preferredSize.height;
+  }
+
+  getAppBar(){
+    return AppBar(
+      backgroundColor: Theme.of(context).secondaryHeaderColor,
+      centerTitle: true,
+      title: const Text("All Products"),
+    );
+  }
 
   static const _shimmerGradient = LinearGradient(
     colors: [
@@ -48,10 +60,10 @@ class _ProductListState extends State<ProductList> {
 
   getHeight(){
     if(fetchingMore==false) {
-      return displayHeight(context)-(appBar.preferredSize.height+41);
+      return displayHeight(context)-(getAppBarHeight()+41);
     }
     else{
-      return displayHeight(context)-(appBar.preferredSize.height+70);
+      return displayHeight(context)-(getAppBarHeight()+70);
     }
   }
 
@@ -187,7 +199,7 @@ class _ProductListState extends State<ProductList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar,
+      appBar: getAppBar(),
       body: productListTemplate(productList),
       //body: productListBody()
     );
