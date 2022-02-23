@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/processing_order.dart';
+import 'package:luminous_e_buy/Screens/sslcommerze_payment.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,10 +18,12 @@ class PaymentMethods extends StatefulWidget {
 }
 
 class _PaymentMethodsState extends State<PaymentMethods> {
-  late List<dynamic> paymentMethods;
+  List<dynamic> paymentMethods = [];
+  late List<dynamic> allPaymentMethods;
   bool isLoading = true;
 
   getMethods() async {
+    paymentMethods.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String consKey = prefs.getString("consKey") as String;
     String consSecret = prefs.getString("consSecret") as String;
@@ -31,8 +34,13 @@ class _PaymentMethodsState extends State<PaymentMethods> {
     final response = await woocommerceAPI.getAsync("");
     print(response.statusCode);
     if(response.statusCode == 200){
-      paymentMethods = (json.decode(response.body));
-      print("DDDD");
+      allPaymentMethods = (json.decode(response.body));
+      for(int i=0; i<allPaymentMethods.length; i++){
+        if(allPaymentMethods[i]['enabled']==true){
+          paymentMethods.add(allPaymentMethods[i]);
+        }
+      }
+      paymentMethods.add({"title": "SSLCommerze"});
       setState(() {
         isLoading = false;
       });
@@ -40,15 +48,7 @@ class _PaymentMethodsState extends State<PaymentMethods> {
   }
 
   navigateToMethod(int index){
-    if(index==0||index==1){
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => OrderProcessing(selectedAddress: widget.selectedAddress, cost: widget.cost, paymentMethod: "SSLCommerze")
-          )
-      );
-    }
-    else if(index == 2){
+    if(index == 0 || index == 1 || index == 2){
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -56,11 +56,19 @@ class _PaymentMethodsState extends State<PaymentMethods> {
           )
       );
     }
-    else{
+    else if(index == 3){
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => OrderProcessing(selectedAddress: widget.selectedAddress, cost: widget.cost, paymentMethod: "Stripe")
+          )
+      );
+    }
+    else if(index == 4){
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => OrderProcessing(selectedAddress: widget.selectedAddress, cost: widget.cost, paymentMethod: "SSLCommerze")
           )
       );
     }

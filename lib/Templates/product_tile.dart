@@ -123,7 +123,7 @@ class _ProductTileState extends State<ProductTile> {
                     Container(
                       height: 200,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         shape: BoxShape.rectangle,
                           borderRadius: const BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
                           image: getImage(),

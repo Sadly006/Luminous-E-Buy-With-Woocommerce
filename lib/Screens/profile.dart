@@ -536,7 +536,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 10, 30),
                       child: Align(
-                          alignment: Alignment.bottomRight,
+                          alignment: Alignment.bottomCenter,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               primary: Theme.of(context).primaryColor,

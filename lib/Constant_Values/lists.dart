@@ -1,4 +1,5 @@
 List<dynamic> productList = [];
+List<dynamic> categoryProductList = [];
 List<dynamic> previousOrderProductList = [];
 List<dynamic> orderList = [];
 List<dynamic> relatedProductList = [];
@@ -21,15 +22,16 @@ List<String> carousalImageList = [
   "https://i.pinimg.com/564x/64/a0/81/64a08106bab408afcf926e1b2c568c7b.jpg",
 ];
 
-List<String> categoryNameList = [
-  "Gadgets",
-  "Accessories",
-  "Groceries",
-  "Electronics",
-  "Bags",
-  "Face Masks",
-  "Footwear"
+List<Map<String, dynamic>> categoryList = [
+  {"id": 21, "title": "Clothing", 'image': 'https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
+  {"id": 22, "title": "Hoodies", 'image': 'https://images.pexels.com/photos/1661471/pexels-photo-1661471.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
+  {"id": 20, "title": "Posters", 'image': 'https://images.pexels.com/photos/7140019/pexels-photo-7140019.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
+  {"id": 19, "title": "Albums", 'image': 'https://images.pexels.com/photos/167092/pexels-photo-167092.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
+  {"id": 17, "title": "Music", 'image': 'https://images.pexels.com/photos/934067/pexels-photo-934067.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'},
+  {"id": 23, "title": "Shirts", 'image': 'https://images.pexels.com/photos/9558699/pexels-photo-9558699.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'},
 ];
+
+List<String> categoryNameList = [];
 
 List<String> productSizeList = ['S', 'M', 'L', 'XL', 'XXL'];
 
@@ -43,15 +45,6 @@ List<String> categoryImageList = [
   "https://images.pexels.com/photos/8818649/pexels-photo-8818649.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   "https://images.pexels.com/photos/3873177/pexels-photo-3873177.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   "https://images.pexels.com/photos/1456706/pexels-photo-1456706.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-];
-
-List<String> productName = <String>[
-  "Rolex Yacht Master",
-  "Samsung Galaxy Note 5",
-  "One Plus 3",
-  "One Plus 6t",
-  "Nike Air 3",
-  "Adidas Racer TR21",
 ];
 
 List<Map<String, dynamic>> wishList = [];
@@ -82,12 +75,3 @@ List<Map<String, dynamic>> followingShops = [
 
 ];
 
-List<Map<String, dynamic>> positionList = [
-  {"title": "taosifsadly@gmail.com", "name": "Taosif Sadly", "lat": 23.751131, "lon": 90.387167},
-  {"title": "taosifsadlyts7@gmail.com", "name": "Taosif", "lat": 23.81, "lon": 90.3700},
-  {"title": "taosifsadlyts6@gmail.com", "name": "Sadly", "lat": 23.82, "lon": 90.3771193},
-  {"title": "tanjil@gmail.com", "name": "Tanjil", "lat": 23.83, "lon": 90.3771193},
-  {"title": "monirujjaman@gmail.com", "name": "Sadly", "lat": 23.85, "lon": 90.39}
-];
-//
-//

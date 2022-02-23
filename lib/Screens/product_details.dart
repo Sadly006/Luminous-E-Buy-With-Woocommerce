@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
+import 'package:luminous_e_buy/Screens/my_cart.dart';
 import 'package:luminous_e_buy/Services/product_functions.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
@@ -195,10 +196,9 @@ class _ProductDetailsState extends State<ProductDetails> {
             maxScale: PhotoViewComputedScale.covered * 2,
           );
         },
-        scrollPhysics: BouncingScrollPhysics(),
+        scrollPhysics: const BouncingScrollPhysics(),
         backgroundDecoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: Theme.of(context).backgroundColor,
         ),
         enableRotation: true,
       );
@@ -299,45 +299,45 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(2),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ShopProductList(shopId: widget.productList2[widget.index]["shopId"]-1,),
-                                )
-                            );
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey[500],
-                                borderRadius: const BorderRadius.all(Radius.circular(8))
-                            ),
-                            height: 75,
-                            width: displayWidth(context)*0.85,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Container(
-                                      decoration: const BoxDecoration(
-                                          color: Colors.white54,
-                                          borderRadius: BorderRadius.all(Radius.circular(8))
-                                      ),
-                                      child: const Icon(Icons.chevron_right)
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(2),
+                      //   child: GestureDetector(
+                      //     onTap: () {
+                      //       Navigator.push(
+                      //           context,
+                      //           MaterialPageRoute(
+                      //             builder: (context) => ShopProductList(shopId: widget.productList2[widget.index]["shopId"]-1,),
+                      //           )
+                      //       );
+                      //     },
+                      //     child: Container(
+                      //       decoration: BoxDecoration(
+                      //         color: Colors.grey[500],
+                      //           borderRadius: const BorderRadius.all(Radius.circular(8))
+                      //       ),
+                      //       height: 75,
+                      //       width: displayWidth(context)*0.85,
+                      //       child: Row(
+                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //         children: [
+                      //           Padding(
+                      //             padding: const EdgeInsets.all(10),
+                      //             child: Container(
+                      //                 decoration: const BoxDecoration(
+                      //                     color: Colors.white54,
+                      //                     borderRadius: BorderRadius.all(Radius.circular(8))
+                      //                 ),
+                      //                 child: const Icon(Icons.chevron_right)
+                      //             ),
+                      //           )
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
 
                       Padding(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -364,7 +364,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(10),
                                           border: Border.all(
-                                            color: Colors.blueAccent,
+                                            color: Theme.of(context).primaryColor,
                                             // width: getSBorderWidth(i)
                                           ),
                                           color: ProductFunction().getSelectedSizeColor(i, context, selectedSize),
@@ -407,7 +407,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           border: Border.all(
-                                            color: Colors.blueAccent,
+                                            color: Theme.of(context).primaryColor,
                                             width: ProductFunction().getSelectedColorBorderWidth(i, selectedColor)
                                           ),
                                           color: ProductFunction().getProductColor(productColorList[i].toString()),
@@ -517,8 +517,9 @@ class _ProductDetailsState extends State<ProductDetails> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Theme.of(context).backgroundColor,
           type: BottomNavigationBarType.fixed,
-          elevation: 10,
+          elevation: 20,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Padding(
@@ -556,6 +557,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                     onPressed: () {
                       ProductFunction().addToCart(widget.productList2, widget.index, context, productSizeList[selectedSize], productColorList[selectedColor]);
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => MyCart(),
+                      //     )
+                      // );
                     },
                     child: Center(
                       child: Row(

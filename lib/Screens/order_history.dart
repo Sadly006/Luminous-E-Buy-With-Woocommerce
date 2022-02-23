@@ -71,9 +71,9 @@ class _OrderHistoryState extends State<OrderHistory> {
                   stretch: true,
                   expandedHeight: 160.0,
                   flexibleSpace: FlexibleSpaceBar(
-                      title: const Text('Order List',
+                      title: Text('Order List',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Theme.of(context).accentColor,
                         ),
                       ),
                       background: Image.asset(
@@ -96,6 +96,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             ListTile(
+                              tileColor: Theme.of(context).backgroundColor,
                               title: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,

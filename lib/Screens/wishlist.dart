@@ -198,12 +198,6 @@ class _WishListState extends State<WishList> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).secondaryHeaderColor,
-        toolbarHeight: MediaQuery.of(context).size.height/8,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.elliptical(displayHeight(context), 150.0),
-          ),
-        ),
         centerTitle: true,
         title: const Text(
           "Wishlist",

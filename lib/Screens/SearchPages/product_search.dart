@@ -33,7 +33,7 @@ class _ProductSearchState extends State<ProductSearch> {
 
   void searchSuggestion() async {
     text2 = _text.text;
-    if(text2.length != text1.length){
+    if(text2 != text1 && text2.length>=2){
       text1=text2;
       setState(() {
         isLoading = true;
@@ -45,7 +45,7 @@ class _ProductSearchState extends State<ProductSearch> {
           url: API().productApi,
           consumerKey: consKey,
           consumerSecret: consSecret);
-      final response = await woocommerceAPI.getAsync("");
+      final response = await woocommerceAPI.getAsync("?search="+text1);
       searchResult = jsonDecode(response.body);
       print(searchResult.length);
       setState(() {
@@ -106,8 +106,14 @@ class _ProductSearchState extends State<ProductSearch> {
     }
     else{
       if(searchResult.isEmpty){
-        return const Center(
-          child: Text("No Result"),
+        return Center(
+          child: Text(
+            "No Result",
+            style: TextStyle(
+              fontSize: normalTextSize,
+              color: Theme.of(context).accentColor
+            ),
+          ),
         );
       }
       else{
@@ -141,7 +147,7 @@ class _ProductSearchState extends State<ProductSearch> {
                                 searchResult[index]["name"].toString(),
                                 style: Theme.of(context).textTheme.subtitle1
                               ),
-                              Padding(padding: EdgeInsets.only(top: 2)),
+                              const Padding(padding: EdgeInsets.only(top: 2)),
                               Text(
                                 "\$"+searchResult[index]["price"].toString(),
                                 style: Theme.of(context).textTheme.headline6
@@ -179,7 +185,10 @@ class _ProductSearchState extends State<ProductSearch> {
             padding: const EdgeInsets.all(15),
             child: TextField(
               controller: _text,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                focusedBorder:UnderlineInputBorder(
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
+                ),
                 labelText: 'Search',
               ),
             ),

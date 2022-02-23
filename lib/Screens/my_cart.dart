@@ -176,7 +176,7 @@ class _MyCartState extends State<MyCart> {
         SliverList(delegate: SliverChildBuilderDelegate(
               (BuildContext context, index){
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Dismissible(
                 direction: DismissDirection.startToEnd,
                 key: ValueKey<dynamic>(cartList[index]),
@@ -377,12 +377,12 @@ class _MyCartState extends State<MyCart> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).secondaryHeaderColor,
-        toolbarHeight: MediaQuery.of(context).size.height/8,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.elliptical(displayHeight(context), 150.0),
-          ),
-        ),
+        // toolbarHeight: MediaQuery.of(context).size.height/8,
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.vertical(
+        //     bottom: Radius.elliptical(displayHeight(context), 150.0),
+        //   ),
+        // ),
         centerTitle: true,
         title: const Text(
           "My Cart",

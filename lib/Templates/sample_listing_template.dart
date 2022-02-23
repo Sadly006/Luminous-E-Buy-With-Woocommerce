@@ -49,19 +49,15 @@ class _SampleListingState extends State<SampleListing> {
                         )
                     );
                   },
-                  child: Row(
-                    children: const [
-                      Text(
-                        "Show More",
-                        style: TextStyle( //show more
-                          fontSize: 18,
-                          color: Colors.blueGrey,
-                        ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                    child: Text(
+                      "Show More",
+                      style: TextStyle( //show more
+                        fontSize: 18,
+                        color: Theme.of(context).accentColor,
                       ),
-                      Icon(Icons.arrow_right,
-                        size: 35,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
                 const Padding(padding: EdgeInsets.all(10))

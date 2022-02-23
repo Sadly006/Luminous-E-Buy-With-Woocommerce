@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
+import 'package:luminous_e_buy/Screens/category_wise_product_list.dart';
 import 'package:luminous_e_buy/Screens/product_list.dart';
 import 'SearchPages/category_search.dart';
 
@@ -46,7 +47,7 @@ class _CategoryListState extends State<CategoryList> {
       body: SizedBox(
         height: displayHeight(context)*1,
         child: ListView.builder(
-          itemCount: 7,
+          itemCount: categoryList.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
@@ -57,7 +58,7 @@ class _CategoryListState extends State<CategoryList> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ProductList(),
+                        builder: (context) => CategoryProductList(categoryID: categoryList[index]['id'].toString()),
                       )
                     );
                   },
@@ -66,7 +67,7 @@ class _CategoryListState extends State<CategoryList> {
                       shape: BoxShape.rectangle,
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
                       image: DecorationImage(
-                        image: NetworkImage(categoryImageList[index]),
+                        image: NetworkImage(categoryList[index]['image']),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -77,7 +78,7 @@ class _CategoryListState extends State<CategoryList> {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       child: Center(
-                        child: Text(categoryNameList[index],
+                        child: Text(categoryList[index]['title'],
                           style: Theme.of(context).textTheme.headline1
                         ),
                       ),

@@ -109,8 +109,8 @@ class _TrackOrderState extends State<TrackOrder> {
         padding: const EdgeInsets.only(top: 5),
         child: Text(
           date,
-          style: const TextStyle(
-            color: Colors.black
+          style: TextStyle(
+            color: Theme.of(context).accentColor
           ),
         ),
       );
@@ -253,9 +253,9 @@ class _TrackOrderState extends State<TrackOrder> {
                 height: 1,
                 color: Colors.grey,
               ),
-              const Padding(padding: EdgeInsets.all(5)),
+              // const Padding(padding: EdgeInsets.all(2)),
               Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -310,7 +310,7 @@ class _TrackOrderState extends State<TrackOrder> {
                 height: 1,
                 color: Colors.grey,
               ),
-              const Padding(padding: EdgeInsets.all(5)),
+              const Padding(padding: EdgeInsets.all(10)),
 
               Card(
                 elevation: 10,
@@ -400,7 +400,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
 
               Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -412,7 +412,7 @@ class _TrackOrderState extends State<TrackOrder> {
                           fontWeight: FontWeight.w600
                       ),
                     ),
-                    const Padding(padding: EdgeInsets.all(10)),
+                    const Padding(padding: EdgeInsets.all(5)),
                     Text(
                       "Visit Help Center",
                       style: TextStyle(

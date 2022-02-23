@@ -133,12 +133,15 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                                   color: Theme.of(context).accentColor
                               ),
                             ),
-                            const Text(
-                              "In Cart",
-                              style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey
+                            const Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: Text(
+                                "In Cart",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey
+                                ),
                               ),
                             ),
                           ],
@@ -154,12 +157,15 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                                   color: Theme.of(context).accentColor
                               ),
                             ),
-                            const Text(
-                              "In WishList",
-                              style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey
+                            const Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: Text(
+                                "In WishList",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey
+                                ),
                               ),
                             ),
                           ],
@@ -175,12 +181,15 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                                   color: Theme.of(context).accentColor
                               ),
                             ),
-                            const Text(
-                              "Total Ordered",
-                              style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey
+                            const Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: Text(
+                                "Total Ordered",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey
+                                ),
                               ),
                             ),
                           ],
@@ -213,26 +222,29 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                height: 35,
-                                width: 35,
+                                height: 45,
+                                width: 45,
                                 decoration: BoxDecoration(
-                                  color: Colors.grey[200],
+                                  color: Colors.grey[600],
                                   shape: BoxShape.circle,
                                 ),
                                 child: const Center(
                                   child: Icon(
                                     Icons.featured_play_list,
-                                    size: 20,
+                                    size: 30,
                                     color: Colors.greenAccent,
                                   ),
                                 ),
                               ),
-                              const Text(
-                                "Orders",
-                                style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.grey
+                              const Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  "Orders",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey
+                                  ),
                                 ),
                               ),
                             ],
@@ -251,26 +263,29 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                height: 35,
-                                width: 35,
+                                height: 45,
+                                width: 45,
                                 decoration: BoxDecoration(
-                                  color: Colors.grey[200],
+                                  color: Colors.grey[600],
                                   shape: BoxShape.circle,
                                 ),
                                 child: const Center(
                                   child: Icon(
                                     Icons.person,
-                                    size: 20,
+                                    size: 30,
                                     color: Colors.blueAccent,
                                   ),
                                 ),
                               ),
-                              const Text(
-                                "Profile",
-                                style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.grey
+                              const Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  "Profile",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey
+                                  ),
                                 ),
                               ),
                             ],
@@ -289,26 +304,29 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                height: 35,
-                                width: 35,
+                                height: 45,
+                                width: 45,
                                 decoration: BoxDecoration(
-                                  color: Colors.grey[200],
+                                  color: Colors.grey[600],
                                   shape: BoxShape.circle,
                                 ),
                                 child: const Center(
                                   child: Icon(
                                     Icons.location_on,
-                                    size: 20,
+                                    size: 30,
                                     color: Colors.yellow,
                                   ),
                                 ),
                               ),
-                              const Text(
-                                "Addresses",
-                                style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.grey
+                              const Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  "Addresses",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey
+                                  ),
                                 ),
                               ),
                             ],
@@ -318,26 +336,29 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              height: 35,
-                              width: 35,
+                              height: 45,
+                              width: 45,
                               decoration: BoxDecoration(
-                                color: Colors.grey[200],
+                                color: Colors.grey[600],
                                 shape: BoxShape.circle,
                               ),
                               child: const Center(
                                 child: Icon(
                                   Icons.message_rounded,
-                                  size: 20,
+                                  size: 30,
                                   color: Colors.red,
                                 ),
                               ),
                             ),
-                            const Text(
-                              "Messages",
-                              style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey
+                            const Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: Text(
+                                "Messages",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey
+                                ),
                               ),
                             ),
                           ],
@@ -357,8 +378,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                     child: Row(
                       children: [
                         Container(
-                          height: 37,
-                          width: 37,
+                          height: 45,
+                          width: 45,
                           decoration: const BoxDecoration(
                             color: Colors.lightGreenAccent,
                             shape: BoxShape.circle,
@@ -366,7 +387,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                           child: const Center(
                             child: Icon(
                               Icons.notifications_none,
-                              size: 23,
+                              size: 30,
                               color: Colors.white,
                             ),
                           ),
@@ -382,14 +403,14 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                       ],
                     ),
                   ),
-                  const Padding(padding: EdgeInsets.all(5)),
+                  const Padding(padding: EdgeInsets.all(10)),
                   Padding(
                     padding: const EdgeInsets.only(left: 30),
                     child: Row(
                       children: [
                         Container(
-                          height: 37,
-                          width: 37,
+                          height: 45,
+                          width: 45,
                           decoration: const BoxDecoration(
                             color: Colors.deepOrange,
                             shape: BoxShape.circle,
@@ -397,7 +418,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                           child: const Center(
                             child: Icon(
                               Icons.payment_rounded,
-                              size: 23,
+                              size: 30,
                               color: Colors.white,
                             ),
                           ),
@@ -425,7 +446,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
           child: Align(
-              alignment: Alignment.bottomRight,
+              alignment: Alignment.bottomCenter,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: Theme.of(context).primaryColor,

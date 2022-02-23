@@ -11,6 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'SearchPages/product_search.dart';
 import 'categories.dart';
+import 'category_wise_product_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -43,6 +44,7 @@ class _HomePageState extends State<HomePage> {
                                 height: displayHeight(context)*0.05,
                                 width: displayWidth(context)*0.82,
                                 child: OpenContainer(
+                                  closedColor: Theme.of(context).backgroundColor,
                                     closedElevation: 6,
                                     closedBuilder: (BuildContext context, VoidCallback openContainer){
                                       return Row(
@@ -53,8 +55,9 @@ class _HomePageState extends State<HomePage> {
                                             padding: const EdgeInsets.only(left: 1),
                                             child: IconButton(
                                               onPressed: openContainer,
-                                              icon: const Icon(Icons.search,
-                                                color: Colors.black,),
+                                              icon: Icon(
+                                                Icons.search,
+                                                color: Theme.of(context).accentColor,),
                                             ),
                                           ),
                                           const Text("Search Products",
@@ -131,12 +134,16 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Text(
                               AppLocalizations.of(context)!.categories,
-                              style: Theme.of(context).textTheme.headline2,
+                              style: TextStyle(
+                                fontSize: subTitleSize,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).primaryColor
+                              ),
                             ),
-                            Icon(
-                              Icons.arrow_right,
-                              size: 40,
-                            ),
+                            // const Icon(
+                            //   Icons.arrow_right,
+                            //   size: 40,
+                            // ),
                           ],
                         ),
                       ),
@@ -146,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                       child: ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        itemCount: 5,
+                        itemCount: categoryList.length,
                         itemBuilder:
                           (BuildContext context, int index) =>
                           GestureDetector(
@@ -154,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ProductList(),
+                                    builder: (context) => CategoryProductList(categoryID: categoryList[index]['id'].toString()),
                                   )
                               );
                             },
@@ -164,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                                 backgroundColor: Theme.of(context).primaryColor,
                                 child: ClipOval(
                                     child: Image.network(
-                                      categoryImageList[index],
+                                      categoryList[index]['image'],
                                       height: 80,
                                       width: 80,
                                       fit: BoxFit.cover,

@@ -25,7 +25,12 @@ class OrderProcessing extends StatelessWidget {
   }
 
   getTotalCost(){
-    return roundDouble(((cost+50+0.3)/(1-0.029)), 1);
+    if(paymentMethod == 'Stripe'){
+      return roundDouble(((cost+50+0.3)/(1-0.029)), 1);
+    }
+    else{
+      return cost+50;
+    }
   }
 
   getStripeFee(){
@@ -49,6 +54,33 @@ class OrderProcessing extends StatelessWidget {
         ),
         fit: BoxFit.contain,
       );
+    }
+  }
+
+  getFee(BuildContext context){
+    if(paymentMethod == 'Stripe'){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+              padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+              child: Text(
+                "Stripe Fee: ",
+                style: Theme.of(context).textTheme.subtitle2,
+              )
+          ),
+          Padding(
+              padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+              child: Text(
+                getStripeFee(),
+                style: Theme.of(context).textTheme.subtitle2,
+              )
+          ),
+        ],
+      );
+    }
+    else{
+      return SizedBox(height: 0,);
     }
   }
 
@@ -101,6 +133,8 @@ class OrderProcessing extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: Card(
+                color: Theme.of(context).backgroundColor,
+                elevation: 6,
                 child: Column(
                   children: [
                     Row(
@@ -171,7 +205,8 @@ class OrderProcessing extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Card(
-                color: Theme.of(context).secondaryHeaderColor,
+                color: Theme.of(context).backgroundColor,
+                elevation: 6,
                 child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -237,7 +272,8 @@ class OrderProcessing extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Card(
-                color: Theme.of(context).secondaryHeaderColor,
+                color: Theme.of(context).backgroundColor,
+                elevation: 6,
                 child: Column(
                   children: [
                     Row(
@@ -278,25 +314,7 @@ class OrderProcessing extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
-                            child: Text(
-                              "Stripe Fee: ",
-                              style: Theme.of(context).textTheme.subtitle2,
-                            )
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
-                            child: Text(
-                              getStripeFee(),
-                              style: Theme.of(context).textTheme.subtitle2,
-                            )
-                        ),
-                      ],
-                    ),
+                    getFee(context),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
