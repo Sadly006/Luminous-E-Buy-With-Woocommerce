@@ -75,7 +75,11 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             IconButton(
-                              icon: const Icon(Icons.brightness_6),
+                              icon: Icon(
+                                Icons.brightness_6,
+                                color: Theme.of(context).accentColor,
+
+                              ),
                               onPressed: () {
                                 Provider.of<ThemeProvider>(context, listen: false).swapTheme();
                               },

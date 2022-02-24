@@ -205,19 +205,19 @@ class ProductFunction{
   }
 
   getProductColor(String color){
-    if(color == 'red'){
+    if(color.toLowerCase() == 'red'){
       return Colors.redAccent;
     }
-    else if(color == 'black'){
+    else if(color.toLowerCase() == 'black'){
       return Colors.black;
     }
-    else if(color == 'green'){
+    else if(color.toLowerCase() == 'green'){
       return Colors.green;
     }
-    else if(color == 'blue'){
+    else if(color.toLowerCase() == 'blue'){
       return Colors.blue;
     }
-    else if(color == 'white'){
+    else if(color.toLowerCase() == 'white'){
       return Colors.white;
     }
   }

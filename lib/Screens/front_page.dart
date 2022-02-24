@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
+import 'package:luminous_e_buy/Screens/my_cart2.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Screens/profile_overview.dart';
 import 'package:luminous_e_buy/Screens/wishlist.dart';
@@ -87,7 +88,7 @@ class _FrontPageState extends State<FrontPage> {
       return const HomePage();
     }
     else if(index == 1){
-      return const MyCart();
+      return const MyCart2();
     }
     else if(index == 0){
       return const CategoryList();

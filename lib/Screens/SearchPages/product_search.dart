@@ -99,9 +99,7 @@ class _ProductSearchState extends State<ProductSearch> {
     if(isLoading == true){
       return Container(
         color: Theme.of(context).scaffoldBackgroundColor,
-        child: Center(
-          child: Image.asset("assets/product.gif"),
-        ),
+        child: Image.asset("assets/product.gif"),
       );
     }
     else{
@@ -179,26 +177,28 @@ class _ProductSearchState extends State<ProductSearch> {
         ),
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: TextField(
-              controller: _text,
-              decoration: InputDecoration(
-                focusedBorder:UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: TextField(
+                controller: _text,
+                decoration: InputDecoration(
+                  focusedBorder:UnderlineInputBorder(
+                    borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
+                  ),
+                  labelText: 'Search',
                 ),
-                labelText: 'Search',
               ),
             ),
-          ),
-          const Padding(padding: EdgeInsets.all(5)),
-          SizedBox(
-            height: displayHeight(context)*0.75,
-            child: getResult(),
-          ),
-        ],
+            const Padding(padding: EdgeInsets.all(5)),
+            SizedBox(
+              height: displayHeight(context)*0.75,
+              child: getResult(),
+            ),
+          ],
+        ),
       ),
     );
   }

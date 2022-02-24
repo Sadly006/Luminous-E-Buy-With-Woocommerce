@@ -10,14 +10,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'select_address.dart';
 
-class MyCart extends StatefulWidget {
-  const MyCart({Key? key}) : super(key: key);
+class MyCart2 extends StatefulWidget {
+  const MyCart2({Key? key}) : super(key: key);
 
   @override
-  _MyCartState createState() => _MyCartState();
+  _MyCart2State createState() => _MyCart2State();
 }
 
-class _MyCartState extends State<MyCart> {
+class _MyCart2State extends State<MyCart2> {
 
   Map<dynamic, int> cartTapped = {};
   final coupon = TextEditingController();
@@ -389,155 +389,155 @@ class _MyCartState extends State<MyCart> {
       ),
       body: cartList.isEmpty
           ? SizedBox(
-        height: displayHeight(context)*1,
-        child: Center(child: Text("You have not added anything to your cart yet",
-          style: Theme.of(context).textTheme.subtitle1,
-        )),
-      )
+              height: displayHeight(context)*1,
+              child: Center(child: Text("You have not added anything to your cart yet",
+                style: Theme.of(context).textTheme.subtitle1,
+              )),
+            )
           : SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: displayHeight(context)*0.8,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).hoverColor,
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.elliptical(displayHeight(context), 150.0),
-                  ),
-                ),
-                child: _getCartList(),
-              ),
-              SizedBox(
-                height: displayHeight(context)*0.15,
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Text(
-                      //       "Have A Coupon?",
-                      //       style: TextStyle(
-                      //         fontSize: 18,
-                      //         fontWeight: FontWeight.w500,
-                      //         color: Theme.of(context).accentColor
-                      //       ),
-                      //     ),
-                      //     Row(
-                      //       mainAxisAlignment: MainAxisAlignment.start,
-                      //       children: [
-                      //         SizedBox(
-                      //           width: displayWidth(context)*0.2,
-                      //           height: 40,
-                      //           child: TextFormField(
-                      //             style: const TextStyle(color: Colors.black),
-                      //             controller: coupon,
-                      //             decoration: InputDecoration(
-                      //               filled: true,
-                      //               fillColor: Theme.of(context).backgroundColor,
-                      //               border: OutlineInputBorder(
-                      //                 borderRadius: BorderRadius.circular(10),
-                      //                 borderSide: BorderSide.none,
-                      //               ),
-                      //               label: 'Coupon',
-                      //             ),
-                      //           ),
-                      //         ),
-                      //         Icon(
-                      //           Icons.arrow_right,
-                      //           size: 40,
-                      //           color: Theme.of(context).accentColor,
-                      //         )
-                      //       ],
-                      //     )
-                      //   ],
-                      // ),
-                      // Padding(
-                      //   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: [
-                      //       Text(
-                      //         "SubTotal",
-                      //         style: TextStyle(
-                      //             color: Theme.of(context).accentColor,
-                      //             fontSize: 17,
-                      //         ),
-                      //       ),
-                      //       ProductFunction().totalCartPriceText(cartList, context),
-                      //     ],
-                      //   ),
-                      // ),
-                      // Padding(
-                      //   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: [
-                      //       Text(
-                      //         "Discount",
-                      //         style: TextStyle(
-                      //             color: Theme.of(context).accentColor,
-                      //             fontSize: 17,
-                      //         ),
-                      //       ),
-                      //       ProductFunction().totalCartPriceText(cartList, context),
-                      //     ],
-                      //   ),
-                      // ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Total",
-                              style: TextStyle(
-                                  color: Theme.of(context).accentColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold
-                              ),
-                            ),
-                            ProductFunction().totalCartPriceText(cartList, context),
-                          ],
-                        ),
+              child: Column(
+                children: [
+                  Container(
+                    height: displayHeight(context)*0.7,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).hoverColor,
+                      borderRadius: BorderRadius.vertical(
+                        bottom: Radius.elliptical(displayHeight(context), 150.0),
                       ),
-
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: SizedBox(
-                            height: 35,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: _getBtnClr(cartList),
+                    ),
+                    child: _getCartList(),
+                  ),
+                  SizedBox(
+                    height: displayHeight(context)*0.15,
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     Text(
+                          //       "Have A Coupon?",
+                          //       style: TextStyle(
+                          //         fontSize: 18,
+                          //         fontWeight: FontWeight.w500,
+                          //         color: Theme.of(context).accentColor
+                          //       ),
+                          //     ),
+                          //     Row(
+                          //       mainAxisAlignment: MainAxisAlignment.start,
+                          //       children: [
+                          //         SizedBox(
+                          //           width: displayWidth(context)*0.2,
+                          //           height: 40,
+                          //           child: TextFormField(
+                          //             style: const TextStyle(color: Colors.black),
+                          //             controller: coupon,
+                          //             decoration: InputDecoration(
+                          //               filled: true,
+                          //               fillColor: Theme.of(context).backgroundColor,
+                          //               border: OutlineInputBorder(
+                          //                 borderRadius: BorderRadius.circular(10),
+                          //                 borderSide: BorderSide.none,
+                          //               ),
+                          //               label: 'Coupon',
+                          //             ),
+                          //           ),
+                          //         ),
+                          //         Icon(
+                          //           Icons.arrow_right,
+                          //           size: 40,
+                          //           color: Theme.of(context).accentColor,
+                          //         )
+                          //       ],
+                          //     )
+                          //   ],
+                          // ),
+                          // Padding(
+                          //   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       Text(
+                          //         "SubTotal",
+                          //         style: TextStyle(
+                          //             color: Theme.of(context).accentColor,
+                          //             fontSize: 17,
+                          //         ),
+                          //       ),
+                          //       ProductFunction().totalCartPriceText(cartList, context),
+                          //     ],
+                          //   ),
+                          // ),
+                          // Padding(
+                          //   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       Text(
+                          //         "Discount",
+                          //         style: TextStyle(
+                          //             color: Theme.of(context).accentColor,
+                          //             fontSize: 17,
+                          //         ),
+                          //       ),
+                          //       ProductFunction().totalCartPriceText(cartList, context),
+                          //     ],
+                          //   ),
+                          // ),
+                          Padding(padding: EdgeInsets.all(5)),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Total",
+                                  style: TextStyle(
+                                      color: Theme.of(context).accentColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold
+                                  ),
                                 ),
-                                onPressed: () {
-                                  if(cartList.isNotEmpty){
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => SelectAddress(cost: ProductFunction().totalCartPrice(cartList, context),),
-                                        )
-                                    );
-                                  }
-                                },
-                                child: const Text(
-                                    "CheckOut"
-                                )
+                                ProductFunction().totalCartPriceText(cartList, context),
+                              ],
                             ),
                           ),
-                        ),
+
+                          Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: SizedBox(
+                                height: 35,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: _getBtnClr(cartList),
+                                    ),
+                                    onPressed: () {
+                                      if(cartList.isNotEmpty){
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => SelectAddress(cost: ProductFunction().totalCartPrice(cartList, context),),
+                                            )
+                                        );
+                                      }
+                                    },
+                                    child: const Text(
+                                        "CheckOut"
+                                    )
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  )
+                ],
               )
-            ],
-          )
-      ),
+            ),
 
       // persistentFooterButtons: <Widget>[
       //

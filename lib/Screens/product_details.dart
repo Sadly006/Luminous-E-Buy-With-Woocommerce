@@ -14,6 +14,7 @@ import '../Constant_Values/lists.dart';
 import '../Constant_Values/lists.dart';
 import 'Shop/shop_product_list.dart';
 import 'image_view.dart';
+import 'my_cart2.dart';
 
 class ProductDetails extends StatefulWidget {
   List<dynamic> productList2 = [];
@@ -185,22 +186,47 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   getImage(){
     if(widget.productList2[widget.index]["images"].length!=0){
-      return PhotoViewGallery.builder(
-        itemCount: widget.productList2[widget.index]["images"].length,
-        builder: (context, index) {
-          return PhotoViewGalleryPageOptions(
-            imageProvider: NetworkImage(
-              widget.productList2[widget.index]["images"][index]['src'],
+      return Stack(
+        children: [
+          PhotoViewGallery.builder(
+            itemCount: widget.productList2[widget.index]["images"].length,
+            builder: (context, index) {
+              return PhotoViewGalleryPageOptions(
+                imageProvider: NetworkImage(
+                  widget.productList2[widget.index]["images"][index]['src'],
+                ),
+                minScale: PhotoViewComputedScale.contained * 0.8,
+                maxScale: PhotoViewComputedScale.covered * 2,
+              );
+            },
+            scrollPhysics: const BouncingScrollPhysics(),
+            backgroundDecoration: BoxDecoration(
+              color: Theme.of(context).backgroundColor,
             ),
-            minScale: PhotoViewComputedScale.contained * 0.8,
-            maxScale: PhotoViewComputedScale.covered * 2,
-          );
-        },
-        scrollPhysics: const BouncingScrollPhysics(),
-        backgroundDecoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
-        ),
-        enableRotation: true,
+            enableRotation: true,
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyCart(),
+                      )
+                  );
+                },
+                child: Icon(
+                  Icons.shopping_cart_outlined,
+                  color: Theme.of(context).primaryColor,
+                  size: 40,
+                ),
+              ),
+            ),
+          )
+        ],
       );
     }
     else{
@@ -216,6 +242,169 @@ class _ProductDetailsState extends State<ProductDetails> {
     // TODO: implement initState
     super.initState();
     getSimilarProducts();
+  }
+
+  getAttribute(List attribute){
+    if(attribute.isNotEmpty){
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+            child: Text(
+              "Available "+ widget.productList2[widget.index]["attributes"][1]['name'].toString(),
+              style: TextStyle(
+                  color: Theme.of(context).accentColor
+              ),
+            ),
+          ),
+          Row(
+            children: [
+              for(int i=0; i<productSizeList.length; i++)
+                GestureDetector(
+                  onTap: (){
+                    selectedSize = i;
+                    setState(() {});
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Theme.of(context).primaryColor,
+                          // width: getSBorderWidth(i)
+                        ),
+                        color: ProductFunction().getSelectedSizeColor(i, context, selectedSize),
+                      ),
+                      height: 20,
+                      width: 50,
+                      child: Center(
+                        child: Text(
+                          widget.productList2[widget.index]["attributes"][1]['options'][i].toString(),
+                          style: TextStyle(
+                              color: Theme.of(context).accentColor
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            child: Text(
+              "Available " + widget.productList2[widget.index]["attributes"][0]['name'].toString(),
+              style: TextStyle(
+                  color: Theme.of(context).accentColor
+              ),
+            ),
+          ),
+          Row(
+            children: [
+              for(int i=0; i<widget.productList2[widget.index]["attributes"][0]['options'].length; i++)
+                GestureDetector(
+                  onTap: (){
+                    selectedColor = i;
+                    setState(() {});
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color: Theme.of(context).primaryColor,
+                            width: ProductFunction().getSelectedColorBorderWidth(i, selectedColor)
+                        ),
+                        color: ProductFunction().getProductColor(widget.productList2[widget.index]["attributes"][0]['options'][i].toString(),),
+                      ),
+                      height: 20,
+                      width: 20,
+                    ),
+                  ),
+                )
+            ],
+          ),
+        ],
+      );
+    }
+    else{
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            child: Text(
+              "Available Size",
+              style: TextStyle(
+                  color: Theme.of(context).accentColor
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: (){
+              selectedSize = 0;
+              setState(() {});
+            },
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Theme.of(context).primaryColor,
+                    // width: getSBorderWidth(i)
+                  ),
+                  color: ProductFunction().getSelectedSizeColor(0, context, selectedSize),
+                ),
+                height: 20,
+                width: 50,
+                child: Center(
+                  child: Text(
+                    "S",
+                    style: TextStyle(
+                        color: Theme.of(context).accentColor
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            child: Text(
+              "Available Colors",
+              style: TextStyle(
+                  color: Theme.of(context).accentColor
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: (){
+              selectedColor = 0;
+              setState(() {});
+            },
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      color: Theme.of(context).primaryColor,
+                      width: ProductFunction().getSelectedColorBorderWidth(0, selectedColor)
+                  ),
+                  color: ProductFunction().getProductColor('black'),
+                ),
+                height: 20,
+                width: 20,
+              ),
+            ),
+          )
+        ],
+      );
+    }
   }
 
   @override
@@ -338,88 +527,9 @@ class _ProductDetailsState extends State<ProductDetails> {
 
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                              child: Text(
-                                "Available Sizes",
-                                style: TextStyle(
-                                  color: Theme.of(context).accentColor
-                                ),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                for(int i=0; i<productSizeList.length; i++)
-                                  GestureDetector(
-                                    onTap: (){
-                                      selectedSize = i;
-                                      setState(() {});
-                                      },
-                                    child: Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: Theme.of(context).primaryColor,
-                                            // width: getSBorderWidth(i)
-                                          ),
-                                          color: ProductFunction().getSelectedSizeColor(i, context, selectedSize),
-                                        ),
-                                        height: 20,
-                                        width: 50,
-                                        child: Center(
-                                          child: Text(
-                                            productSizeList[i],
-                                            style: TextStyle(
-                                                color: Theme.of(context).accentColor
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                              child: Text(
-                                "Available Colors",
-                                style: TextStyle(
-                                    color: Theme.of(context).accentColor
-                                ),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                for(int i=0; i<productColorList.length; i++)
-                                  GestureDetector(
-                                    onTap: (){
-                                      selectedColor = i;
-                                      setState(() {});
-                                      },
-                                    child: Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: Theme.of(context).primaryColor,
-                                            width: ProductFunction().getSelectedColorBorderWidth(i, selectedColor)
-                                          ),
-                                          color: ProductFunction().getProductColor(productColorList[i].toString()),
-                                        ),
-                                        height: 20,
-                                        width: 20,
-                                      ),
-                                    ),
-                                  )
-                              ],
-                            ),
-                          ],
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: getAttribute(widget.productList2[widget.index]["attributes"]),
                         )
                       ),
 
@@ -556,13 +666,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       backgroundColor: Theme.of(context).primaryColor,
                     ),
                     onPressed: () {
-                      ProductFunction().addToCart(widget.productList2, widget.index, context, productSizeList[selectedSize], productColorList[selectedColor]);
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => MyCart(),
-                      //     )
-                      // );
+                      ProductFunction().addToCart(widget.productList2, widget.index, context, widget.productList2[widget.index]["attributes"][1][selectedSize], widget.productList2[widget.index]["attributes"][1][selectedColor]);
                     },
                     child: Center(
                       child: Row(
