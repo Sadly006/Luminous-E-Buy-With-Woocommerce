@@ -2,13 +2,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
-import 'package:luminous_e_buy/Services/product_functions.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:http/http.dart' as http;
 
-import '../Screens/front_page.dart';
+import 'order_redirect.dart';
 
 class StripePay {
 
@@ -16,7 +15,7 @@ class StripePay {
     List<Map<String, dynamic>> products = [];
     for(int i=0; i<cartList.length; i++){
       products.add({
-        "product_id": cartList[i][0]["id"],
+        "product_id": cartList[i][3],
         "quantity": cart[cartList[i].toString()]
       });
     }
@@ -48,7 +47,6 @@ class StripePay {
   }
 
   handlePayment(Map<String, dynamic> customerInfo, double cost, int addressId, BuildContext context) async {
-    print("cost: "+cost.toString());
     Map<String, dynamic> customer = await createUser(customerInfo);
     confirmPayment((cost*100).toInt(), customer, addressId, context);
   }
@@ -66,7 +64,6 @@ class StripePay {
           "email": customer["email"].toString(),
         }
     );
-    print(json.decode(response.body));
     return json.decode(response.body);
   }
 
@@ -99,8 +96,6 @@ class StripePay {
           "customer": customer["id"]
         }
     );
-    print(json.decode(response.body));
-    print(response.statusCode);
     if(response.statusCode == 200){
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String consKey = prefs.getString("consKey") as String;
@@ -114,16 +109,15 @@ class StripePay {
         "",
         postBody,
       );
-      cart.clear();
-      cartList.clear();
-      ProductFunction().setCartMemory();
-      Navigator.popUntil(context, ModalRoute.withName(''));
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>FrontPage(consKey: consKey, consSecret: consSecret,),
-          )
-      );
+      if(response1["data"] == null){
+        OrderServices().RedirectToConfirmationPage("200", context, "");
+      }
+      else{
+        OrderServices().RedirectToConfirmationPage("401", context, "Sorry, The Order Couldn't be Placed. Please Try Again");
+      }
+    }
+    else{
+      OrderServices().RedirectToConfirmationPage("401", context, "Sorry, The Transaction Was Not Complete. Please Try Again");
     }
   }
 }

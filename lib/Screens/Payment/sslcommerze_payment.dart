@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sslcommerz/model/SSLCCustomerInfoInitializer.dart';
 import 'package:flutter_sslcommerz/model/SSLCSdkType.dart';
 import 'package:flutter_sslcommerz/model/SSLCShipmentInfoInitializer.dart';
-import 'package:flutter_sslcommerz/model/SSLCTransactionInfoModel.dart';
 import 'package:flutter_sslcommerz/model/SSLCommerzInitialization.dart';
 import 'package:flutter_sslcommerz/model/SSLCurrencyType.dart';
 import 'package:flutter_sslcommerz/model/sslproductinitilizer/General.dart';
@@ -12,12 +11,9 @@ import 'package:flutter_sslcommerz/model/sslproductinitilizer/SSLCProductInitial
 import 'package:flutter_sslcommerz/sslcommerz.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
-import 'package:luminous_e_buy/Services/product_functions.dart';
-import 'package:luminous_e_buy/Services/stripe.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
-import 'package:luminous_e_buy/Services/toasts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'front_page.dart';
+import '../../Services/order_redirect.dart';
 
 class SSLCommerzePayment extends StatefulWidget {
   SSLCommerzePayment({Key? key, required this.cost, required this.addressId}) : super(key: key);
@@ -50,7 +46,7 @@ class _SSLCommerzePaymentState extends State<SSLCommerzePayment> {
     List<Map<String, dynamic>> products = [];
     for(int i=0; i<cartList.length; i++){
       products.add({
-        "product_id": cartList[i][0]["id"],
+        "product_id": cartList[i][3],
         "quantity": cart[cartList[i].toString()]
       });
     }
@@ -138,30 +134,20 @@ class _SSLCommerzePaymentState extends State<SSLCommerzePayment> {
     );
     var result = await sslcommerz.payNow();
     if (result is PlatformException) {
-      Toasts().paymentFailedToast(context);
-      print("the response is: " +
-          result.message.toString() +
-          " code: " +
-          result.code);
+      OrderServices().RedirectToConfirmationPage("401", context, "Sorry, The Transaction Was Not Complete. Please Try Again");
+
     } else {
-      print("worked!");
       await getPostBody();
       var response = await woocommerceAPI.postAsync(
         "",
         postBody,
       );
-      cart.clear();
-      cartList.clear();
-      ProductFunction().setCartMemory();
-      Navigator.popUntil(context, ModalRoute.withName(''));
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>FrontPage(consKey: consKey, consSecret: consSecret,),
-          )
-      );
-      Toasts().paymentSuccessToast(context);
-      SSLCTransactionInfoModel model = result;
+      if(response["data"] == null){
+        OrderServices().RedirectToConfirmationPage("200", context, "");
+      }
+      else{
+        OrderServices().RedirectToConfirmationPage("401", context, "Sorry, The Order Couldn't be Placed. Please Try Again");
+      }
     }
   }
 

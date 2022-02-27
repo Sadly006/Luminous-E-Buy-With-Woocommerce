@@ -60,7 +60,6 @@ class _SignUpState extends State<SignUp> {
             'confirm_password': confirmPassword.text.toString(),
           }
       );
-      print("res: "+response.body);
 
       if(response.body=="succeeded") {
 

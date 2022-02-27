@@ -1,25 +1,19 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screens/my_cart.dart';
 import 'package:luminous_e_buy/Services/product_functions.dart';
-import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Templates/product_tile.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../Constant_Values/lists.dart';
-import '../Constant_Values/lists.dart';
-import 'Shop/shop_product_list.dart';
 import 'image_view.dart';
-import 'my_cart2.dart';
 
 class ProductDetails extends StatefulWidget {
-  List<dynamic> productList2 = [];
+  List<dynamic> productList = [];
   int index = 0;
-  ProductDetails({Key? key, required this.productList2, required this.index}) : super(key: key);
+  ProductDetails({Key? key, required this.productList, required this.index}) : super(key: key);
 
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
@@ -76,44 +70,6 @@ class _ProductDetailsState extends State<ProductDetails> {
       ],
     );
 
-  }
-
-  productListing(){
-    // if(relatedProductList.length%2==0){
-    //   for(int i=0; i<(relatedProductList.length+1); ){
-    //     productListTemplate(i);
-    //     i+=2;
-    //   }
-    // }
-    // else{
-    //   for(int i=0; i<(relatedProductList.length-1); ){
-    //     productListTemplate(i);
-    //     i+=2;
-    // }
-    int j = relatedProductList.length-2;
-    return ProductTile(productList: relatedProductList, index: j, isLoading: isLoading);
-  }
-
-  getSimilarProducts() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    consKey = prefs.getString("consKey") as String;
-    consSecret = prefs.getString("consSecret") as String;
-    WoocommerceAPI woocommerceAPI = WoocommerceAPI(
-        url: API().productApi,
-        consumerKey: consKey,
-        consumerSecret: consSecret);
-    print(widget.productList2[widget.index]["related_ids"].length);
-    for(int i=0; i<widget.productList2[widget.index]["related_ids"].length; i++){
-      final response = await woocommerceAPI.getAsync("/"+(widget.productList2[widget.index]["related_ids"][i].toString()));
-      if(response.statusCode==200){
-        relatedProductList.add(response.body);
-      }
-      print(widget.productList2[widget.index]["related_ids"][i]);
-    }
-    setState(() {
-      isLoading = false;
-    });
-    print(relatedProductList.length);
   }
 
   _getContainer(List product, int index){
@@ -185,15 +141,15 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   getImage(){
-    if(widget.productList2[widget.index]["images"].length!=0){
+    if(widget.productList[widget.index]["images"].length!=0){
       return Stack(
         children: [
           PhotoViewGallery.builder(
-            itemCount: widget.productList2[widget.index]["images"].length,
+            itemCount: widget.productList[widget.index]["images"].length,
             builder: (context, index) {
               return PhotoViewGalleryPageOptions(
                 imageProvider: NetworkImage(
-                  widget.productList2[widget.index]["images"][index]['src'],
+                  widget.productList[widget.index]["images"][index]['src'],
                 ),
                 minScale: PhotoViewComputedScale.contained * 0.8,
                 maxScale: PhotoViewComputedScale.covered * 2,
@@ -208,13 +164,13 @@ class _ProductDetailsState extends State<ProductDetails> {
           Align(
             alignment: Alignment.topRight,
             child: Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: GestureDetector(
                 onTap: (){
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => MyCart(),
+                        builder: (context) => const MyCart(),
                       )
                   );
                 },
@@ -237,11 +193,13 @@ class _ProductDetailsState extends State<ProductDetails> {
     }
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getSimilarProducts();
+  addToCart(List attribute){
+    if(attribute.isEmpty){
+      ProductFunction().addToCart(widget.productList, widget.index, context, 'L', 'Black', 'false');
+    }
+    else{
+      ProductFunction().addToCart(widget.productList, widget.index, context, widget.productList[widget.index]["attributes"][1]["options"][selectedSize], widget.productList[widget.index]["attributes"][0]["options"][selectedColor], 'true');
+    }
   }
 
   getAttribute(List attribute){
@@ -252,7 +210,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
             child: Text(
-              "Available "+ widget.productList2[widget.index]["attributes"][1]['name'].toString(),
+              "Available "+ widget.productList[widget.index]["attributes"][1]['name'].toString(),
               style: TextStyle(
                   color: Theme.of(context).accentColor
               ),
@@ -260,14 +218,14 @@ class _ProductDetailsState extends State<ProductDetails> {
           ),
           Row(
             children: [
-              for(int i=0; i<productSizeList.length; i++)
+              for(int i=0; i<widget.productList[widget.index]["attributes"][1]['options'].length; i++)
                 GestureDetector(
                   onTap: (){
                     selectedSize = i;
                     setState(() {});
                   },
                   child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -281,7 +239,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       width: 50,
                       child: Center(
                         child: Text(
-                          widget.productList2[widget.index]["attributes"][1]['options'][i].toString(),
+                          widget.productList[widget.index]["attributes"][1]['options'][i].toString(),
                           style: TextStyle(
                               color: Theme.of(context).accentColor
                           ),
@@ -293,9 +251,9 @@ class _ProductDetailsState extends State<ProductDetails> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
             child: Text(
-              "Available " + widget.productList2[widget.index]["attributes"][0]['name'].toString(),
+              "Available " + widget.productList[widget.index]["attributes"][0]['name'].toString(),
               style: TextStyle(
                   color: Theme.of(context).accentColor
               ),
@@ -303,14 +261,14 @@ class _ProductDetailsState extends State<ProductDetails> {
           ),
           Row(
             children: [
-              for(int i=0; i<widget.productList2[widget.index]["attributes"][0]['options'].length; i++)
+              for(int i=0; i<widget.productList[widget.index]["attributes"][0]['options'].length; i++)
                 GestureDetector(
                   onTap: (){
                     selectedColor = i;
                     setState(() {});
                   },
                   child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -318,7 +276,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             color: Theme.of(context).primaryColor,
                             width: ProductFunction().getSelectedColorBorderWidth(i, selectedColor)
                         ),
-                        color: ProductFunction().getProductColor(widget.productList2[widget.index]["attributes"][0]['options'][i].toString(),),
+                        color: ProductFunction().getProductColor(widget.productList[widget.index]["attributes"][0]['options'][i].toString(),),
                       ),
                       height: 20,
                       width: 20,
@@ -335,7 +293,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
             child: Text(
               "Available Size",
               style: TextStyle(
@@ -349,7 +307,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               setState(() {});
             },
             child: Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -373,7 +331,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
             child: Text(
               "Available Colors",
               style: TextStyle(
@@ -387,7 +345,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               setState(() {});
             },
             child: Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -416,7 +374,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           backgroundColor: Theme.of(context).secondaryHeaderColor,
           centerTitle: true,
           title: Text(
-            widget.productList2[widget.index]["name"].toString(),
+            widget.productList[widget.index]["name"].toString(),
             style: const TextStyle(
               fontSize: 18
             ),
@@ -439,7 +397,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           );
                         },
                         openBuilder: (BuildContext _, VoidCallback closeContainer) {
-                          return ImageView(productList: widget.productList2, index: widget.index);
+                          return ImageView(productList: widget.productList, index: widget.index);
                         },
                         onClosed: (_) =>{},
                       ),
@@ -453,11 +411,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  _getContainer(widget.productList2, widget.index),
+                                  _getContainer(widget.productList, widget.index),
                                   SizedBox(
                                     width: displayWidth(context)*0.8,
                                     child: Text(
-                                      widget.productList2[widget.index]["name"].toString(),
+                                      widget.productList[widget.index]["name"].toString(),
                                       style: TextStyle(
                                         color: Theme.of(context).accentColor,
                                         fontSize: 15,
@@ -469,19 +427,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      ProductFunction().detailedPriceText(widget.productList2, widget.index, context),
-                                      getStock(widget.productList2[widget.index]["stock_status"]),
+                                      ProductFunction().detailedPriceText(widget.productList, widget.index, context),
+                                      getStock(widget.productList[widget.index]["stock_status"]),
                                     ],
                                   )
-                                  // Text(
-                                  //   "\$" + (widget.productList2[widget.index]["price"]).toString(),
-                                  //   style: TextStyle(
-                                  //     fontWeight: FontWeight.w700,
-                                  //     color: Theme.of(context).primaryColor,
-                                  //     //decoration: TextDecoration.lineThrough,
-                                  //     fontSize: 18,
-                                  //   ),
-                                  // )
                                   ],
                               ),
                             ),
@@ -529,7 +478,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: getAttribute(widget.productList2[widget.index]["attributes"]),
+                          child: getAttribute(widget.productList[widget.index]["attributes"]),
                         )
                       ),
 
@@ -584,7 +533,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   Padding(
                                     padding: const EdgeInsets.all(20),
                                     child: Text(
-                                      widget.productList2[widget.index]["short_description"].toString(),
+                                      widget.productList[widget.index]["short_description"].toString(),
                                       style: TextStyle(
                                           fontSize: 13,
                                           color: Theme.of(context).accentColor,
@@ -594,7 +543,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                                     child: Text(
-                                      widget.productList2[widget.index]["description"].toString(),
+                                      widget.productList[widget.index]["description"].toString(),
                                       style: TextStyle(
                                           fontSize: 13,
                                         color: Theme.of(context).accentColor,
@@ -639,14 +588,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                       side: BorderSide(width: 1.5, color: Theme.of(context).primaryColor),
                     ),
                     onPressed: () {
-                      ProductFunction().addToWList(widget.productList2, widget.index, context, setState);
+                      ProductFunction().addToWList(widget.productList, widget.index, context, setState);
                     },
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ProductFunction().getWIcon(widget.productList2, wishList, widget.index, context),
-                          Text(ProductFunction().getWText(widget.productList2, wishList, widget.index).toString(),
+                          ProductFunction().getWIcon(widget.productList, wishList, widget.index, context),
+                          Text(ProductFunction().getWText(widget.productList, wishList, widget.index).toString(),
                             style: TextStyle(
                               color: Theme.of(context).accentColor,
                             ),
@@ -666,7 +615,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       backgroundColor: Theme.of(context).primaryColor,
                     ),
                     onPressed: () {
-                      ProductFunction().addToCart(widget.productList2, widget.index, context, widget.productList2[widget.index]["attributes"][1][selectedSize], widget.productList2[widget.index]["attributes"][1][selectedColor]);
+                      addToCart(widget.productList[widget.index]["attributes"]);
                     },
                     child: Center(
                       child: Row(

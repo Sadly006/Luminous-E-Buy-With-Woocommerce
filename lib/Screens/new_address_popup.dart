@@ -191,7 +191,6 @@ class NewAddressPopUp{
                                 addressList.add({
                                   "id": addressList.length, "title": title.text, "first_name": firstName.text, "last_name": lastName.text, "email": email.text, "address": address.text, "city": city.text, "country": country.text, "contact_number": contactNumber.text
                                 });
-                                print(addressList);
                                 setState((){});
                               }
                             },

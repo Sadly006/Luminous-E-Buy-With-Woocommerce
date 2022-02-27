@@ -7,18 +7,18 @@ class ThemeProvider extends ChangeNotifier {
   ThemeData dark = ThemeData.dark().copyWith(
 
     primaryColor: const Color.fromRGBO(225, 99, 45, 1),
-    secondaryHeaderColor: const Color.fromRGBO(26, 19, 18, 1),
-    backgroundColor: const Color.fromRGBO(26, 19, 18, 1),
-    scaffoldBackgroundColor: const Color.fromRGBO(13, 8, 6, 1),
-
-    hoverColor: const Color.fromRGBO(30, 34, 34, 1),
+    secondaryHeaderColor: const Color.fromRGBO(34, 34, 34, 1),
+    backgroundColor: const Color.fromRGBO(20, 20, 20, 1),
+    hoverColor: const Color.fromRGBO(43, 42, 42, 1),
+    scaffoldBackgroundColor: const Color.fromRGBO(34, 34, 34, 1),
+    canvasColor: const Color.fromRGBO(43, 42, 42, 1),
     // cardColor: const Color.fromRGBO(31, 7, 1, 1),,
     accentColor: Colors.white70,
-    errorColor: Colors.black,
+    // errorColor: Colors.black,
     brightness: Brightness.dark,
 
     focusColor: Colors.blueGrey[900],
-    shadowColor: Colors.transparent,
+    shadowColor: const Color.fromRGBO(30, 34, 34, 1),
     appBarTheme: const AppBarTheme(
         color: Colors.black12
     ),
@@ -75,11 +75,11 @@ class ThemeProvider extends ChangeNotifier {
     // scaffoldBackgroundColor: Color.fromRGBO(227, 218, 242, 1),
 
     primaryColor: const Color.fromRGBO(238, 89, 33, 1),
-    hoverColor: Colors.white,
+    hoverColor: const Color.fromRGBO(238, 89, 33, 1),
     secondaryHeaderColor: const Color.fromRGBO(238, 89, 33, 1),
-    scaffoldBackgroundColor: const Color.fromRGBO(247, 224, 215, 1),
-    backgroundColor: const Color.fromRGBO(247, 224, 215, 1),
-
+    scaffoldBackgroundColor: const Color.fromRGBO(255, 251, 250, 1),
+    backgroundColor: const Color.fromRGBO(250, 239, 235, 1),
+    canvasColor: const Color.fromRGBO(250, 239, 235, 1),
     appBarTheme: const AppBarTheme(
       color: Colors.white
     ),

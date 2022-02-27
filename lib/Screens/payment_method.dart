@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/processing_order.dart';
-import 'package:luminous_e_buy/Screens/sslcommerze_payment.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,7 +31,6 @@ class _PaymentMethodsState extends State<PaymentMethods> {
         consumerKey: consKey,
         consumerSecret: consSecret);
     final response = await woocommerceAPI.getAsync("");
-    print(response.statusCode);
     if(response.statusCode == 200){
       allPaymentMethods = (json.decode(response.body));
       for(int i=0; i<allPaymentMethods.length; i++){

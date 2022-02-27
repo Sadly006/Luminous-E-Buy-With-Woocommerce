@@ -80,11 +80,11 @@ class _ProductListState extends State<ProductList> {
     if(endProduct == false){
       return SizedBox(
           height: 60,
-          child: Image.asset("assets/loader.gif", fit: BoxFit.fitHeight,)
+          child: Center(child: Image.asset("assets/loader.gif", fit: BoxFit.fitHeight,))
       );
     }
     else{
-      return Padding(padding: EdgeInsets.only(top: 1));
+      return const Padding(padding: EdgeInsets.only(top: 1));
     }
   }
 
@@ -132,7 +132,6 @@ class _ProductListState extends State<ProductList> {
         consumerKey: consKey,
         consumerSecret: consSecret);
     final response = await woocommerceAPI.getAsync("?page=$pageIndex");
-    print(response.statusCode);
     if(response.statusCode == 200){
       lazyList = (json.decode(response.body));
       for(int i=0; i<lazyList.length; i++){
@@ -157,7 +156,7 @@ class _ProductListState extends State<ProductList> {
       for(int i=0; i<lazyList.length; i++){
         productList.add(lazyList[i]);
       }
-      if(lazyList.length==0){
+      if(lazyList.isEmpty){
         setState(() {
           endProduct = true;
           fetchingMore = false;

@@ -1,4 +1,3 @@
-import 'dart:async';
 import "dart:collection";
 import 'dart:convert';
 import 'dart:io';
@@ -107,7 +106,6 @@ class WoocommerceAPI {
           "&oauth_signature=" +
           Uri.encodeQueryComponent(finalSignature);
     }
-    print(requestUrl);
     return requestUrl;
   }
 
@@ -128,7 +126,6 @@ class WoocommerceAPI {
   Future<dynamic> getAsync(String endPoint) async {
     String queryUrl = url+endPoint;
     final response = await http.get(Uri.parse(_getOAuthURL("GET", queryUrl)));
-    print(response.body);
     return response;
   }
 
@@ -144,8 +141,6 @@ class WoocommerceAPI {
     String response =
     await client.send(request).then((res) => res.stream.bytesToString());
     var dataResponse = await json.decode(response);
-    print("POST");
-    print(dataResponse);
     return dataResponse;
   }
 }

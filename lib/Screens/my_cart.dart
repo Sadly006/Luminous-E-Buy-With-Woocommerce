@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:animated_widgets/animated_widgets.dart';
@@ -6,7 +5,6 @@ import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/product_details.dart';
 import 'package:luminous_e_buy/Services/product_functions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'select_address.dart';
 
@@ -22,10 +20,6 @@ class _MyCartState extends State<MyCart> {
   Map<dynamic, int> cartTapped = {};
   final coupon = TextEditingController();
 
-  _removeFromCart(var x){
-    cartList.remove(x);
-    cart.remove(x);
-  }
   _getBtnClr(List cList){
     if(cList.isEmpty){
       return Colors.grey;
@@ -91,11 +85,7 @@ class _MyCartState extends State<MyCart> {
                       ? cart[cartList[index].toString()] = 1
                       : cart[cartList[index].toString()] = cart[cartList[index].toString()]-1;
                   ProductFunction().setCartMemory();
-                  setState(() {
-                    // ProductFunction().getCartNumber(cart[cartList[index]]!.toInt(), context);
-                    // ProductFunction().getCartPriceText(cart[cartList[index]]!.toDouble(), cartList, index, context);
-                    //_getPrice(cart[cartList[index]]!.toDouble(), cartList[index]['price'].toDouble());
-                  });
+                  setState(() {});
                 },
                 child: SizedBox(
                   height: 45,
@@ -120,9 +110,7 @@ class _MyCartState extends State<MyCart> {
                 onTap: () {
                   cart[cartList[index].toString()] = cart[cartList[index].toString()]+1;
                   ProductFunction().setCartMemory();
-                  setState(() {
-                    // ProductFunction().getCartNumber(cart[cartList[index]]!.toInt(), context);
-                  });
+                  setState(() {});
                 },
                 child: SizedBox(
                   height: 45,
@@ -207,7 +195,6 @@ class _MyCartState extends State<MyCart> {
                   setState(() {
                     cartList.removeAt(index);
                     ProductFunction().removeFromCart(index);
-                    // _removeFromCart(index);
                   });
                 },
                 child: Card(
@@ -218,7 +205,7 @@ class _MyCartState extends State<MyCart> {
                   ),
                   elevation: 5,
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 5, 5, 20),
+                    padding: const EdgeInsets.fromLTRB(5, 5, 5, 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,7 +220,7 @@ class _MyCartState extends State<MyCart> {
                                   List<dynamic> product = cartList[index];
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => ProductDetails(productList2: product, index: 0)),
+                                    MaterialPageRoute(builder: (context) => ProductDetails(productList: product, index: 0)),
                                   );
                                 },
                                 child: Container(
@@ -278,7 +265,7 @@ class _MyCartState extends State<MyCart> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.all(5),
+                                      padding: const EdgeInsets.all(5),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
@@ -374,6 +361,7 @@ class _MyCartState extends State<MyCart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         // toolbarHeight: MediaQuery.of(context).size.height/8,
@@ -388,19 +376,25 @@ class _MyCartState extends State<MyCart> {
         ),
       ),
       body: cartList.isEmpty
-          ? SizedBox(
-        height: displayHeight(context)*1,
-        child: Center(child: Text("You have not added anything to your cart yet",
-          style: Theme.of(context).textTheme.subtitle1,
-        )),
-      )
+          ? Container(
+              height: displayHeight(context)*0.7,
+              decoration: BoxDecoration(
+                color: Theme.of(context).backgroundColor,
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.elliptical(displayHeight(context), 150.0),
+                ),
+              ),
+              child: Center(child: Text("You have not added anything to your cart yet",
+                style: Theme.of(context).textTheme.subtitle1,
+              )),
+            )
           : SingleChildScrollView(
           child: Column(
             children: [
               Container(
-                height: displayHeight(context)*0.8,
+                height: displayHeight(context)*0.75,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).hoverColor,
+                  color: Theme.of(context).canvasColor,
                   borderRadius: BorderRadius.vertical(
                     bottom: Radius.elliptical(displayHeight(context), 150.0),
                   ),
@@ -410,7 +404,7 @@ class _MyCartState extends State<MyCart> {
               SizedBox(
                 height: displayHeight(context)*0.15,
                 child: Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     children: [
                       // Row(
@@ -485,9 +479,9 @@ class _MyCartState extends State<MyCart> {
                       //     ],
                       //   ),
                       // ),
-                      Padding(padding: EdgeInsets.all(5)),
+                      const Padding(padding: EdgeInsets.all(5)),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
+                        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -505,7 +499,7 @@ class _MyCartState extends State<MyCart> {
                       ),
 
                       Padding(
-                        padding: EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(top: 10),
                         child: Align(
                           alignment: Alignment.bottomRight,
                           child: SizedBox(

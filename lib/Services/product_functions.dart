@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Services/toasts.dart';
+import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../APIs/apis.dart';
 
 class ProductFunction{
   getPriceText(List product, int index, BuildContext context) {
@@ -134,7 +137,6 @@ class ProductFunction{
     for(int i=0; i<cartList.length; i++){
       total = total + getCartPrice(cart[cartList[i].toString()]!.toDouble(), cartList, i, context);
     }
-    print("Total: "+total.toString());
     return total;
   }
 
@@ -226,16 +228,18 @@ class ProductFunction{
     if(index == selectedSize){
       return Theme.of(context).canvasColor;
     }
-    else
+    else {
       return Theme.of(context).scaffoldBackgroundColor;
+    }
   }
 
   getSelectedColorBorderWidth(int index, int selectedColor){
     if(index == selectedColor){
       return 3.toDouble();
     }
-    else
+    else {
       return 1.toDouble();
+    }
   }
 
   setCartMemory() async {
@@ -252,45 +256,32 @@ class ProductFunction{
     setCartMemory();
   }
 
-  // addToCart(List product, int index, BuildContext context, String size, String color) async {
-  //   int c=0;
-  //   final pref = await SharedPreferences.getInstance();
-  //   if(pref.getString('token') == null) {
-  //     Toasts().cartFailedToast(context);
-  //   }
-  //
-  //   else if(pref.getString('token') != null) {
-  //     List<dynamic> productDetails = [product[index], size, color];
-  //     for(int i=0; i<cartList.length; i++){
-  //       if(cartList[i]['id']==product[index]['id']){
-  //         cart[cartList[i]["id"].toString()] = cart[cartList[i]["id"].toString()]! + 1;
-  //         c++;
-  //         break;
-  //       }
-  //     }
-  //     if(c==0){
-  //       cartList.add(product[index]);
-  //       cart.putIfAbsent(product[index]["id"].toString(), () => 1);
-  //       cart[product[index]["id"].toString()]=1;
-  //     }
-  //     setCartMemory();
-  //     Toasts().cartSuccessToast(context);
-  //   }
-  // }
-
-  addToCart(List product, int index, BuildContext context, String size, String color) async {
+  addToCart(List product, int index, BuildContext context, String size, String color, String variant) async {
     int c=0;
-    final pref = await SharedPreferences.getInstance();
-    if(pref.getString('token') == null) {
+    String variantID;
+    final prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('token') == null) {
       Toasts().cartFailedToast(context);
     }
 
-    else if(pref.getString('token') != null) {
-      List<dynamic> productDetails = [product[index], size, color];
-      print(productDetails[1]);
+    else if(prefs.getString('token') != null) {
+      if(variant == "true"){
+        String consKey = prefs.getString("consKey") as String;
+        String consSecret = prefs.getString("consSecret") as String;
+        WoocommerceAPI woocommerceAPI = WoocommerceAPI(
+            url: API().variantIDAPI,
+            consumerKey: consKey,
+            consumerSecret: consSecret);
+        String slug = "slug="+(product[index]["slug"].toString()+"-"+size+"-"+color).toLowerCase();
+        final response = await woocommerceAPI.getAsync("?$slug");
+        variantID = json.decode(response.body);
+      }
+      else{
+        variantID = product[index]["id"].toString();
+      }
+      List<dynamic> productDetails = [product[index], size, color, variantID];
       for(int i=0; i<cartList.length; i++){
-        if(cartList[i].toString()==productDetails.toString()){
-          print("Exists");
+        if(cartList[i][0]['id']==productDetails[0]['id'] && cartList[i][1]==size && cartList[i][2]==color && cartList[i][3]==variantID){
           cart[cartList[i].toString()] = cart[cartList[i].toString()]! + 1;
           c++;
           break;
@@ -304,7 +295,6 @@ class ProductFunction{
       setCartMemory();
       Toasts().cartSuccessToast(context);
     }
-    print("cartLength:" + cartList.length.toString());
   }
 
   addToWList(List product, int index, BuildContext context, Function setState) async {

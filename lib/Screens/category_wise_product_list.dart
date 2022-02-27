@@ -9,8 +9,9 @@ import 'package:luminous_e_buy/Templates/product_tile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoryProductList extends StatefulWidget {
-  CategoryProductList({Key? key, required this.categoryID}) : super(key: key);
+  CategoryProductList({Key? key, required this.categoryID, required this.categoryName}) : super(key: key);
   String categoryID;
+  String categoryName;
 
   @override
   _CategoryProductListState createState() => _CategoryProductListState();
@@ -18,21 +19,11 @@ class CategoryProductList extends StatefulWidget {
 
 class _CategoryProductListState extends State<CategoryProductList> {
 
-
-
-  getAppBarHeight(){
-    AppBar appBar = AppBar(
-      centerTitle: true,
-      title: const Text("All Products"),
-    );
-    return appBar.preferredSize.height;
-  }
-
   getAppBar(){
     return AppBar(
       backgroundColor: Theme.of(context).secondaryHeaderColor,
       centerTitle: true,
-      title: const Text("All Products"),
+      title: Text(widget.categoryName),
     );
   }
 
@@ -59,15 +50,6 @@ class _CategoryProductListState extends State<CategoryProductList> {
   late String consKey;
   late String consSecret;
 
-  getHeight(){
-    if(fetchingMore==false) {
-      return displayHeight(context)-(getAppBarHeight()+41);
-    }
-    else{
-      return displayHeight(context)-(getAppBarHeight()+70);
-    }
-  }
-
   getLength(){
     if(categoryProductList.isEmpty){
       return 50;
@@ -81,11 +63,11 @@ class _CategoryProductListState extends State<CategoryProductList> {
     if(endProduct == false){
       return SizedBox(
           height: 60,
-          child: Image.asset("assets/loader.gif", fit: BoxFit.fitHeight,)
+          child: Center(child: Image.asset("assets/loader.gif", fit: BoxFit.fitHeight,))
       );
     }
     else{
-      return Padding(padding: EdgeInsets.only(top: 1));
+      return const Padding(padding: EdgeInsets.only(top: 1));
     }
   }
 
@@ -134,7 +116,6 @@ class _CategoryProductListState extends State<CategoryProductList> {
         consumerKey: consKey,
         consumerSecret: consSecret);
     final response = await woocommerceAPI.getAsync("?category="+widget.categoryID);
-    print(response.statusCode);
     if(response.statusCode == 200){
       lazyList = (json.decode(response.body));
       for(int i=0; i<lazyList.length; i++){
@@ -159,7 +140,7 @@ class _CategoryProductListState extends State<CategoryProductList> {
       for(int i=0; i<lazyList.length; i++){
         productList.add(lazyList[i]);
       }
-      if(lazyList.length==0){
+      if(lazyList.isEmpty){
         setState(() {
           endProduct = true;
           fetchingMore = false;
@@ -193,7 +174,6 @@ class _CategoryProductListState extends State<CategoryProductList> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _controller.dispose();
   }
@@ -203,7 +183,6 @@ class _CategoryProductListState extends State<CategoryProductList> {
     return Scaffold(
       appBar: getAppBar(),
       body: productListTemplate(categoryProductList),
-      //body: productListBody()
     );
   }
 }

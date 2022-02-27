@@ -103,7 +103,7 @@ class _ProductTileState extends State<ProductTile> {
     else{
       return OpenContainer(
         closedShape: const RoundedRectangleBorder(
-          borderRadius:  BorderRadius.all(Radius.circular(10)),),
+          borderRadius:  BorderRadius.all(Radius.circular(7)),),
         closedElevation: 6,
         closedColor: Theme.of(context).scaffoldBackgroundColor,
         transitionType: ContainerTransitionType.fadeThrough,
@@ -113,7 +113,7 @@ class _ProductTileState extends State<ProductTile> {
                 decoration: BoxDecoration(
                   color: Theme.of(context).backgroundColor,
                   shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(7),
                 ),
                 height: 300,
                 width: displayWidth(context) * 0.46,
@@ -125,7 +125,7 @@ class _ProductTileState extends State<ProductTile> {
                       decoration: BoxDecoration(
                         color: Theme.of(context).scaffoldBackgroundColor,
                         shape: BoxShape.rectangle,
-                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(7), topRight: Radius.circular(7)),
                           image: getImage(),
                       ),
                       child: Row(
@@ -176,9 +176,9 @@ class _ProductTileState extends State<ProductTile> {
           );
         },
         openBuilder: (BuildContext _, VoidCallback closeContainer) {
-          return ProductDetails(productList2: widget.productList, index: widget.index);
+          return ProductDetails(productList: widget.productList, index: widget.index);
         },
-        onClosed: (_) => print('Closed'),
+        onClosed: (_) => {},
       );
     }
   }
@@ -195,7 +195,7 @@ class _ProductTileState extends State<ProductTile> {
           width: 40,
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
-            borderRadius: const BorderRadius.only(bottomRight: Radius.circular(10), topLeft: Radius.circular(10)),
+            borderRadius: const BorderRadius.only(bottomRight: Radius.circular(7), topLeft: Radius.circular(7)),
           ),
           child: const Center(child: Text("Sale")),
         ),

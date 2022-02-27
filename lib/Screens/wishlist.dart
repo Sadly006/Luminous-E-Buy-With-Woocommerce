@@ -4,6 +4,8 @@ import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/product_details.dart';
 
+import '../Templates/product_tile.dart';
+
 class WishList extends StatefulWidget {
   const WishList({Key? key}) : super(key: key);
 
@@ -104,91 +106,101 @@ class _WishListState extends State<WishList> {
     double itemWidth = displayWidth(context) / 2;
     double itemHeight = 300;
 
-    return SizedBox(
-      height: displayHeight(context) * 1,
-      width: displayWidth(context) * 1,
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: (itemWidth / itemHeight),
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: Container(
+        height: displayHeight(context)*0.8,
+        decoration: BoxDecoration(
+          color: Theme.of(context).canvasColor,
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.elliptical(displayHeight(context), 150.0),
+          ),
         ),
-        itemCount: wishList.length,
-        itemBuilder: (BuildContext context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 1),
-            child: OpenContainer(
-              closedElevation: 6,
-              transitionType: ContainerTransitionType.fadeThrough,
-              closedBuilder: (BuildContext _, VoidCallback openContainer) {
-                return GestureDetector(
-                  child: Container(
-                      color: Theme.of(context).backgroundColor,
-                      height: 300,
-                      width: displayWidth(context) * 0.49,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                              height: 200,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(4.0), topRight: Radius.circular(4.0)),
-                                  image: getImage(index),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Align(
-                                      alignment: Alignment.topRight,
-                                      child: _getContainer(wishList, index)
-                                  ),
-                                  Align(
-                                    alignment: Alignment.topLeft,
-                                    child: IconButton(
-                                      onPressed: () {
-                                        wishList.remove(wishList[index]);
-                                        setState(() {});
-                                      },
-                                      icon: const Icon(Icons.favorite_border, color: Colors.red,),
+        child: GridView.builder(
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: (itemWidth / itemHeight),
+            ),
+            itemCount: wishList.length,
+            itemBuilder: (BuildContext context, index) {
+              return Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: OpenContainer(
+                    closedElevation: 6,
+                    closedColor: Theme.of(context).canvasColor,
+                    transitionType: ContainerTransitionType.fadeThrough,
+                    closedBuilder: (BuildContext _, VoidCallback openContainer) {
+                      return GestureDetector(
+                        child: Container(
+                            color: Theme.of(context).backgroundColor,
+                            height: 300,
+                            width: displayWidth(context) * 0.49,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                    height: 200,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(4.0), topRight: Radius.circular(4.0)),
+                                      image: getImage(index),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Align(
+                                            alignment: Alignment.topRight,
+                                            child: _getContainer(wishList, index)
+                                        ),
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: IconButton(
+                                            onPressed: () {
+                                              wishList.remove(wishList[index]);
+                                              setState(() {});
+                                            },
+                                            icon: const Icon(Icons.favorite_border, color: Colors.red,),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Text(
+                                    textShortener(wishList[index]["name"].toString()),
+                                    style: TextStyle(
+                                        color: Theme.of(context).accentColor,
+                                        fontSize: 18
                                     ),
                                   ),
-                                ],
-                              )
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(
-                              textShortener(wishList[index]["name"].toString()),
-                              style: TextStyle(
-                                  color: Theme.of(context).accentColor,
-                                  fontSize: 18
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                            child: Text(
-                              "BDT " + wishList[index]["price"].toString(),
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                                  child: Text(
+                                    "BDT " + wishList[index]["price"].toString(),
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                        ),
+                        onTap: openContainer,
+                      );
+                    },
+                    openBuilder: (BuildContext _, VoidCallback closeContainer) {
+                      return ProductDetails(productList: wishList, index: index);
+                    },
+                    onClosed: (_) => print('Closed'),
                   ),
-                  onTap: openContainer,
-                );
-              },
-              openBuilder: (BuildContext _, VoidCallback closeContainer) {
-                return ProductDetails(productList2: wishList, index: index);
-              },
-              onClosed: (_) => print('Closed'),
-            ),
-          );
-        }
+              );
+            }
+        ),
       ),
     );
   }
@@ -204,11 +216,18 @@ class _WishListState extends State<WishList> {
         ),
       ),
       body: wishList.isEmpty
-          ? SizedBox(
-              height: displayHeight(context)*1,
-              child: Center(child: Text("You have not wished anything yet",
-          style: Theme.of(context).textTheme.subtitle1,)),
-          )
+          ? Container(
+              height: displayHeight(context)*0.7,
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.elliptical(displayHeight(context), 150.0),
+                ),
+              ),
+              child: Center(child: Text("You have not added anything to your cart yet",
+                style: Theme.of(context).textTheme.subtitle1,
+              )),
+            )
           : _getWishList(),
     );
   }

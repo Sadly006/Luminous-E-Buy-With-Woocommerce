@@ -78,7 +78,6 @@ class _TrackOrderState extends State<TrackOrder> {
       Map<String, dynamic> product = json.decode(response.body);
       previousOrderProductList.add(product);
     }
-    print(previousOrderProductList);
     setState(() {
       isLoading = false;
     });

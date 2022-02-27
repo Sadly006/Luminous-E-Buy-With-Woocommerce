@@ -31,6 +31,13 @@ class _ProductSearchState extends State<ProductSearch> {
     _text.addListener(searchSuggestion);
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _text.dispose();
+  }
+
   void searchSuggestion() async {
     text2 = _text.text;
     if(text2 != text1 && text2.length>=2){
@@ -125,7 +132,7 @@ class _ProductSearchState extends State<ProductSearch> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ProductDetails(productList2: searchResult, index: index)
+                            builder: (context) => ProductDetails(productList: searchResult, index: index)
                         )
                     );
                   },

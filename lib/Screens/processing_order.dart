@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screens/Payment/stripe_payment.dart';
-import 'package:luminous_e_buy/Screens/sslcommerze_payment.dart';
+import 'package:luminous_e_buy/Screens/Payment/sslcommerze_payment.dart';
 import 'package:luminous_e_buy/Services/product_functions.dart';
 import 'package:luminous_e_buy/Services/woocommerce_api_call.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'front_page.dart';
+import '../Services/order_redirect.dart';
 
 class OrderProcessing extends StatelessWidget {
   OrderProcessing({Key? key, required this.selectedAddress, required this.cost, required this.paymentMethod}) : super(key: key);
@@ -80,7 +80,7 @@ class OrderProcessing extends StatelessWidget {
       );
     }
     else{
-      return SizedBox(height: 0,);
+      return const SizedBox(height: 0,);
     }
   }
 
@@ -88,7 +88,7 @@ class OrderProcessing extends StatelessWidget {
     List<Map<String, dynamic>> products = [];
     for(int i=0; i<cartList.length; i++){
       products.add({
-        "product_id": cartList[i][0]["id"],
+        "product_id": cartList[i][3],
         "quantity": cart[cartList[i].toString()]
       });
     }
@@ -381,20 +381,17 @@ class OrderProcessing extends StatelessWidget {
                           consumerKey: consKey,
                           consumerSecret: consSecret);
                       getPostBody();
-                      cart.clear();
-                      cartList.clear();
-                      Navigator.popUntil(context, ModalRoute.withName(''));
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>FrontPage(consKey: consKey, consSecret: consSecret,),
-                          )
-                      );
                       ProductFunction().setCartMemory();
                       var response = await woocommerceAPI.postAsync(
                         "",
                         postBody,
                       );
+                      if(response["data"] == null){
+                        OrderServices().RedirectToConfirmationPage("200", context, "");
+                      }
+                      else{
+                        OrderServices().RedirectToConfirmationPage("401", context, "Sorry, The Order Couldn't be Placed. Please Try Again");
+                      }
                     }
                   }
                 },

@@ -1,7 +1,5 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
@@ -13,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Authentications/sign_in.dart';
 import 'categories.dart';
 import 'home_page.dart';
-import 'my_cart.dart';
 
 class FrontPage extends StatefulWidget {
   FrontPage({Key? key, required this.consKey, required this.consSecret}) : super(key: key);

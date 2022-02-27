@@ -40,7 +40,6 @@ class _OrderHistoryState extends State<OrderHistory> {
 
     if(response.statusCode == 200){
       orderList = json.decode(response.body);
-      print(orderList.length);
       setState(() {
         isLoading = false;
       });

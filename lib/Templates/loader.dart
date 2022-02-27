@@ -56,8 +56,6 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
       colorAnimations.add(animation);
     }
 
-    print(colorAnimations.length);
-
     tweenIndex = 0;
 
     timer = Timer.periodic(duration, (Timer t) {
@@ -71,12 +69,10 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: CircularProgressIndicator(
-          strokeWidth: 5.0,
-          valueColor: colorAnimations[tweenIndex],
-        ),
+    return Center(
+      child: CircularProgressIndicator(
+        strokeWidth: 5.0,
+        valueColor: colorAnimations[tweenIndex],
       ),
     );
   }

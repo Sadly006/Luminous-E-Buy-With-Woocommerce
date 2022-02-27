@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/category_wise_product_list.dart';
-import 'package:luminous_e_buy/Screens/product_list.dart';
 import 'SearchPages/category_search.dart';
 
 class CategoryList extends StatefulWidget {
@@ -58,7 +57,7 @@ class _CategoryListState extends State<CategoryList> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CategoryProductList(categoryID: categoryList[index]['id'].toString()),
+                        builder: (context) => CategoryProductList(categoryID: categoryList[index]['id'].toString(), categoryName: categoryList[index]['title']),
                       )
                     );
                   },

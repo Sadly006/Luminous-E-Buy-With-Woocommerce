@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Providers/theme_provider.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
-import 'package:luminous_e_buy/Screens/product_list.dart';
 import 'package:luminous_e_buy/Templates/sample_listing_template.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -33,7 +32,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: Container(
+                      child: SizedBox(
                         //color: Theme.of(context).primaryColor,
                         width: displayWidth(context)*1,
                         child: Row(
@@ -69,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                                       );
                                     },
                                     openBuilder: (BuildContext context, VoidCallback closeContainer) {
-                                      return ProductSearch();
+                                      return const ProductSearch();
                                     }
                                 ),
                               ),
@@ -144,10 +143,6 @@ class _HomePageState extends State<HomePage> {
                                 color: Theme.of(context).primaryColor
                               ),
                             ),
-                            // const Icon(
-                            //   Icons.arrow_right,
-                            //   size: 40,
-                            // ),
                           ],
                         ),
                       ),
@@ -165,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => CategoryProductList(categoryID: categoryList[index]['id'].toString()),
+                                    builder: (context) => CategoryProductList(categoryID: categoryList[index]['id'].toString(), categoryName: categoryList[index]['title'],),
                                   )
                               );
                             },
@@ -187,11 +182,11 @@ class _HomePageState extends State<HomePage> {
                           )
                       ),
                     ),
-                    Padding(padding: EdgeInsets.all(10)),
+                    const Padding(padding: EdgeInsets.all(10)),
                     SampleListing(sampleProductList: newArrival, catName: "New Arrival"),
-                    Padding(padding: EdgeInsets.all(10)),
+                    const Padding(padding: EdgeInsets.all(10)),
                     SampleListing(sampleProductList: topPicks, catName: "Top Picks"),
-                    Padding(padding: EdgeInsets.all(10)),
+                    const Padding(padding: EdgeInsets.all(10)),
 
                     SampleListing(sampleProductList: forYou, catName: "For You"),
                   ],

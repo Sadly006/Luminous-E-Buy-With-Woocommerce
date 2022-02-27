@@ -29,8 +29,6 @@ class _SignInState extends State<SignIn> {
   }
 
   _validator() async {
-    print(userName.text.toString());
-    print(password.text.toString());
 
     final response = await http.post(
         Uri.parse(API().signInApi),
@@ -272,11 +270,12 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
               const Padding(padding: EdgeInsets.all(10)),
-              const Padding(padding: EdgeInsets.all(10),
+              Padding(padding: const EdgeInsets.all(10),
                 child: Center(
                   child: Text(
                     "Sign In with,",
                     style: TextStyle(
+                      color: Theme.of(context).accentColor,
                         fontWeight: FontWeight.bold
                     ),
                   ),

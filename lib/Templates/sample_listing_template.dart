@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
-import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/product_list.dart';
 import 'package:luminous_e_buy/Templates/product_tile.dart';
 
@@ -50,7 +49,7 @@ class _SampleListingState extends State<SampleListing> {
                     );
                   },
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
                     child: Text(
                       "Show More",
                       style: TextStyle( //show more
@@ -66,7 +65,7 @@ class _SampleListingState extends State<SampleListing> {
           ],
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -75,9 +74,9 @@ class _SampleListingState extends State<SampleListing> {
             ],
           ),
         ),
-        Padding(padding: EdgeInsets.only(top: 12)),
+        const Padding(padding: EdgeInsets.only(top: 12)),
         Padding(
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
