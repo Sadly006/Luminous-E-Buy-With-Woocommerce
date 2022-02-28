@@ -6,6 +6,7 @@ List<dynamic> relatedProductList = [];
 List<dynamic> newArrival = [];
 List<dynamic> topPicks = [];
 List<dynamic> forYou = [];
+Map<String, dynamic> paymentHistory = {};
 
 List<dynamic> pList = [];
 

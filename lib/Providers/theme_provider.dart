@@ -79,7 +79,7 @@ class ThemeProvider extends ChangeNotifier {
     secondaryHeaderColor: const Color.fromRGBO(238, 89, 33, 1),
     scaffoldBackgroundColor: const Color.fromRGBO(255, 251, 250, 1),
     backgroundColor: const Color.fromRGBO(250, 239, 235, 1),
-    canvasColor: const Color.fromRGBO(250, 239, 235, 1),
+    canvasColor: const Color.fromRGBO(232, 196, 183, 1),
     appBarTheme: const AppBarTheme(
       color: Colors.white
     ),

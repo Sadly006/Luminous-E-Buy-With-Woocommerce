@@ -226,7 +226,7 @@ class ProductFunction{
 
   getSelectedSizeColor(int index, BuildContext context, int selectedSize){
     if(index == selectedSize){
-      return Theme.of(context).canvasColor;
+      return Theme.of(context).backgroundColor;
     }
     else {
       return Theme.of(context).scaffoldBackgroundColor;

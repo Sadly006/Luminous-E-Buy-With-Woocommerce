@@ -45,10 +45,10 @@ class _TrackOrderState extends State<TrackOrder> {
       return Colors.green;
     }
     else if(status == "pending"){
-      return Colors.deepOrange;
+      return Colors.grey;
     }
     else if(status == "on-hold"){
-      return Colors.grey;
+      return Colors.deepOrange;
     }
     else if(status == "completed"){
       return Colors.blueAccent;
@@ -60,7 +60,31 @@ class _TrackOrderState extends State<TrackOrder> {
       return Colors.deepPurple;
     }
     else if(status == "failed"){
-      return Colors.yellow;
+      return Colors.redAccent;
+    }
+  }
+
+  getCircleColor(String status){
+    if(status == "processing"){
+      return Colors.grey;
+    }
+    else if(status == "pending"){
+      return Colors.deepOrange;
+    }
+    else if(status == "on-hold"){
+      return Colors.grey;
+    }
+    else if(status == "completed"){
+      return Colors.green;
+    }
+    else if(status == "cancelled"){
+      return Colors.redAccent;
+    }
+    else if(status == "refunded"){
+      return Colors.deepPurple;
+    }
+    else if(status == "failed"){
+      return Colors.redAccent;
     }
   }
 
@@ -89,7 +113,7 @@ class _TrackOrderState extends State<TrackOrder> {
     getProduct();
   }
 
-  getTimeLineColor(String date){
+  getTimeLineColor(String date,){
     if(date == "null"){
       return Colors.grey;
     }
@@ -114,6 +138,42 @@ class _TrackOrderState extends State<TrackOrder> {
         ),
       );
     }
+  }
+
+  getLastStat(String stat){
+    if(stat == "on-hold"){
+      return "On Hold";
+    }
+    else if(stat == "cancelled"){
+      return "Cancelled";
+    }
+    else if(stat == "failed"){
+      return "Failed";
+    }
+    else if(stat == 'pending'){
+      return "Pending";
+    }
+    else{
+      return "Delivered";
+    }
+  }
+
+  getLineColor(){
+    List<dynamic> color = [];
+    if(orderList[widget.id]["status"]=="processing"){
+      color.add(Colors.grey);
+    }
+    else{
+      color.add(getCircleColor(orderList[widget.id]["status"]));
+    }
+    if(orderList[widget.id]["date_modified"].toString()!="null"){
+      color.add(Colors.green);
+    }
+    else{
+      color.add(Colors.grey);
+    }
+    color.add(Colors.green);
+    return color;
   }
 
   @override
@@ -329,12 +389,11 @@ class _TrackOrderState extends State<TrackOrder> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Delivered",
+                                getLastStat(orderList[widget.id]["status"]),
                                 style: TextStyle(
                                     color: Theme.of(context).accentColor
                                 ),
                               ),
-                              getTimeLineDate(orderList[widget.id]["date_completed"].toString())
                             ],
                           ),
                         ),
@@ -353,7 +412,6 @@ class _TrackOrderState extends State<TrackOrder> {
                                     color: Theme.of(context).accentColor
                                 ),
                               ),
-                              getTimeLineDate(orderList[widget.id]["date_modified"].toString())
                             ],
                           ),
                         ),
@@ -381,7 +439,7 @@ class _TrackOrderState extends State<TrackOrder> {
                     indicators: <Widget>[
                       Icon(
                         Icons.circle,
-                        color: getTimeLineColor(orderList[widget.id]["date_completed"].toString()),
+                        color: getCircleColor(orderList[widget.id]["status"]),
                       ),
                       Icon(
                         Icons.circle,
@@ -391,7 +449,7 @@ class _TrackOrderState extends State<TrackOrder> {
                         Icons.circle,
                         color: getTimeLineColor(orderList[widget.id]["date_created"].toString()),
                       ),
-                    ],
+                    ], stat: orderList[widget.id]["status"], lineColor: getLineColor(),
                   ),
                 ),
               ),

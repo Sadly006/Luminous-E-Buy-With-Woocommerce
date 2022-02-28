@@ -53,7 +53,7 @@ class StripePay {
 
   createUser(Map<String, dynamic> customer) async {
     final response = await http.post(
-        Uri.parse("https://api.stripe.com/v1/customers"),
+        Uri.parse(API().stripeAPI+"customers"),
         headers: {
           'Authorization': 'Bearer sk_test_51KMUcMLQfbdHsu5AqSDUZok2haPoIhnuKosmsNG7eOfYUKkZGPQhu1RSyV6PpPquIN0S3vU2RJWkBKn0DvvIsZS800ypdncc6H',
           "Content-Type": "application/x-www-form-urlencoded",
@@ -82,9 +82,9 @@ class StripePay {
 
   confirmPayment(int cost, Map<String, dynamic> customer, int addressId, BuildContext context) async {
     final response = await http.post(
-        Uri.parse("https://api.stripe.com/v1/payment_intents"),
+        Uri.parse(API().stripeAPI+"payment_intents"),
         headers: {
-          'Authorization': 'Bearer sk_test_51KMUcMLQfbdHsu5AqSDUZok2haPoIhnuKosmsNG7eOfYUKkZGPQhu1RSyV6PpPquIN0S3vU2RJWkBKn0DvvIsZS800ypdncc6H',
+          'Authorization': 'Bearer '+API().stripeToken,
           "Content-Type": "application/x-www-form-urlencoded",
         },
         encoding: Encoding.getByName('utf-8'),

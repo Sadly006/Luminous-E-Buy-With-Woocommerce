@@ -3,9 +3,11 @@ import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/address_details.dart';
 import 'package:luminous_e_buy/Screens/order_history.dart';
+import 'package:luminous_e_buy/Screens/payment_history.dart';
 import 'package:luminous_e_buy/Screens/profile.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Services/product_functions.dart';
 import 'Authentications/sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -404,34 +406,44 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                     ),
                   ),
                   const Padding(padding: EdgeInsets.all(10)),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 30),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 45,
-                          width: 45,
-                          decoration: const BoxDecoration(
-                            color: Colors.deepOrange,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.payment_rounded,
-                              size: 30,
-                              color: Colors.white,
+                  GestureDetector(
+                    onTap: ((){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>const PaymentHistory(),
+                          )
+                      );
+                    }),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 45,
+                            width: 45,
+                            decoration: const BoxDecoration(
+                              color: Colors.deepOrange,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.payment_rounded,
+                                size: 30,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ),
-                        const Padding(padding: EdgeInsets.all(10)),
-                        Text(
-                          "Payment History",
-                          style: TextStyle(
-                              fontSize: 17,
-                              color: Theme.of(context).accentColor
+                          const Padding(padding: EdgeInsets.all(10)),
+                          Text(
+                            "Payment History",
+                            style: TextStyle(
+                                fontSize: 17,
+                                color: Theme.of(context).accentColor
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -456,6 +468,9 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                   prefs.remove('token');
                   prefs.remove('consKey');
                   prefs.remove('consSecret');
+                  cart.clear();
+                  cartList.clear();
+                  ProductFunction().setCartMemory();
                   Navigator.popUntil(context, ModalRoute.withName(''));
                   Navigator.push(
                       context,

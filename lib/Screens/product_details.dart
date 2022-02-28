@@ -212,7 +212,9 @@ class _ProductDetailsState extends State<ProductDetails> {
             child: Text(
               "Available "+ widget.productList[widget.index]["attributes"][1]['name'].toString(),
               style: TextStyle(
-                  color: Theme.of(context).accentColor
+                fontWeight: FontWeight.w600,
+                fontSize: smallTextSize,
+                color: Theme.of(context).accentColor
               ),
             ),
           ),
@@ -255,7 +257,9 @@ class _ProductDetailsState extends State<ProductDetails> {
             child: Text(
               "Available " + widget.productList[widget.index]["attributes"][0]['name'].toString(),
               style: TextStyle(
-                  color: Theme.of(context).accentColor
+                fontSize: smallTextSize,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).accentColor
               ),
             ),
           ),
@@ -297,6 +301,8 @@ class _ProductDetailsState extends State<ProductDetails> {
             child: Text(
               "Available Size",
               style: TextStyle(
+                  fontSize: smallTextSize,
+                  fontWeight: FontWeight.w600,
                   color: Theme.of(context).accentColor
               ),
             ),
@@ -321,7 +327,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 width: 50,
                 child: Center(
                   child: Text(
-                    "S",
+                    "L",
                     style: TextStyle(
                         color: Theme.of(context).accentColor
                     ),
@@ -335,6 +341,8 @@ class _ProductDetailsState extends State<ProductDetails> {
             child: Text(
               "Available Colors",
               style: TextStyle(
+                  fontSize: smallTextSize,
+                  fontWeight: FontWeight.w600,
                   color: Theme.of(context).accentColor
               ),
             ),
@@ -375,8 +383,9 @@ class _ProductDetailsState extends State<ProductDetails> {
           centerTitle: true,
           title: Text(
             widget.productList[widget.index]["name"].toString(),
-            style: const TextStyle(
-              fontSize: 18
+            style: TextStyle(
+              fontSize: smallTextSize,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -385,6 +394,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             SliverList(delegate: SliverChildBuilderDelegate(
                   (BuildContext context, index) {
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       OpenContainer(
                         transitionType: ContainerTransitionType.fadeThrough,
@@ -418,7 +428,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       widget.productList[widget.index]["name"].toString(),
                                       style: TextStyle(
                                         color: Theme.of(context).accentColor,
-                                        fontSize: 15,
+                                        fontSize: smallTextSize,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -483,90 +493,155 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
 
                       // const Padding(padding: EdgeInsets.all(1.5)),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        child: SizedBox(
-                          height: 300,
-                          child: DefaultTabController(
-                            length: 3,
-                            child: Scaffold(
-                              appBar: PreferredSize(
-                                preferredSize: const Size.fromHeight(50),
-                                child: AppBar(
-                                  elevation: 0,
-                                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                  automaticallyImplyLeading: false,
-                                  title: TabBar(
-                                      indicatorColor: Theme.of(context).primaryColor,
-                                      indicatorSize: TabBarIndicatorSize.label,
-                                      tabs: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(bottom: 5),
-                                          child: Text("Description", style: TextStyle(
-                                            color: Theme.of(context).accentColor,
-                                            fontSize: displayWidth(context)*0.035,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(bottom: 5),
-                                          child: Text("Specification", style: TextStyle(
-                                            color: Theme.of(context).accentColor,
-                                            fontSize: displayWidth(context)*0.035,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(bottom: 5),
-                                          child: Text("Additional Info", style: TextStyle(
-                                            color: Theme.of(context).accentColor,
-                                            fontSize: displayWidth(context)*0.034,
-                                            ),
-                                          ),
-                                        ),
-                                      ]
-                                  ),
-                                ),
-                              ),
-                              body: TabBarView(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(20),
-                                    child: Text(
-                                      widget.productList[widget.index]["short_description"].toString(),
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          color: Theme.of(context).accentColor,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                                    child: Text(
-                                      widget.productList[widget.index]["description"].toString(),
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                        color: Theme.of(context).accentColor,
 
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                                    child: Text(
-                                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                        color: Theme.of(context).accentColor,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                        child: Text("Description",
+                          style: TextStyle(
+                            color: Theme.of(context).accentColor,
+                              fontSize: smallTextSize,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                       ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                        child: Text(
+                          widget.productList[widget.index]["short_description"].toString(),
+                          style: TextStyle(
+                            fontSize: extraSmallTextSize,
+                            color: Theme.of(context).accentColor,
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                        child: Text("Specification", style: TextStyle(
+                          color: Theme.of(context).accentColor,
+                          fontSize: smallTextSize,
+                          fontWeight: FontWeight.bold
+                        ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                        child: Text(
+                          widget.productList[widget.index]["description"].toString(),
+                          style: TextStyle(
+                            fontSize: extraSmallTextSize,
+                            color: Theme.of(context).accentColor,
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                        child: Text("Additional Info", style: TextStyle(
+                          color: Theme.of(context).accentColor,
+                            fontSize: smallTextSize,
+                            fontWeight: FontWeight.bold
+                        ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                        child: Text(
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                          style: TextStyle(
+                            fontSize: extraSmallTextSize,
+                            color: Theme.of(context).accentColor,
+                          ),
+                        ),
+                      ),
+
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                      //   child: SizedBox(
+                      //     height: 300,
+                      //     child: DefaultTabController(
+                      //       length: 3,
+                      //       child: Scaffold(
+                      //         appBar: PreferredSize(
+                      //           preferredSize: const Size.fromHeight(50),
+                      //           child: AppBar(
+                      //             elevation: 0,
+                      //             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                      //             automaticallyImplyLeading: false,
+                      //             title: TabBar(
+                      //                 indicatorColor: Theme.of(context).primaryColor,
+                      //                 indicatorSize: TabBarIndicatorSize.label,
+                      //                 tabs: [
+                      //                   Padding(
+                      //                     padding: const EdgeInsets.only(bottom: 5),
+                      //                     child: Text("Description", style: TextStyle(
+                      //                       color: Theme.of(context).accentColor,
+                      //                       fontSize: displayWidth(context)*0.035,
+                      //                       ),
+                      //                     ),
+                      //                   ),
+                      //                   Padding(
+                      //                     padding: const EdgeInsets.only(bottom: 5),
+                      //                     child: Text("Specification", style: TextStyle(
+                      //                       color: Theme.of(context).accentColor,
+                      //                       fontSize: displayWidth(context)*0.035,
+                      //                       ),
+                      //                     ),
+                      //                   ),
+                      //                   Padding(
+                      //                     padding: const EdgeInsets.only(bottom: 5),
+                      //                     child: Text("Additional Info", style: TextStyle(
+                      //                       color: Theme.of(context).accentColor,
+                      //                       fontSize: displayWidth(context)*0.034,
+                      //                       ),
+                      //                     ),
+                      //                   ),
+                      //                 ]
+                      //             ),
+                      //           ),
+                      //         ),
+                      //         body: TabBarView(
+                      //           children: [
+                      //             Padding(
+                      //               padding: const EdgeInsets.all(20),
+                      //               child: Text(
+                      //                 widget.productList[widget.index]["short_description"].toString(),
+                      //                 style: TextStyle(
+                      //                     fontSize: 13,
+                      //                     color: Theme.of(context).accentColor,
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //             Padding(
+                      //               padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                      //               child: Text(
+                      //                 widget.productList[widget.index]["description"].toString(),
+                      //                 style: TextStyle(
+                      //                     fontSize: 13,
+                      //                   color: Theme.of(context).accentColor,
+                      //
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //             Padding(
+                      //               padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                      //               child: Text(
+                      //                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                      //                 style: TextStyle(
+                      //                     fontSize: 13,
+                      //                   color: Theme.of(context).accentColor,
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       )
+                      //     ),
+                      //   ),
+                      // ),
                       //productListing(),
                     ],
                   );

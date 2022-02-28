@@ -6,4 +6,6 @@ class API{
   String paymentGatewaysApi = "http://10.13.3.2/luminous_e_buy/wp-json/wc/v3/payment_gateways";
   String categoryProductApi = "http://10.13.3.2/luminous_e_buy/wp-json/wc/v3/products?Category";
   String variantIDAPI = "http://10.13.3.2/luminous_e_buy/wp-json/wc/v1/products";
+  String stripeAPI = "https://api.stripe.com/v1/";
+  String stripeToken = "sk_test_51KMUcMLQfbdHsu5AqSDUZok2haPoIhnuKosmsNG7eOfYUKkZGPQhu1RSyV6PpPquIN0S3vU2RJWkBKn0DvvIsZS800ypdncc6H";
 }

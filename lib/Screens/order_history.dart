@@ -55,11 +55,11 @@ class _OrderHistoryState extends State<OrderHistory> {
     return Scaffold(
       body: isLoading
           ? Container(
-        color: Colors.white,
-        child: Center(
-          child: Image.asset("assets/product.gif"),
-        ),
-      )
+              color: Colors.white,
+              child: Center(
+                child: Image.asset("assets/product.gif"),
+              ),
+            )
 
           : CustomScrollView(
               slivers: [

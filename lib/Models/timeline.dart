@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class Timeline extends StatelessWidget {
   const Timeline({
     Key? key,
+    required this.stat,
     required this.children,
     this.indicators,
     this.isLeftAligned = true,
@@ -10,14 +11,14 @@ class Timeline extends StatelessWidget {
     this.gutterSpacing = 4.0,
     this.padding = const EdgeInsets.all(8),
     this.controller,
-    this.lineColor = Colors.grey,
+    required this.lineColor,
     this.physics,
     this.shrinkWrap = true,
     this.primary = false,
     this.reverse = false,
     this.indicatorSize = 30.0,
     this.lineGap = 4.0,
-    this.indicatorColor = Colors.blue,
+    this.indicatorColor = Colors.red,
     this.indicatorStyle = PaintingStyle.fill,
     this.strokeCap = StrokeCap.butt,
     this.strokeWidth = 2.0,
@@ -29,6 +30,7 @@ class Timeline extends StatelessWidget {
         super(key: key);
 
 
+  final stat;
   final List<Widget> children;
   final double itemGap;
   final double gutterSpacing;
@@ -42,7 +44,7 @@ class Timeline extends StatelessWidget {
   final bool primary;
   final bool reverse;
 
-  final Color lineColor;
+  final List<dynamic> lineColor;
   final double lineGap;
   final double indicatorSize;
   final Color indicatorColor;
@@ -50,6 +52,7 @@ class Timeline extends StatelessWidget {
   final StrokeCap strokeCap;
   final double strokeWidth;
   final PaintingStyle style;
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +81,7 @@ class Timeline extends StatelessWidget {
           CustomPaint(
             foregroundPainter: _TimelinePainter(
               hideDefaultIndicator: indicator != null,
-              lineColor: lineColor,
+              lineColor: lineColor[index],
               indicatorColor: indicatorColor,
               indicatorSize: indicatorSize,
               indicatorStyle: indicatorStyle,
