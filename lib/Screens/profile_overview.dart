@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Screens/address_details.dart';
@@ -21,6 +22,8 @@ class ProfileOverview extends StatefulWidget {
 class _ProfileOverviewState extends State<ProfileOverview> {
   XFile? imageFile;
   ImagePicker imagePicker = ImagePicker();
+  late String name;
+  late String email;
 
   @override
   void initState() {
@@ -103,7 +106,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                     ),
                   ),
                   const Padding(padding: EdgeInsets.all(5)),
-                  Text("Taosif Sadly",
+                  Text(info['name'].toString(),
                     style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w600,
@@ -111,8 +114,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                     ),
                   ),
                   const Padding(padding: EdgeInsets.all(2)),
-                  const Text("taosifsadly@gmail.com",
-                    style: TextStyle(
+                  Text(info['email'].toString(),
+                    style: const TextStyle(
                         fontSize: 15,
                         // fontWeight: FontWeight.w600,
                         color: Colors.grey
@@ -212,13 +215,30 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
-                          onTap: ((){
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>const OrderHistory(),
-                                )
-                            );
+                          onTap: (() async {
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            if(prefs.getString('token')=='true'){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const OrderHistory(),
+                                  )
+                              );
+                            }
+                            else{
+                              showToast('SignIn to view this page!',
+                                context: context,
+                                backgroundColor: const Color.fromRGBO(255, 182, 193, 1),
+                                textStyle: const TextStyle(color: Colors.black),
+                                animation: StyledToastAnimation.slideFromLeft,
+                                reverseAnimation: StyledToastAnimation.fade,
+                                position: StyledToastPosition.bottom,
+                                animDuration: const Duration(seconds: 1),
+                                duration: const Duration(seconds: 3),
+                                curve: Curves.elasticOut,
+                                reverseCurve: Curves.linear,
+                              );
+                            }
                           }),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -253,13 +273,30 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: ((){
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>const ProfilePage(),
-                                )
-                            );
+                          onTap: (() async {
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            if(prefs.getString('token')=='true'){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const ProfilePage(),
+                                  )
+                              );
+                            }
+                            else{
+                              showToast('SignIn to view this page!',
+                                context: context,
+                                backgroundColor: const Color.fromRGBO(255, 182, 193, 1),
+                                textStyle: const TextStyle(color: Colors.black),
+                                animation: StyledToastAnimation.slideFromLeft,
+                                reverseAnimation: StyledToastAnimation.fade,
+                                position: StyledToastPosition.bottom,
+                                animDuration: const Duration(seconds: 1),
+                                duration: const Duration(seconds: 3),
+                                curve: Curves.elasticOut,
+                                reverseCurve: Curves.linear,
+                              );
+                            }
                           }),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -294,13 +331,30 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: ((){
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>const AddressDetails(),
-                                )
-                            );
+                          onTap: (() async {
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            if(prefs.getString('token')=='true'){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const AddressDetails(),
+                                  )
+                              );
+                            }
+                            else{
+                              showToast('SignIn to view this page!',
+                                context: context,
+                                backgroundColor: const Color.fromRGBO(255, 182, 193, 1),
+                                textStyle: const TextStyle(color: Colors.black),
+                                animation: StyledToastAnimation.slideFromLeft,
+                                reverseAnimation: StyledToastAnimation.fade,
+                                position: StyledToastPosition.bottom,
+                                animDuration: const Duration(seconds: 1),
+                                duration: const Duration(seconds: 3),
+                                curve: Curves.elasticOut,
+                                reverseCurve: Curves.linear,
+                              );
+                            }
                           }),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -407,13 +461,30 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                   ),
                   const Padding(padding: EdgeInsets.all(10)),
                   GestureDetector(
-                    onTap: ((){
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>const PaymentHistory(),
-                          )
-                      );
+                    onTap: (() async {
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      if(prefs.getString('token')=='true'){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const PaymentHistory(),
+                            )
+                        );
+                      }
+                      else{
+                        showToast('SignIn to view this page!',
+                          context: context,
+                          backgroundColor: const Color.fromRGBO(255, 182, 193, 1),
+                          textStyle: const TextStyle(color: Colors.black),
+                          animation: StyledToastAnimation.slideFromLeft,
+                          reverseAnimation: StyledToastAnimation.fade,
+                          position: StyledToastPosition.bottom,
+                          animDuration: const Duration(seconds: 1),
+                          duration: const Duration(seconds: 3),
+                          curve: Curves.elasticOut,
+                          reverseCurve: Curves.linear,
+                        );
+                      }
                     }),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 30),
@@ -466,10 +537,11 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                 onPressed: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   prefs.remove('token');
-                  prefs.remove('consKey');
-                  prefs.remove('consSecret');
+                  prefs.setString('userName', 'Unknown');
+                  prefs.setString('email', 'Unknown');
                   cart.clear();
                   cartList.clear();
+                  wishList.clear();
                   ProductFunction().setCartMemory();
                   Navigator.popUntil(context, ModalRoute.withName(''));
                   Navigator.push(

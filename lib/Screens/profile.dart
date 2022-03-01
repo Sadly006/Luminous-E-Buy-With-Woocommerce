@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Constant_Values/lists.dart';
+import '../Services/product_functions.dart';
 import 'Authentications/sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -104,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     const Padding(padding: EdgeInsets.all(5)),
-                    Text("Taosif Sadly",
+                    Text(info['name'].toString(),
                       style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.w600,
@@ -128,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(
                           width: displayWidth(context)*1,
                           child: Card(
-                            color: Theme.of(context).errorColor,
+                            color: Theme.of(context).backgroundColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -162,7 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         "Email",
                                         style: Theme.of(context).textTheme.headline5,
                                       ),
-                                      Text("taosifsadly@gmail.com",
+                                      Text(info['email'].toString(),
                                         style: Theme.of(context).textTheme.headline6,),
                                     ],
                                   )
@@ -172,7 +174,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Card(
-                          color: Theme.of(context).errorColor,
+                          color: Theme.of(context).backgroundColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -213,7 +215,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Card(
-                          color: Theme.of(context).errorColor,
+                          color: Theme.of(context).backgroundColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -267,7 +269,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(
                           width: displayWidth(context)*1,
                           child: Card(
-                            color: Theme.of(context).errorColor,
+                            color: Theme.of(context).backgroundColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -311,7 +313,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Card(
-                          color: Theme.of(context).errorColor,
+                          color: Theme.of(context).backgroundColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -352,7 +354,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Card(
-                          color: Theme.of(context).errorColor,
+                          color: Theme.of(context).backgroundColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -406,7 +408,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(
                           width: displayWidth(context)*1,
                           child: Card(
-                            color: Theme.of(context).errorColor,
+                            color: Theme.of(context).backgroundColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -450,7 +452,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Card(
-                          color: Theme.of(context).errorColor,
+                          color: Theme.of(context).backgroundColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -491,7 +493,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Card(
-                          color: Theme.of(context).errorColor,
+                          color: Theme.of(context).backgroundColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -532,29 +534,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                       ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 10, 30),
-                      child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Theme.of(context).primaryColor,
-                            ),
-                            onPressed: () async {
-                              SharedPreferences prefs = await SharedPreferences.getInstance();
-                              prefs.remove('token');
-                              Navigator.popUntil(context, ModalRoute.withName(''));
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>const SignIn(),
-                                  )
-                              );
-                            },
-                            child: const Text("Logout"),
-                          )
-                      ),
                     ),
                   ],
                 );

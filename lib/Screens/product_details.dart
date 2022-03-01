@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:luminous_e_buy/Constant_Values/lists.dart';
 import 'package:luminous_e_buy/Screens/my_cart.dart';
 import 'package:luminous_e_buy/Services/product_functions.dart';
@@ -506,14 +507,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                        child: Text(
-                          widget.productList[widget.index]["short_description"].toString(),
-                          style: TextStyle(
-                            fontSize: extraSmallTextSize,
-                            color: Theme.of(context).accentColor,
-                          ),
-                        ),
+                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                        child: Html(
+                          data: widget.productList[widget.index]["short_description"].toString(),
+                          style: {
+                            "h1": Style(color: Colors.red),
+                            "p": Style(color: Theme.of(context).accentColor)
+                          }
+                        )
                       ),
 
                       Padding(
@@ -528,13 +529,13 @@ class _ProductDetailsState extends State<ProductDetails> {
 
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                        child: Text(
-                          widget.productList[widget.index]["description"].toString(),
-                          style: TextStyle(
-                            fontSize: extraSmallTextSize,
-                            color: Theme.of(context).accentColor,
-                          ),
-                        ),
+                        child: Html(
+                          data: widget.productList[widget.index]["description"].toString(),
+                          style: {
+                            "h1": Style(color: Colors.red),
+                            "p": Style(color: Theme.of(context).accentColor)
+                          }
+                        )
                       ),
 
                       Padding(
@@ -549,13 +550,13 @@ class _ProductDetailsState extends State<ProductDetails> {
 
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                        child: Text(
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                          style: TextStyle(
-                            fontSize: extraSmallTextSize,
-                            color: Theme.of(context).accentColor,
-                          ),
-                        ),
+                        child: Html(
+                          data: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>",
+                          style: {
+                            "h1": Style(color: Colors.red),
+                            "p": Style(color: Theme.of(context).accentColor)
+                          }
+                        )
                       ),
 
                       // Padding(

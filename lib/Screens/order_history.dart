@@ -85,102 +85,95 @@ class _OrderHistoryState extends State<OrderHistory> {
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                         (BuildContext context, index) {
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        elevation: 10,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            ListTile(
-                              tileColor: Theme.of(context).backgroundColor,
-                              title: Column(
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                        child: ListTile(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          tileColor: Theme.of(context).backgroundColor,
+                          title: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                      Row(
                                         children: [
-                                          Row(
+                                          Column(
                                             children: [
-                                              Column(
-                                                children: [
-                                                  Text("Order #",
-                                                    style: TextStyle(
-                                                      color: Theme.of(context).accentColor,
-                                                      fontSize: 17,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),),
-                                                ],
+                                              Text("Order #",
+                                                style: TextStyle(
+                                                  color: Theme.of(context).accentColor,
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.bold,
+                                                ),),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Text(orderList[index]["id"].toString(),
+                                                style: TextStyle(
+                                                  color: Theme.of(context).accentColor,
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
-                                              Column(
-                                                children: [
-                                                  Text(orderList[index]["id"].toString(),
-                                                    style: TextStyle(
-                                                      color: Theme.of(context).accentColor,
-                                                      fontSize: 17,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
                                             ],
-                                          ),
-
-                                          Row(
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  Text(
-                                                    orderList[index]["date_created"].substring(0, 10) + " || " + orderList[index]["date_created"].substring(11, 18),
-                                                    style: TextStyle(
-                                                      color: Theme.of(context).accentColor,
-                                                      fontSize: 17,
-                                                      // fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                          TextButton(
-                                            style: TextButton.styleFrom(
-                                              primary: Theme.of(context).primaryColor,
-                                            ),
-                                            child: const Text('Show More'),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => TrackOrder(id: index),
-                                                  )
-                                              );
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        children: [
-                                          SizedBox(
-                                            width: 50,
-                                            child: Image.asset('assets/order.png'),
                                           )
                                         ],
+                                      ),
+
+                                      Row(
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Text(
+                                                orderList[index]["date_created"].substring(0, 10) + " || " + orderList[index]["date_created"].substring(11, 18),
+                                                style: TextStyle(
+                                                  color: Theme.of(context).accentColor,
+                                                  fontSize: 17,
+                                                  // fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          primary: Theme.of(context).primaryColor,
+                                        ),
+                                        child: const Text('Show More'),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => TrackOrder(id: index),
+                                              )
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      SizedBox(
+                                        width: 50,
+                                        child: Image.asset('assets/order.png'),
                                       )
                                     ],
                                   )
                                 ],
+                              )
+                            ],
 
-                              ),
-                            ),
-
-                          ],
+                          ),
                         ),
                       );
                     },

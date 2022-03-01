@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/APIs/apis.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Services/google_sign_in.dart';
+import '../../Services/woocommerce_api_call.dart';
 import '../front_page.dart';
 import 'sign_up.dart';
 import 'package:http/http.dart' as http;
@@ -20,6 +21,8 @@ class _SignInState extends State<SignIn> {
   late var token;
   final userName = TextEditingController();
   final password = TextEditingController();
+  late String consKey;
+  late String consSecret;
   bool _obscureText = true;
 
   void _toggle() {
@@ -30,26 +33,25 @@ class _SignInState extends State<SignIn> {
 
   _validator() async {
 
-    final response = await http.post(
-        Uri.parse(API().signInApi),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body:json.encode({
-          "userName": userName.text.toString(),
-          "password": password.text.toString(),
-        })
-    );
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    consKey = prefs.getString("consKey") as String;
+    consSecret = prefs.getString("consSecret") as String;
+    WoocommerceAPI woocommerceAPI1 = WoocommerceAPI(
+        url: API().signInApi,
+        consumerKey: consKey,
+        consumerSecret: consSecret);
+    var response = await woocommerceAPI1.getAsync("?username="+userName.text.toString()+"&password="+password.text.toString());
 
-    if(response.statusCode==200) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      token = json.decode(response.body);
-      prefs.setString('token', token["accessToken"].toString());
+    if(response.statusCode == 200){
+      var res = json.decode(response.body);
+      prefs.setString('token', 'true');
+      prefs.setString('userName', res['data']['user_login']);
+      prefs.setString('email', res['data']['user_email']);
       Navigator.popUntil(context, ModalRoute.withName(''));
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>FrontPage(consKey: "ck_0c6098aaa736c3ae5869de1c701ba3c7b76bff1b", consSecret: "cs_b2fc56341982a8217eb9415643fa4c5f3628b163",),
+            builder: (context) =>FrontPage(consKey: consKey, consSecret: consSecret,),
           )
       );
     }
@@ -164,7 +166,6 @@ class _SignInState extends State<SignIn> {
                     controller: userName,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.grey[300],
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none,
@@ -183,7 +184,6 @@ class _SignInState extends State<SignIn> {
                     controller: password,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.grey[300],
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none,
@@ -251,11 +251,16 @@ class _SignInState extends State<SignIn> {
                 child: Center(
                   child: GestureDetector(
                     onTap: () async {
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setString('userName', 'Guest');
+                      prefs.setString('email', 'user@gmail.com');
+                      consKey = prefs.getString("consKey") as String;
+                      consSecret = prefs.getString("consSecret") as String;
                       Navigator.pop(context, true);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>FrontPage(consKey: "ck_0c6098aaa736c3ae5869de1c701ba3c7b76bff1b", consSecret: "cs_b2fc56341982a8217eb9415643fa4c5f3628b163",),
+                            builder: (context) =>FrontPage(consKey: consKey, consSecret: consSecret,),
                           )
                       );
                     },

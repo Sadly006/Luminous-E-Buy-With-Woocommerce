@@ -21,7 +21,7 @@ class _SelectAddressState extends State<SelectAddress> {
   getColor(int id, int selected){
     if(id==selected) {
       selectedAddress = id;
-      return Colors.grey[500];
+      return Theme.of(context).canvasColor;
     }
   }
 
@@ -30,14 +30,14 @@ class _SelectAddressState extends State<SelectAddress> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Icon(
+        Icon(
           Icons.location_on,
-          color: Colors.grey,
+          color: Theme.of(context).accentColor,
         ),
         Text(
           addressList[selectedAddress]["address"],
-          style: const TextStyle(
-            color: Colors.grey,
+          style: TextStyle(
+            color: Theme.of(context).accentColor,
             fontSize: 16.0,
           ),
         )
@@ -56,7 +56,7 @@ class _SelectAddressState extends State<SelectAddress> {
               width: displayWidth(context)*0.45,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).canvasColor,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10.0),
                   topRight: Radius.circular(10.0),
@@ -64,14 +64,14 @@ class _SelectAddressState extends State<SelectAddress> {
                   bottomRight: Radius.circular(10.0),
                 ),
               ),
-              child: const Align(
+              child: Align(
                 alignment: Alignment.center,
                 child: Text(
                     "Add New Address",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w800,
-                      color: Colors.white,
+                      color: Theme.of(context).accentColor,
                     )
                 ),
               )
@@ -152,8 +152,9 @@ class _SelectAddressState extends State<SelectAddress> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            const Text("My Address",
+            Text("My Address",
               style: TextStyle(
+                color: Theme.of(context).accentColor,
                 fontWeight: FontWeight.w800,
                 fontSize: 18.0,
               )
@@ -182,8 +183,12 @@ class _SelectAddressState extends State<SelectAddress> {
                       builder: (context) => PaymentMethods(cost: widget.cost, selectedAddress: selectedAddress,),
                     )
                 ),
-                child: const Text(
-                    "Review Payment"
+                child: Text(
+                  "Review Payment",
+                  style: TextStyle(
+                    fontSize: smallTextSize,
+                    color: Theme.of(context).accentColor,
+                  ),
                 )
             ),
           ),

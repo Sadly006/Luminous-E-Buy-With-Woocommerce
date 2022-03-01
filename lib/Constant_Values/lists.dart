@@ -7,6 +7,7 @@ List<dynamic> newArrival = [];
 List<dynamic> topPicks = [];
 List<dynamic> forYou = [];
 Map<String, dynamic> paymentHistory = {};
+Map<String, String> info = {};
 
 List<dynamic> pList = [];
 

@@ -27,6 +27,13 @@ class _FrontPageState extends State<FrontPage> {
   initState() {
     super.initState();
     getProduct();
+    getInfo();
+  }
+
+  getInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    info['name'] = prefs.getString("userName") as String;
+    info['email'] = prefs.getString('email') as String;
   }
 
   getProduct() async {

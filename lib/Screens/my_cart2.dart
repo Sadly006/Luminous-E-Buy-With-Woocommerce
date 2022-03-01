@@ -19,6 +19,7 @@ class _MyCart2State extends State<MyCart2> {
 
   Map<dynamic, int> cartTapped = {};
   final coupon = TextEditingController();
+  int prevIndex= 0;
 
   _getBtnClr(List cList){
     if(cList.isEmpty){
@@ -68,6 +69,10 @@ class _MyCart2State extends State<MyCart2> {
 
   _getWidget(Map tapped, var index, Map cart, List cartList){
     if(tapped[cartList[index]].toString() == '1'){
+      if(prevIndex != index){
+        tapped[cartList[prevIndex]] = 0;
+        prevIndex = index;
+      }
       return TranslationAnimatedWidget(
         duration: const Duration(milliseconds: 100),
         values: const [
@@ -134,7 +139,7 @@ class _MyCart2State extends State<MyCart2> {
     }
     else if(tapped[cartList[index]].toString() == '0'){
       return const SizedBox(
-        height: 40,
+        height: 53,
         width: 50,
       );
     }
@@ -367,12 +372,6 @@ class _MyCart2State extends State<MyCart2> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).secondaryHeaderColor,
-        // toolbarHeight: MediaQuery.of(context).size.height/8,
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.vertical(
-        //     bottom: Radius.elliptical(displayHeight(context), 150.0),
-        //   ),
-        // ),
         centerTitle: true,
         title: const Text(
           "My Cart",
@@ -397,7 +396,7 @@ class _MyCart2State extends State<MyCart2> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
                     child: Container(
-                      height: displayHeight(context)*0.7,
+                      height: displayHeight(context)*0.67,
                       decoration: BoxDecoration(
                         color: Theme.of(context).canvasColor,
                         borderRadius: BorderRadius.vertical(
@@ -413,78 +412,6 @@ class _MyCart2State extends State<MyCart2> {
                       padding: const EdgeInsets.all(10),
                       child: Column(
                         children: [
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   children: [
-                          //     Text(
-                          //       "Have A Coupon?",
-                          //       style: TextStyle(
-                          //         fontSize: 18,
-                          //         fontWeight: FontWeight.w500,
-                          //         color: Theme.of(context).accentColor
-                          //       ),
-                          //     ),
-                          //     Row(
-                          //       mainAxisAlignment: MainAxisAlignment.start,
-                          //       children: [
-                          //         SizedBox(
-                          //           width: displayWidth(context)*0.2,
-                          //           height: 40,
-                          //           child: TextFormField(
-                          //             style: const TextStyle(color: Colors.black),
-                          //             controller: coupon,
-                          //             decoration: InputDecoration(
-                          //               filled: true,
-                          //               fillColor: Theme.of(context).backgroundColor,
-                          //               border: OutlineInputBorder(
-                          //                 borderRadius: BorderRadius.circular(10),
-                          //                 borderSide: BorderSide.none,
-                          //               ),
-                          //               label: 'Coupon',
-                          //             ),
-                          //           ),
-                          //         ),
-                          //         Icon(
-                          //           Icons.arrow_right,
-                          //           size: 40,
-                          //           color: Theme.of(context).accentColor,
-                          //         )
-                          //       ],
-                          //     )
-                          //   ],
-                          // ),
-                          // Padding(
-                          //   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
-                          //   child: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //     children: [
-                          //       Text(
-                          //         "SubTotal",
-                          //         style: TextStyle(
-                          //             color: Theme.of(context).accentColor,
-                          //             fontSize: 17,
-                          //         ),
-                          //       ),
-                          //       ProductFunction().totalCartPriceText(cartList, context),
-                          //     ],
-                          //   ),
-                          // ),
-                          // Padding(
-                          //   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
-                          //   child: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //     children: [
-                          //       Text(
-                          //         "Discount",
-                          //         style: TextStyle(
-                          //             color: Theme.of(context).accentColor,
-                          //             fontSize: 17,
-                          //         ),
-                          //       ),
-                          //       ProductFunction().totalCartPriceText(cartList, context),
-                          //     ],
-                          //   ),
-                          // ),
                           const Padding(padding: EdgeInsets.all(5)),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
@@ -538,10 +465,6 @@ class _MyCart2State extends State<MyCart2> {
                 ],
               )
             ),
-
-      // persistentFooterButtons: <Widget>[
-      //
-      // ],
     );
   }
 }

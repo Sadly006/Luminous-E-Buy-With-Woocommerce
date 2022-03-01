@@ -46,7 +46,6 @@ class NewAddressPopUp{
                               controller: title,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: Colors.grey[300],
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
@@ -63,7 +62,6 @@ class NewAddressPopUp{
                               controller: firstName,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: Colors.grey[300],
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
@@ -80,7 +78,6 @@ class NewAddressPopUp{
                               controller: lastName,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: Colors.grey[300],
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
@@ -97,7 +94,6 @@ class NewAddressPopUp{
                               controller: email,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: Colors.grey[300],
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
@@ -120,7 +116,6 @@ class NewAddressPopUp{
                               controller: contactNumber,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: Colors.grey[300],
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
@@ -137,7 +132,6 @@ class NewAddressPopUp{
                               controller: address,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: Colors.grey[300],
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
@@ -155,7 +149,6 @@ class NewAddressPopUp{
                               controller: city,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: Colors.grey[300],
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
@@ -172,7 +165,6 @@ class NewAddressPopUp{
                               controller: country,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: Colors.grey[300],
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,

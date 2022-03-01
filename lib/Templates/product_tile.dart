@@ -158,7 +158,7 @@ class _ProductTileState extends State<ProductTile> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 15),
                       // child: ProductFunction().getPriceText(widget.productList, widget.index, context),
                       child: Text(
                         "\$ " + widget.productList[widget.index]["price"].toString(),

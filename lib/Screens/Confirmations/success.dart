@@ -46,6 +46,7 @@ class SuccessScreen extends StatelessWidget {
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           String consKey = prefs.getString("consKey") as String;
                           String consSecret = prefs.getString("consSecret") as String;
+                          Navigator.popUntil(context, ModalRoute.withName(''));
                           Navigator.push(
                               context,
                               MaterialPageRoute(

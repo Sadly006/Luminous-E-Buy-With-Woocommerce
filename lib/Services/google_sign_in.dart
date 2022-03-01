@@ -26,10 +26,13 @@ class GoogleSigning {
 
       UserCredential result = await auth.signInWithCredential(authCredential);
       User? user = result.user;
+      print(user);
 
       if (result != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', 'true');
         prefs.setString('email', user!.email.toString());
+        prefs.setString('userName', user.displayName.toString());
         String consKey = prefs.getString("consKey") as String;
         String consSecret = prefs.getString("consSecret") as String;
         Navigator.pop(context, true);
