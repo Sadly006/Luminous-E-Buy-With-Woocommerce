@@ -24,7 +24,6 @@ class _ProductSearchState extends State<ProductSearch> {
   late String consSecret;
   late String consKey;
 
-
   @override
   void initState() {
     super.initState();
@@ -40,8 +39,8 @@ class _ProductSearchState extends State<ProductSearch> {
 
   void searchSuggestion() async {
     text2 = _text.text;
-    if(text2 != text1 && text2.length>=2){
-      text1=text2;
+    if (text2 != text1 && text2.length >= 2) {
+      text1 = text2;
       setState(() {
         isLoading = true;
       });
@@ -52,7 +51,7 @@ class _ProductSearchState extends State<ProductSearch> {
           url: API().productApi,
           consumerKey: consKey,
           consumerSecret: consSecret);
-      final response = await woocommerceAPI.getAsync("?search="+text1);
+      final response = await woocommerceAPI.getAsync("?search=" + text1);
       searchResult = jsonDecode(response.body);
       print(searchResult.length);
       setState(() {
@@ -61,8 +60,8 @@ class _ProductSearchState extends State<ProductSearch> {
     }
   }
 
-  getStock(String stock){
-    if(stock=="instock"){
+  getStock(String stock) {
+    if (stock == "instock") {
       return Container(
         width: 60,
         height: 17,
@@ -73,15 +72,11 @@ class _ProductSearchState extends State<ProductSearch> {
         child: const Center(
           child: Text(
             "In Stock",
-            style: TextStyle(
-                fontSize: 12,
-                color: Colors.white
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.white),
           ),
         ),
       );
-    }
-    else{
+    } else {
       return Container(
         width: 85,
         height: 17,
@@ -92,39 +87,33 @@ class _ProductSearchState extends State<ProductSearch> {
         child: const Center(
           child: Text(
             "Out Of Stock",
-            style: TextStyle(
-                fontSize: 12,
-                color: Colors.white
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.white),
           ),
         ),
       );
     }
   }
 
-  getResult(){
-    if(isLoading == true){
+  getResult() {
+    if (isLoading == true) {
       return Container(
         color: Theme.of(context).scaffoldBackgroundColor,
         child: Image.asset("assets/product.gif"),
       );
-    }
-    else{
-      if(searchResult.isEmpty){
+    } else {
+      if (searchResult.isEmpty) {
         return Center(
           child: Text(
             "No Result",
             style: TextStyle(
-              fontSize: normalTextSize,
-              color: Theme.of(context).accentColor
-            ),
+                fontSize: normalTextSize,
+                color: Theme.of(context).highlightColor),
           ),
         );
-      }
-      else{
+      } else {
         return ListView.builder(
             itemCount: searchResult.length,
-            itemBuilder: (BuildContext context,int index){
+            itemBuilder: (BuildContext context, int index) {
               return Padding(
                 padding: EdgeInsets.all(2),
                 child: GestureDetector(
@@ -132,14 +121,16 @@ class _ProductSearchState extends State<ProductSearch> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ProductDetails(productList: searchResult, index: index)
-                        )
-                    );
+                            builder: (context) => ProductDetails(
+                                productList: searchResult, index: index)));
                   },
                   child: ListTile(
                       leading: SizedBox(
-                        height: displayHeight(context)*0.5,
-                        child: Image.network(searchResult[index]["images"][0]['src'].toString(), fit: BoxFit.cover,),
+                        height: displayHeight(context) * 0.5,
+                        child: Image.network(
+                          searchResult[index]["images"][0]['src'].toString(),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -148,29 +139,25 @@ class _ProductSearchState extends State<ProductSearch> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                searchResult[index]["name"].toString(),
-                                style: Theme.of(context).textTheme.subtitle1
-                              ),
+                              Text(searchResult[index]["name"].toString(),
+                                  style: Theme.of(context).textTheme.subtitle1),
                               const Padding(padding: EdgeInsets.only(top: 2)),
                               Text(
-                                "\$"+searchResult[index]["price"].toString(),
-                                style: Theme.of(context).textTheme.headline6
-                              )
+                                  "\$" +
+                                      searchResult[index]["price"].toString(),
+                                  style: Theme.of(context).textTheme.headline6)
                             ],
                           ),
-                          getStock(searchResult[index]["stock_status"].toString())
+                          getStock(
+                              searchResult[index]["stock_status"].toString())
                         ],
-                      )
-                  ),
+                      )),
                 ),
               );
-            }
-        );
+            });
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -192,8 +179,9 @@ class _ProductSearchState extends State<ProductSearch> {
               child: TextField(
                 controller: _text,
                 decoration: InputDecoration(
-                  focusedBorder:UnderlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor, width: 2.0),
                   ),
                   labelText: 'Search',
                 ),
@@ -201,7 +189,7 @@ class _ProductSearchState extends State<ProductSearch> {
             ),
             const Padding(padding: EdgeInsets.all(5)),
             SizedBox(
-              height: displayHeight(context)*0.75,
+              height: displayHeight(context) * 0.75,
               child: getResult(),
             ),
           ],
@@ -210,5 +198,3 @@ class _ProductSearchState extends State<ProductSearch> {
     );
   }
 }
-
-

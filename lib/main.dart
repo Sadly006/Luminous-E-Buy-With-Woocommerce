@@ -13,8 +13,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString('consKey', "ck_0c6098aaa736c3ae5869de1c701ba3c7b76bff1b");
-  prefs.setString('consSecret', "cs_b2fc56341982a8217eb9415643fa4c5f3628b163");
+  prefs.setString('consKey', "ck_a0094219bf70a3a30e0a66439751119f12910226");
+  prefs.setString('consSecret', "cs_eb45f6ecb77584397f63a272b401413311076e33");
   var token = prefs.getString('token');
   var onboarded = prefs.getBool('onboarded');
   onboarded ??= false;

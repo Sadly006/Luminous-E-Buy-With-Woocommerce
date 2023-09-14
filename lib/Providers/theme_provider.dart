@@ -5,7 +5,6 @@ class ThemeProvider extends ChangeNotifier {
   ThemeData _selectedTheme = ThemeData.light();
 
   ThemeData dark = ThemeData.dark().copyWith(
-
     primaryColor: const Color.fromRGBO(225, 99, 45, 1),
     secondaryHeaderColor: const Color.fromRGBO(34, 34, 34, 1),
     backgroundColor: const Color.fromRGBO(20, 20, 20, 1),
@@ -13,15 +12,13 @@ class ThemeProvider extends ChangeNotifier {
     scaffoldBackgroundColor: const Color.fromRGBO(34, 34, 34, 1),
     canvasColor: const Color.fromRGBO(43, 42, 42, 1),
     // cardColor: const Color.fromRGBO(31, 7, 1, 1),,
-    accentColor: Colors.white70,
+    highlightColor: Colors.white70,
     // errorColor: Colors.black,
     brightness: Brightness.dark,
 
     focusColor: Colors.blueGrey[900],
     shadowColor: const Color.fromRGBO(30, 34, 34, 1),
-    appBarTheme: const AppBarTheme(
-        color: Colors.black12
-    ),
+    appBarTheme: const AppBarTheme(color: Colors.black12),
     cardTheme: const CardTheme(
       shadowColor: Colors.transparent,
       color: Colors.black45,
@@ -69,7 +66,6 @@ class ThemeProvider extends ChangeNotifier {
   );
 
   ThemeData light = ThemeData.light().copyWith(
-
     // primaryColor: Color.fromRGBO(126, 63, 242, 1),
     // secondaryHeaderColor: Color.fromRGBO(126, 63, 242, 1),
     // scaffoldBackgroundColor: Color.fromRGBO(227, 218, 242, 1),
@@ -80,12 +76,10 @@ class ThemeProvider extends ChangeNotifier {
     scaffoldBackgroundColor: const Color.fromRGBO(255, 251, 250, 1),
     backgroundColor: const Color.fromRGBO(250, 239, 235, 1),
     canvasColor: const Color.fromRGBO(232, 196, 183, 1),
-    appBarTheme: const AppBarTheme(
-      color: Colors.white
-    ),
+    appBarTheme: const AppBarTheme(color: Colors.white),
     focusColor: Colors.white24,
     errorColor: Colors.white,
-    accentColor: const Color.fromRGBO(49, 52, 56, 1),
+    highlightColor: const Color.fromRGBO(49, 52, 56, 1),
     cardTheme: CardTheme(
       color: Colors.grey[300],
     ),
@@ -95,7 +89,8 @@ class ThemeProvider extends ChangeNotifier {
         fontWeight: FontWeight.bold,
         color: Colors.white,
       ),
-      headline2: TextStyle(//homePage category accent
+      headline2: TextStyle(
+        //homePage category accent
         fontSize: 28,
         fontWeight: FontWeight.w400,
         color: Colors.black,
@@ -128,7 +123,6 @@ class ThemeProvider extends ChangeNotifier {
         color: Colors.black,
         fontSize: 15,
       ),
-
     ),
   );
 
@@ -141,12 +135,12 @@ class ThemeProvider extends ChangeNotifier {
     if (_selectedTheme == dark) {
       _selectedTheme = light;
       await prefs.setBool("darkTheme", false);
-    }
-    else {
+    } else {
       _selectedTheme = dark;
       await prefs.setBool("darkTheme", true);
     }
     notifyListeners();
   }
+
   ThemeData getTheme() => _selectedTheme;
 }

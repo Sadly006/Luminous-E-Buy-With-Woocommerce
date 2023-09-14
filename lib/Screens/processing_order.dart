@@ -12,53 +12,52 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Services/order_redirect.dart';
 
 class OrderProcessing extends StatelessWidget {
-  OrderProcessing({Key? key, required this.selectedAddress, required this.cost, required this.paymentMethod}) : super(key: key);
+  OrderProcessing(
+      {Key? key,
+      required this.selectedAddress,
+      required this.cost,
+      required this.paymentMethod})
+      : super(key: key);
 
   int selectedAddress;
   double cost;
   String paymentMethod;
   late Map<String, dynamic> postBody;
 
-  double roundDouble(double value, int places){
+  double roundDouble(double value, int places) {
     num mod = pow(10.0, places);
     return ((value * mod).round().toDouble() / mod);
   }
 
-  getTotalCost(){
-    if(paymentMethod == 'Stripe'){
-      return roundDouble(((cost+50+0.3)/(1-0.029)), 1);
-    }
-    else{
-      return cost+50;
+  getTotalCost() {
+    if (paymentMethod == 'Stripe') {
+      return roundDouble(((cost + 50 + 0.3) / (1 - 0.029)), 1);
+    } else {
+      return cost + 50;
     }
   }
 
-  getStripeFee(){
-    return (((((cost+50+0.3)/(1-0.029))*2.9)/100)+0.3).toStringAsFixed(1);
+  getStripeFee() {
+    return (((((cost + 50 + 0.3) / (1 - 0.029)) * 2.9) / 100) + 0.3)
+        .toStringAsFixed(1);
   }
 
-  getImage(int index){
-    if(cartList[index][0]["images"].length!=0){
+  getImage(int index) {
+    if (cartList[index][0]["images"].length != 0) {
       return DecorationImage(
-        image: NetworkImage(
-            cartList[index][0]["images"][0]["src"].toString()
-        ),
+        image: NetworkImage(cartList[index][0]["images"][0]["src"].toString()),
         fit: BoxFit.cover,
       );
-
-    }
-    else{
+    } else {
       return const DecorationImage(
-        image: AssetImage(
-            "assets/no-image.png"
-        ),
+        image: AssetImage("assets/no-image.png"),
         fit: BoxFit.contain,
       );
     }
   }
 
-  getFee(BuildContext context){
-    if(paymentMethod == 'Stripe'){
+  getFee(BuildContext context) {
+    if (paymentMethod == 'Stripe') {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -67,26 +66,25 @@ class OrderProcessing extends StatelessWidget {
               child: Text(
                 "Stripe Fee: ",
                 style: Theme.of(context).textTheme.subtitle2,
-              )
-          ),
+              )),
           Padding(
               padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
               child: Text(
                 getStripeFee(),
                 style: Theme.of(context).textTheme.subtitle2,
-              )
-          ),
+              )),
         ],
       );
-    }
-    else{
-      return const SizedBox(height: 0,);
+    } else {
+      return const SizedBox(
+        height: 0,
+      );
     }
   }
 
-  getPostBody(){
+  getPostBody() {
     List<Map<String, dynamic>> products = [];
-    for(int i=0; i<cartList.length; i++){
+    for (int i = 0; i < cartList.length; i++) {
       products.add({
         "product_id": cartList[i][3],
         "quantity": cart[cartList[i].toString()]
@@ -141,27 +139,33 @@ class OrderProcessing extends StatelessWidget {
                       children: [
                         Padding(
                             padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
-                            child: Icon(Icons.location_on, size: 20, color: Theme.of(context).primaryColor,)
-                        ),
+                            child: Icon(
+                              Icons.location_on,
+                              size: 20,
+                              color: Theme.of(context).primaryColor,
+                            )),
                         Padding(
                             padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
                             child: Text(
                               addressList[selectedAddress]["first_name"],
                               style: TextStyle(
-                                color: Theme.of(context).accentColor,
+                                color: Theme.of(context).highlightColor,
                                 fontSize: 15,
                               ),
-                            )
-                        ),
+                            )),
                       ],
                     ),
                     Row(
                       children: [
                         const Padding(padding: EdgeInsets.all(5)),
                         Text(
-                          addressList[selectedAddress]["address"]+", "+addressList[selectedAddress]["city"]+", "+addressList[selectedAddress]["country"],
+                          addressList[selectedAddress]["address"] +
+                              ", " +
+                              addressList[selectedAddress]["city"] +
+                              ", " +
+                              addressList[selectedAddress]["country"],
                           style: TextStyle(
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).highlightColor,
                             fontSize: 15,
                           ),
                         ),
@@ -171,12 +175,15 @@ class OrderProcessing extends StatelessWidget {
                     Row(
                       children: [
                         const Padding(padding: EdgeInsets.all(5)),
-                        Icon(Icons.phone, color: Theme.of(context).primaryColor,),
+                        Icon(
+                          Icons.phone,
+                          color: Theme.of(context).primaryColor,
+                        ),
                         const Padding(padding: EdgeInsets.all(5)),
                         Text(
                           addressList[selectedAddress]["contact_number"],
                           style: TextStyle(
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).highlightColor,
                             fontSize: 15,
                           ),
                         )
@@ -186,12 +193,15 @@ class OrderProcessing extends StatelessWidget {
                     Row(
                       children: [
                         const Padding(padding: EdgeInsets.all(5)),
-                        Icon(Icons.mail, color: Theme.of(context).primaryColor,),
+                        Icon(
+                          Icons.mail,
+                          color: Theme.of(context).primaryColor,
+                        ),
                         const Padding(padding: EdgeInsets.all(5)),
                         Text(
                           addressList[selectedAddress]["email"],
                           style: TextStyle(
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).highlightColor,
                             fontSize: 15,
                           ),
                         )
@@ -211,9 +221,10 @@ class OrderProcessing extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: cartList.length,
-                    itemBuilder: (BuildContext context, int index){
+                    itemBuilder: (BuildContext context, int index) {
                       return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 1),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -221,52 +232,63 @@ class OrderProcessing extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 10, 5, 5),
                                     child: Container(
                                       width: 40,
                                       height: 40,
                                       decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10)),
                                         image: getImage(index),
                                       ),
                                     ),
                                   ),
                                   const Padding(padding: EdgeInsets.all(5)),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         cartList[index][0]['name'].toString(),
                                         style: TextStyle(
                                             fontSize: 14,
-                                            color: Theme.of(context).accentColor
-                                        ),
+                                            color: Theme.of(context)
+                                                .highlightColor),
                                       ),
                                       const Padding(padding: EdgeInsets.all(2)),
                                       Padding(
-                                        padding: const EdgeInsets.only(right: 10),
-                                        child: ProductFunction().getLastPriceText(cart[cartList[index].toString()]!.toDouble(), cartList, index, context),
+                                        padding:
+                                            const EdgeInsets.only(right: 10),
+                                        child: ProductFunction()
+                                            .getLastPriceText(
+                                                cart[cartList[index]
+                                                        .toString()]!
+                                                    .toDouble(),
+                                                cartList,
+                                                index,
+                                                context),
                                       ),
                                     ],
                                   )
                                 ],
                               ),
-
                               Padding(
                                 padding: const EdgeInsets.all(2),
                                 child: SizedBox(
                                   width: 45,
                                   height: 45,
                                   child: Center(
-                                    child: ProductFunction().getCartNumber(cart[cartList[index].toString()]!.toInt(), context),
+                                    child: ProductFunction().getCartNumber(
+                                        cart[cartList[index].toString()]!
+                                            .toInt(),
+                                        context),
                                   ),
                                 ),
                               ),
                             ],
-                          )
-                      );
-                    }
-                ),
+                          ));
+                    }),
               ),
             ),
             Padding(
@@ -284,15 +306,13 @@ class OrderProcessing extends StatelessWidget {
                             child: Text(
                               "Subtotal: ",
                               style: Theme.of(context).textTheme.subtitle2,
-                            )
-                        ),
+                            )),
                         Padding(
                             padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
                             child: Text(
-                              "BDT "+cost.toString(),
+                              "BDT " + cost.toString(),
                               style: Theme.of(context).textTheme.subtitle2,
-                            )
-                        ),
+                            )),
                       ],
                     ),
                     Row(
@@ -303,15 +323,13 @@ class OrderProcessing extends StatelessWidget {
                             child: Text(
                               "Shipping Fee: ",
                               style: Theme.of(context).textTheme.subtitle2,
-                            )
-                        ),
+                            )),
                         Padding(
                             padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
                             child: Text(
                               "BDT 50",
                               style: Theme.of(context).textTheme.subtitle2,
-                            )
-                        ),
+                            )),
                       ],
                     ),
                     getFee(context),
@@ -323,15 +341,13 @@ class OrderProcessing extends StatelessWidget {
                             child: Text(
                               "Total Cost: ",
                               style: Theme.of(context).textTheme.subtitle2,
-                            )
-                        ),
+                            )),
                         Padding(
                             padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
                             child: Text(
-                              "\$"+getTotalCost().toString(),
+                              "\$" + getTotalCost().toString(),
                               style: Theme.of(context).textTheme.subtitle2,
-                            )
-                        ),
+                            )),
                       ],
                     ),
                     const Padding(padding: EdgeInsets.all(5)),
@@ -347,35 +363,38 @@ class OrderProcessing extends StatelessWidget {
           alignment: Alignment.center,
           child: SizedBox(
             height: 30,
-            width: displayWidth(context)*0.8,
+            width: displayWidth(context) * 0.8,
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).secondaryHeaderColor
-                ),
+                    primary: Theme.of(context).secondaryHeaderColor),
                 onPressed: () async {
-                  if(cartList.isNotEmpty){
-                    if(paymentMethod == "Stripe"){
+                  if (cartList.isNotEmpty) {
+                    if (paymentMethod == "Stripe") {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => StripePayment(cost: getTotalCost(), addressId: selectedAddress,),
+                            builder: (context) => StripePayment(
+                              cost: getTotalCost(),
+                              addressId: selectedAddress,
+                            ),
                             // builder: (context) => OrderWithPayment(cost: cost+50, addressId: selectedAddress),
-                          )
-                      );
-                    }
-                    else if(paymentMethod == "SSLCommerze"){
+                          ));
+                    } else if (paymentMethod == "SSLCommerze") {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SSLCommerzePayment(cost: cost+50, addressId: selectedAddress,),
+                            builder: (context) => SSLCommerzePayment(
+                              cost: cost + 50,
+                              addressId: selectedAddress,
+                            ),
                             // builder: (context) => OrderWithPayment(cost: cost+50, addressId: selectedAddress),
-                          )
-                      );
-                    }
-                    else{
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                          ));
+                    } else {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
                       String consKey = prefs.getString("consKey") as String;
-                      String consSecret = prefs.getString("consSecret") as String;
+                      String consSecret =
+                          prefs.getString("consSecret") as String;
                       WoocommerceAPI woocommerceAPI = WoocommerceAPI(
                           url: API().createOrderApi,
                           consumerKey: consKey,
@@ -386,19 +405,19 @@ class OrderProcessing extends StatelessWidget {
                         "",
                         postBody,
                       );
-                      if(response["data"] == null){
-                        OrderServices().RedirectToConfirmationPage("200", context, "");
-                      }
-                      else{
-                        OrderServices().RedirectToConfirmationPage("401", context, "Sorry, The Order Couldn't be Placed. Please Try Again");
+                      if (response["data"] == null) {
+                        OrderServices()
+                            .RedirectToConfirmationPage("200", context, "");
+                      } else {
+                        OrderServices().RedirectToConfirmationPage(
+                            "401",
+                            context,
+                            "Sorry, The Order Couldn't be Placed. Please Try Again");
                       }
                     }
                   }
                 },
-                child: const Text(
-                    "Place Order"
-                )
-            ),
+                child: const Text("Place Order")),
           ),
         ),
       ],

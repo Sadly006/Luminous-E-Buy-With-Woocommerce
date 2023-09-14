@@ -12,7 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services/woocommerce_api_call.dart';
 import '../front_page.dart';
 
-
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -50,7 +49,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   _validator() async {
-    if(password.text.toString()==confirmPassword.text.toString()){
+    if (password.text.toString() == confirmPassword.text.toString()) {
       // final response = await http.post(
       //     Uri.parse(API().signUpApi),
       //     body:{
@@ -86,9 +85,16 @@ class _SignUpState extends State<SignUp> {
           url: API().signUpApi,
           consumerKey: consKey,
           consumerSecret: consSecret);
-      var response = await woocommerceAPI1.postAsync("?username="+userName.text.toString()+"&email="+email.text.toString()+"&password="+password.text.toString(), {});
+      var response = await woocommerceAPI1.postAsync(
+          "?username=" +
+              userName.text.toString() +
+              "&email=" +
+              email.text.toString() +
+              "&password=" +
+              password.text.toString(),
+          {});
 
-      if(response["code"] == 200){
+      if (response["code"] == 200) {
         prefs.setString('token', 'true');
         prefs.setString('userName', userName.text.toString());
         prefs.setString('email', email.text.toString());
@@ -96,11 +102,12 @@ class _SignUpState extends State<SignUp> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>FrontPage(consKey: consKey, consSecret: consSecret,),
-            )
-        );
-      }
-      else{
+              builder: (context) => FrontPage(
+                consKey: consKey,
+                consSecret: consSecret,
+              ),
+            ));
+      } else {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -119,8 +126,7 @@ class _SignUpState extends State<SignUp> {
           },
         );
       }
-    }
-    else{
+    } else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -131,11 +137,9 @@ class _SignUpState extends State<SignUp> {
         },
       );
     }
-
   }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +147,6 @@ class _SignUpState extends State<SignUp> {
       key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: SafeArea(
@@ -153,9 +156,7 @@ class _SignUpState extends State<SignUp> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 50)
-              ),
-
+                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 50)),
               Row(
                 children: [
                   Padding(
@@ -164,7 +165,7 @@ class _SignUpState extends State<SignUp> {
                       "JOIN US NOW!!",
                       style: TextStyle(
                         fontSize: 23,
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).highlightColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -178,7 +179,7 @@ class _SignUpState extends State<SignUp> {
                     child: Text(
                       "Already have an account? ",
                       style: TextStyle(
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).highlightColor,
                         fontSize: 17,
                       ),
                     ),
@@ -193,21 +194,23 @@ class _SignUpState extends State<SignUp> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const SignIn()),
+                            MaterialPageRoute(
+                                builder: (context) => const SignIn()),
                           );
                         },
-                        child: Text('Sign In!',
+                        child: Text(
+                          'Sign In!',
                           style: TextStyle(
                             fontSize: 17,
                             color: Theme.of(context).primaryColor,
                           ),
-                        )
-                    ),
+                        )),
                   )
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Center(
                   child: TextFormField(
                     controller: firstName,
@@ -223,7 +226,8 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Center(
                   child: TextFormField(
                     controller: lastName,
@@ -239,7 +243,8 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Center(
                   child: TextFormField(
                     controller: userName,
@@ -255,7 +260,8 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Center(
                   child: TextFormField(
                     controller: email,
@@ -271,7 +277,8 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Center(
                   child: TextFormField(
                     inputFormatters: [
@@ -293,7 +300,8 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Center(
                   child: TextFormField(
                     controller: password,
@@ -321,7 +329,8 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Center(
                   child: TextFormField(
                     obscureText: true,
@@ -350,43 +359,39 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 child: SizedBox(
                   width: displayHeight(context) * 0.45,
                   height: displayHeight(context) * 0.07,
                   child: GestureDetector(
                     onTap: () {
-                      _scaffoldKey.currentState!.showSnackBar(
-                          SnackBar(content:
-                          Row(
-                            children: const <Widget>[
-                              CircularProgressIndicator(),
-                              Text("  Signing-Up...")
-                            ],
-                          ),
-                          )
-                      );
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Row(
+                          children: const <Widget>[
+                            CircularProgressIndicator(),
+                            Text("  Signing-Up...")
+                          ],
+                        ),
+                      ));
                       _validator();
                     },
                     child: Card(
                       color: Theme.of(context).primaryColor,
                       child: const Center(
-                        child: Text(
-                            "Sign Up"
-                        ),
+                        child: Text("Sign Up"),
                       ),
                     ),
                   ),
                 ),
               ),
               const Padding(padding: EdgeInsets.all(10)),
-              const Padding(padding: EdgeInsets.all(10),
+              const Padding(
+                padding: EdgeInsets.all(10),
                 child: Center(
                   child: Text(
                     "Sign Up with,",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -396,7 +401,8 @@ class _SignUpState extends State<SignUp> {
                   children: [
                     const Padding(padding: EdgeInsets.all(20)),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 5),
                       child: SizedBox(
                         width: 50,
                         child: TextButton(
@@ -414,13 +420,12 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 5),
                       child: SizedBox(
                         width: 50,
                         child: TextButton(
-                          onPressed: () {
-
-                          },
+                          onPressed: () {},
                           child: const Image(
                             image: AssetImage('assets/facebook.png'),
                             fit: BoxFit.contain,
@@ -432,13 +437,12 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 5),
                       child: SizedBox(
                         width: 50,
                         child: TextButton(
-                          onPressed: () {
-
-                          },
+                          onPressed: () {},
                           child: const Image(
                             image: AssetImage('assets/twitter.png'),
                             fit: BoxFit.contain,
@@ -459,4 +463,3 @@ class _SignUpState extends State<SignUp> {
     );
   }
 }
-

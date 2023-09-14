@@ -29,7 +29,6 @@ class WoocommerceAPI {
   }
 
   String _getOAuthURL(String requestMethod, String queryUrl) {
-
     String token = "";
     String url = queryUrl;
     bool containsQueryParams = url.contains("?");
@@ -124,27 +123,28 @@ class WoocommerceAPI {
   }
 
   Future<dynamic> getAsync(String endPoint) async {
-    String queryUrl = url+endPoint;
+    String queryUrl = url + endPoint;
+    print(_getOAuthURL("GET", queryUrl));
     final response = await http.get(Uri.parse(_getOAuthURL("GET", queryUrl)));
     return response;
   }
 
   postAsync(String endPoint, Map data) async {
-    String queryUrl = url+endPoint;
+    String queryUrl = url + endPoint;
 
     http.Client client = http.Client();
-    http.Request request = http.Request('POST', Uri.parse(_getOAuthURL("POST", queryUrl)));
+    http.Request request =
+        http.Request('POST', Uri.parse(_getOAuthURL("POST", queryUrl)));
     request.headers[HttpHeaders.contentTypeHeader] =
-    'application/json; charset=utf-8';
+        'application/json; charset=utf-8';
     request.headers[HttpHeaders.cacheControlHeader] = "no-cache";
     request.body = json.encode(data);
     String response =
-    await client.send(request).then((res) => res.stream.bytesToString());
+        await client.send(request).then((res) => res.stream.bytesToString());
     var dataResponse = await json.decode(response);
     return dataResponse;
   }
 }
-
 
 class QueryString {
   static Map parse(String query) {
@@ -199,4 +199,3 @@ class Data {
     _status = json['status'];
   }
 }
-

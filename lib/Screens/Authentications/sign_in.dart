@@ -9,7 +9,6 @@ import 'sign_up.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
 
@@ -32,17 +31,18 @@ class _SignInState extends State<SignIn> {
   }
 
   _validator() async {
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     consKey = prefs.getString("consKey") as String;
     consSecret = prefs.getString("consSecret") as String;
     WoocommerceAPI woocommerceAPI1 = WoocommerceAPI(
-        url: API().signInApi,
-        consumerKey: consKey,
-        consumerSecret: consSecret);
-    var response = await woocommerceAPI1.getAsync("?username="+userName.text.toString()+"&password="+password.text.toString());
+        url: API().signInApi, consumerKey: consKey, consumerSecret: consSecret);
+    var response = await woocommerceAPI1.getAsync("?username=" +
+        userName.text.toString() +
+        "&password=" +
+        password.text.toString());
+    print(jsonDecode(response.body));
 
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       var res = json.decode(response.body);
       prefs.setString('token', 'true');
       prefs.setString('userName', res['data']['user_login']);
@@ -51,11 +51,12 @@ class _SignInState extends State<SignIn> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>FrontPage(consKey: consKey, consSecret: consSecret,),
-          )
-      );
-    }
-    else{
+            builder: (context) => FrontPage(
+              consKey: consKey,
+              consSecret: consSecret,
+            ),
+          ));
+    } else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -91,8 +92,7 @@ class _SignInState extends State<SignIn> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 50)
-              ),
+                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 50)),
               Row(
                 children: [
                   Padding(
@@ -100,7 +100,7 @@ class _SignInState extends State<SignIn> {
                     child: Text(
                       "HI THERE,",
                       style: TextStyle(
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).highlightColor,
                         fontSize: 23,
                         fontWeight: FontWeight.bold,
                       ),
@@ -115,7 +115,7 @@ class _SignInState extends State<SignIn> {
                     child: Text(
                       "WELCOME!!",
                       style: TextStyle(
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).highlightColor,
                         fontSize: 23,
                         fontWeight: FontWeight.bold,
                       ),
@@ -130,7 +130,7 @@ class _SignInState extends State<SignIn> {
                     child: Text(
                       "If you are new, ",
                       style: TextStyle(
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).highlightColor,
                         fontSize: 17,
                       ),
                     ),
@@ -145,21 +145,23 @@ class _SignInState extends State<SignIn> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const SignUp()),
+                            MaterialPageRoute(
+                                builder: (context) => const SignUp()),
                           );
                         },
-                        child: Text('Sign Up!',
+                        child: Text(
+                          'Sign Up!',
                           style: TextStyle(
                             fontSize: 17,
                             color: Theme.of(context).primaryColor,
                           ),
-                        )
-                    ),
+                        )),
                   )
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Center(
                   child: TextField(
                     style: const TextStyle(color: Colors.black),
@@ -176,7 +178,8 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Center(
                   child: TextFormField(
                     style: const TextStyle(color: Colors.black),
@@ -206,7 +209,8 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 child: GestureDetector(
                   child: SizedBox(
                     width: displayHeight(context) * 0.45,
@@ -214,44 +218,41 @@ class _SignInState extends State<SignIn> {
                     child: Card(
                       color: Theme.of(context).primaryColor,
                       child: const Center(
-                        child: Text(
-                            "Sign In"
-                        ),
+                        child: Text("Sign In"),
                       ),
                     ),
                   ),
                   onTap: () {
-                    _scaffoldKey.currentState!.showSnackBar(
-                        SnackBar(content:
-                          Row(
-                            children: const <Widget>[
-                              CircularProgressIndicator(),
-                              Text("  Signing-In...")
-                            ],
-                          ),
-                        )
-                    );
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Row(
+                        children: const <Widget>[
+                          CircularProgressIndicator(),
+                          Text("  Signing-In...")
+                        ],
+                      ),
+                    ));
                     _validator();
                   },
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 child: Center(
                   child: Text(
                     "OR,",
-                    style: TextStyle(
-                      color: Theme.of(context).accentColor
-                    ),
+                    style: TextStyle(color: Theme.of(context).highlightColor),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                 child: Center(
                   child: GestureDetector(
                     onTap: () async {
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
                       prefs.setString('userName', 'Guest');
                       prefs.setString('email', 'user@gmail.com');
                       consKey = prefs.getString("consKey") as String;
@@ -260,9 +261,11 @@ class _SignInState extends State<SignIn> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>FrontPage(consKey: consKey, consSecret: consSecret,),
-                          )
-                      );
+                            builder: (context) => FrontPage(
+                              consKey: consKey,
+                              consSecret: consSecret,
+                            ),
+                          ));
                     },
                     child: Text(
                       "Continue as a guest",
@@ -275,14 +278,14 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
               const Padding(padding: EdgeInsets.all(10)),
-              Padding(padding: const EdgeInsets.all(10),
+              Padding(
+                padding: const EdgeInsets.all(10),
                 child: Center(
                   child: Text(
                     "Sign In with,",
                     style: TextStyle(
-                      color: Theme.of(context).accentColor,
-                        fontWeight: FontWeight.bold
-                    ),
+                        color: Theme.of(context).highlightColor,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -292,13 +295,14 @@ class _SignInState extends State<SignIn> {
                   children: [
                     const Padding(padding: EdgeInsets.all(20)),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 5),
                       child: SizedBox(
                         width: 50,
                         child: TextButton(
-                            onPressed: () {
-                              GoogleSigning().signInWithGoogle(context: context);
-                            },
+                          onPressed: () {
+                            GoogleSigning().signInWithGoogle(context: context);
+                          },
                           child: const Image(
                             image: AssetImage('assets/google.png'),
                             fit: BoxFit.contain,
@@ -310,13 +314,12 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 5),
                       child: SizedBox(
                         width: 50,
                         child: TextButton(
-                          onPressed: () {
-
-                          },
+                          onPressed: () {},
                           child: const Image(
                             image: AssetImage('assets/facebook.png'),
                             fit: BoxFit.contain,
@@ -328,13 +331,12 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 5),
                       child: SizedBox(
                         width: 50,
                         child: TextButton(
-                          onPressed: () {
-
-                          },
+                          onPressed: () {},
                           child: const Image(
                             image: AssetImage('assets/twitter.png'),
                             fit: BoxFit.contain,
@@ -355,4 +357,3 @@ class _SignInState extends State<SignIn> {
     );
   }
 }
-

@@ -6,14 +6,15 @@ import 'package:luminous_e_buy/Templates/product_tile.dart';
 class SampleListing extends StatefulWidget {
   List<dynamic> sampleProductList = [];
   String catName = '';
-  SampleListing({Key? key, required this.sampleProductList, required this.catName}) : super(key: key);
+  SampleListing(
+      {Key? key, required this.sampleProductList, required this.catName})
+      : super(key: key);
 
   @override
   _SampleListingState createState() => _SampleListingState();
 }
 
 class _SampleListingState extends State<SampleListing> {
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,7 +30,8 @@ class _SampleListingState extends State<SampleListing> {
                   children: [
                     Text(
                       widget.catName,
-                      style: TextStyle( //homePage category name accent
+                      style: TextStyle(
+                        //homePage category name accent
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).primaryColor,
@@ -45,16 +47,17 @@ class _SampleListingState extends State<SampleListing> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ProductList(),
-                        )
-                    );
+                        ));
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
                     child: Text(
                       "Show More",
-                      style: TextStyle( //show more
+                      style: TextStyle(
+                        //show more
                         fontSize: 18,
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).highlightColor,
                       ),
                     ),
                   ),
@@ -69,8 +72,14 @@ class _SampleListingState extends State<SampleListing> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ProductTile(productList: widget.sampleProductList, index: 0, isLoading: false),
-              ProductTile(productList: widget.sampleProductList, index: 1, isLoading: false),
+              ProductTile(
+                  productList: widget.sampleProductList,
+                  index: 0,
+                  isLoading: false),
+              ProductTile(
+                  productList: widget.sampleProductList,
+                  index: 1,
+                  isLoading: false),
             ],
           ),
         ),
@@ -80,8 +89,14 @@ class _SampleListingState extends State<SampleListing> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ProductTile(productList: widget.sampleProductList, index: 2, isLoading: false),
-              ProductTile(productList: widget.sampleProductList, index: 3, isLoading: false),
+              ProductTile(
+                  productList: widget.sampleProductList,
+                  index: 2,
+                  isLoading: false),
+              ProductTile(
+                  productList: widget.sampleProductList,
+                  index: 3,
+                  isLoading: false),
             ],
           ),
         ),

@@ -32,15 +32,15 @@ class _ProfileOverviewState extends State<ProfileOverview> {
     imagePicker;
   }
 
-  dpPicker(BuildContext context, ImagePicker imagePicker, XFile? imageFile){
+  dpPicker(BuildContext context, ImagePicker imagePicker, XFile? imageFile) {
     return showMaterialModalBottomSheet(
       expand: false,
       enableDrag: true,
       bounce: true,
       context: context,
-      builder: (context) =>SizedBox(
+      builder: (context) => SizedBox(
           height: 50,
-          width: displayWidth(context)*0.8,
+          width: displayWidth(context) * 0.8,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -49,19 +49,16 @@ class _ProfileOverviewState extends State<ProfileOverview> {
               const Padding(padding: EdgeInsets.all(2)),
               TextButton(
                 onPressed: () async {
-                  imageFile = (await imagePicker.pickImage(source: ImageSource.gallery));
-
+                  imageFile = (await imagePicker.pickImage(
+                      source: ImageSource.gallery));
                 },
                 child: Text(
                   "Select Profile Picture",
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor
-                  ),
+                  style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
               ),
             ],
-          )
-      ),
+          )),
     );
   }
 
@@ -81,13 +78,14 @@ class _ProfileOverviewState extends State<ProfileOverview> {
       ),
       body: CustomScrollView(
         slivers: [
-          SliverList(delegate: SliverChildBuilderDelegate(
-                (BuildContext context, index){
+          SliverList(
+              delegate: SliverChildBuilderDelegate(
+            (BuildContext context, index) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       dpPicker(context, imagePicker, imageFile);
                     },
                     child: Container(
@@ -97,7 +95,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                         shape: BoxShape.circle,
                       ),
                       child: ClipOval(
-                        child: Image.network("https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+                        child: Image.network(
+                          "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
                           fit: BoxFit.cover,
                           height: 100,
                           width: 100,
@@ -106,20 +105,20 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                     ),
                   ),
                   const Padding(padding: EdgeInsets.all(5)),
-                  Text(info['name'].toString(),
+                  Text(
+                    info['name'].toString(),
                     style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w600,
-                        color: Theme.of(context).accentColor
-                    ),
+                        color: Theme.of(context).highlightColor),
                   ),
                   const Padding(padding: EdgeInsets.all(2)),
-                  Text(info['email'].toString(),
+                  Text(
+                    info['email'].toString(),
                     style: const TextStyle(
                         fontSize: 15,
                         // fontWeight: FontWeight.w600,
-                        color: Colors.grey
-                    ),
+                        color: Colors.grey),
                   ),
                   const Padding(padding: EdgeInsets.all(10)),
                   Padding(
@@ -135,8 +134,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
-                                  color: Theme.of(context).accentColor
-                              ),
+                                  color: Theme.of(context).highlightColor),
                             ),
                             const Padding(
                               padding: EdgeInsets.only(top: 10),
@@ -145,8 +143,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.grey
-                                ),
+                                    color: Colors.grey),
                               ),
                             ),
                           ],
@@ -159,8 +156,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
-                                  color: Theme.of(context).accentColor
-                              ),
+                                  color: Theme.of(context).highlightColor),
                             ),
                             const Padding(
                               padding: EdgeInsets.only(top: 10),
@@ -169,8 +165,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.grey
-                                ),
+                                    color: Colors.grey),
                               ),
                             ),
                           ],
@@ -183,8 +178,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
-                                  color: Theme.of(context).accentColor
-                              ),
+                                  color: Theme.of(context).highlightColor),
                             ),
                             const Padding(
                               padding: EdgeInsets.only(top: 10),
@@ -193,8 +187,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.grey
-                                ),
+                                    color: Colors.grey),
                               ),
                             ),
                           ],
@@ -216,19 +209,20 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                       children: [
                         GestureDetector(
                           onTap: (() async {
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            if(prefs.getString('token')=='true'){
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            if (prefs.getString('token') == 'true') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => const OrderHistory(),
-                                  )
-                              );
-                            }
-                            else{
-                              showToast('SignIn to view this page!',
+                                  ));
+                            } else {
+                              showToast(
+                                'SignIn to view this page!',
                                 context: context,
-                                backgroundColor: const Color.fromRGBO(255, 182, 193, 1),
+                                backgroundColor:
+                                    const Color.fromRGBO(255, 182, 193, 1),
                                 textStyle: const TextStyle(color: Colors.black),
                                 animation: StyledToastAnimation.slideFromLeft,
                                 reverseAnimation: StyledToastAnimation.fade,
@@ -265,8 +259,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.grey
-                                  ),
+                                      color: Colors.grey),
                                 ),
                               ),
                             ],
@@ -274,19 +267,20 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                         ),
                         GestureDetector(
                           onTap: (() async {
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            if(prefs.getString('token')=='true'){
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            if (prefs.getString('token') == 'true') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => const ProfilePage(),
-                                  )
-                              );
-                            }
-                            else{
-                              showToast('SignIn to view this page!',
+                                  ));
+                            } else {
+                              showToast(
+                                'SignIn to view this page!',
                                 context: context,
-                                backgroundColor: const Color.fromRGBO(255, 182, 193, 1),
+                                backgroundColor:
+                                    const Color.fromRGBO(255, 182, 193, 1),
                                 textStyle: const TextStyle(color: Colors.black),
                                 animation: StyledToastAnimation.slideFromLeft,
                                 reverseAnimation: StyledToastAnimation.fade,
@@ -323,8 +317,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.grey
-                                  ),
+                                      color: Colors.grey),
                                 ),
                               ),
                             ],
@@ -332,19 +325,21 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                         ),
                         GestureDetector(
                           onTap: (() async {
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            if(prefs.getString('token')=='true'){
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            if (prefs.getString('token') == 'true') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const AddressDetails(),
-                                  )
-                              );
-                            }
-                            else{
-                              showToast('SignIn to view this page!',
+                                    builder: (context) =>
+                                        const AddressDetails(),
+                                  ));
+                            } else {
+                              showToast(
+                                'SignIn to view this page!',
                                 context: context,
-                                backgroundColor: const Color.fromRGBO(255, 182, 193, 1),
+                                backgroundColor:
+                                    const Color.fromRGBO(255, 182, 193, 1),
                                 textStyle: const TextStyle(color: Colors.black),
                                 animation: StyledToastAnimation.slideFromLeft,
                                 reverseAnimation: StyledToastAnimation.fade,
@@ -381,8 +376,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.grey
-                                  ),
+                                      color: Colors.grey),
                                 ),
                               ),
                             ],
@@ -413,8 +407,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.grey
-                                ),
+                                    color: Colors.grey),
                               ),
                             ),
                           ],
@@ -452,9 +445,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                         Text(
                           "Notification",
                           style: TextStyle(
-                            fontSize: 17,
-                            color: Theme.of(context).accentColor
-                          ),
+                              fontSize: 17,
+                              color: Theme.of(context).highlightColor),
                         ),
                       ],
                     ),
@@ -462,19 +454,20 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                   const Padding(padding: EdgeInsets.all(10)),
                   GestureDetector(
                     onTap: (() async {
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      if(prefs.getString('token')=='true'){
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      if (prefs.getString('token') == 'true') {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const PaymentHistory(),
-                            )
-                        );
-                      }
-                      else{
-                        showToast('SignIn to view this page!',
+                            ));
+                      } else {
+                        showToast(
+                          'SignIn to view this page!',
                           context: context,
-                          backgroundColor: const Color.fromRGBO(255, 182, 193, 1),
+                          backgroundColor:
+                              const Color.fromRGBO(255, 182, 193, 1),
                           textStyle: const TextStyle(color: Colors.black),
                           animation: StyledToastAnimation.slideFromLeft,
                           reverseAnimation: StyledToastAnimation.fade,
@@ -510,8 +503,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                             "Payment History",
                             style: TextStyle(
                                 fontSize: 17,
-                                color: Theme.of(context).accentColor
-                            ),
+                                color: Theme.of(context).highlightColor),
                           ),
                         ],
                       ),
@@ -521,8 +513,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
               );
             },
             childCount: 1,
-          )
-          )
+          ))
         ],
       ),
       persistentFooterButtons: [
@@ -535,7 +526,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                   primary: Theme.of(context).primaryColor,
                 ),
                 onPressed: () async {
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
                   prefs.remove('token');
                   prefs.setString('userName', 'Unknown');
                   prefs.setString('email', 'Unknown');
@@ -547,13 +539,11 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>const SignIn(),
-                      )
-                  );
+                        builder: (context) => const SignIn(),
+                      ));
                 },
                 child: const Text("Logout"),
-              )
-          ),
+              )),
         ),
       ],
     );

@@ -16,7 +16,6 @@ class PaymentHistory extends StatefulWidget {
 }
 
 class _PaymentHistoryState extends State<PaymentHistory> {
-
   bool isLoading = true;
   late String consKey, consSecret;
 
@@ -34,14 +33,15 @@ class _PaymentHistoryState extends State<PaymentHistory> {
       isLoading = true;
     });
     final response = await http.get(
-        Uri.parse(API().stripeAPI+"search?query=is%3Apayment_intents%20sadly@gmail.com&prefix=false"),
-        headers: {
-          'Authorization': 'Bearer '+API().stripeToken,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
+      Uri.parse(API().stripeAPI +
+          "search?query=is%3Apayment_intents%20sadly@gmail.com&prefix=false"),
+      headers: {
+        'Authorization': 'Bearer ' + API().stripeToken,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
     );
 
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       paymentHistory = json.decode(response.body);
 
       setState(() {
@@ -50,123 +50,130 @@ class _PaymentHistoryState extends State<PaymentHistory> {
     }
   }
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: isLoading
           ? Container(
-        color: Colors.white,
-        child: Center(
-          child: Image.asset("assets/product.gif"),
-        ),
-      )
-
-          : CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              //snap: true,
-              //floating: true,
-              stretch: true,
-              expandedHeight: 160.0,
-              flexibleSpace: FlexibleSpaceBar(
-                  title: Text('Payment History',
-                    style: TextStyle(
-                      color: Theme.of(context).accentColor,
-                    ),
-                  ),
-                  background: Image.asset(
-                    "assets/orderList.png",
-                    fit: BoxFit.contain,
-                  )
-              ),
-            ),
-
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, index) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-                    child: ListTile(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      tileColor: Theme.of(context).backgroundColor,
-                      title: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(4),
-                                    child: Text(paymentHistory['data'][index]['id'],
-                                      style: TextStyle(
-                                        color: Theme.of(context).accentColor,
-                                        fontSize: smallTextSize,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-
-                                  const Padding(padding: EdgeInsets.all(2)),
-
-                                  Padding(
-                                    padding: const EdgeInsets.all(4),
-                                    child: Text(
-                                      "\$"+(paymentHistory['data'][index]["amount"]/100).toString(),
-                                      style: TextStyle(
-                                        color: Theme.of(context).accentColor,
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: smallTextSize,
-                                      ),
-                                    ),
-                                  ),
-                                  const Padding(padding: EdgeInsets.all(2)),
-
-                                  Padding(
-                                    padding: const EdgeInsets.all(4),
-                                    child: Text(
-                                      DateFormat('dd/MM/yyyy, HH:mm:ss').format(DateTime.fromMicrosecondsSinceEpoch(paymentHistory['data'][index]['charges']['data'][0]['created']*1000000)).toString(),
-                                      style: TextStyle(
-                                        color: Theme.of(context).accentColor,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: extraSmallTextSize,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  SizedBox(
-                                    width: 50,
-                                    child: Image.network("https://brandslogos.com/wp-content/uploads/thumbs/stripe-logo-2.png"),
-                                  )
-                                ],
-                              )
-                            ],
-                          )
-                        ],
-
-                      ),
-                    ),
-                  );
-                },
-                childCount: paymentHistory["data"].length,
+              color: Colors.white,
+              child: Center(
+                child: Image.asset("assets/product.gif"),
               ),
             )
-          ]
-      ),
+          : CustomScrollView(slivers: [
+              SliverAppBar(
+                pinned: true,
+                //snap: true,
+                //floating: true,
+                stretch: true,
+                expandedHeight: 160.0,
+                flexibleSpace: FlexibleSpaceBar(
+                    title: Text(
+                      'Payment History',
+                      style: TextStyle(
+                        color: Theme.of(context).highlightColor,
+                      ),
+                    ),
+                    background: Image.asset(
+                      "assets/orderList.png",
+                      fit: BoxFit.contain,
+                    )),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                      child: ListTile(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        tileColor: Theme.of(context).backgroundColor,
+                        title: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                                padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(4),
+                                      child: Text(
+                                        paymentHistory['data'][index]['id'],
+                                        style: TextStyle(
+                                          color:
+                                              Theme.of(context).highlightColor,
+                                          fontSize: smallTextSize,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    const Padding(padding: EdgeInsets.all(2)),
+                                    Padding(
+                                      padding: const EdgeInsets.all(4),
+                                      child: Text(
+                                        "\$" +
+                                            (paymentHistory['data'][index]
+                                                        ["amount"] /
+                                                    100)
+                                                .toString(),
+                                        style: TextStyle(
+                                          color:
+                                              Theme.of(context).highlightColor,
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: smallTextSize,
+                                        ),
+                                      ),
+                                    ),
+                                    const Padding(padding: EdgeInsets.all(2)),
+                                    Padding(
+                                      padding: const EdgeInsets.all(4),
+                                      child: Text(
+                                        DateFormat('dd/MM/yyyy, HH:mm:ss')
+                                            .format(DateTime
+                                                .fromMicrosecondsSinceEpoch(
+                                                    paymentHistory['data']
+                                                                        [index]
+                                                                    ['charges']
+                                                                ['data'][0]
+                                                            ['created'] *
+                                                        1000000))
+                                            .toString(),
+                                        style: TextStyle(
+                                          color:
+                                              Theme.of(context).highlightColor,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: extraSmallTextSize,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    SizedBox(
+                                      width: 50,
+                                      child: Image.network(
+                                          "https://brandslogos.com/wp-content/uploads/thumbs/stripe-logo-2.png"),
+                                    )
+                                  ],
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  childCount: paymentHistory["data"].length,
+                ),
+              )
+            ]),
     );
   }
 }

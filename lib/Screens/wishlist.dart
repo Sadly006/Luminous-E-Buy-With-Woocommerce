@@ -14,41 +14,32 @@ class WishList extends StatefulWidget {
 }
 
 class _WishListState extends State<WishList> {
-
   textShortener(String name) {
-    if(name.length>16){
+    if (name.length > 16) {
       return name.replaceRange(16, (name.length), "...");
-    }
-    else{
+    } else {
       return name;
     }
   }
 
-  getImage(int index){
-    if(wishList[index]["images"].length!=0){
+  getImage(int index) {
+    if (wishList[index]["images"].length != 0) {
       return DecorationImage(
-        image: NetworkImage(
-            wishList[index]["images"][0]["src"].toString()
-        ),
+        image: NetworkImage(wishList[index]["images"][0]["src"].toString()),
         fit: BoxFit.cover,
       );
-
-    }
-    else{
+    } else {
       return const DecorationImage(
-        image: AssetImage(
-            "assets/no-image.png"
-        ),
+        image: AssetImage("assets/no-image.png"),
         fit: BoxFit.contain,
       );
     }
   }
 
-  _getContainer(List product, int index){
-    if(product[index]["discount"].toString()=='0'){
+  _getContainer(List product, int index) {
+    if (product[index]["discount"].toString() == '0') {
       return const Padding(padding: EdgeInsets.all(0));
-    }
-    else{
+    } else {
       return Padding(
         padding: const EdgeInsets.only(bottom: 5),
         child: Container(
@@ -56,7 +47,8 @@ class _WishListState extends State<WishList> {
           width: 40,
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
-            borderRadius: const BorderRadius.only(bottomRight: Radius.circular(8), topLeft: Radius.circular(4)),
+            borderRadius: const BorderRadius.only(
+                bottomRight: Radius.circular(8), topLeft: Radius.circular(4)),
           ),
           child: const Center(child: Text("Sale")),
         ),
@@ -65,7 +57,7 @@ class _WishListState extends State<WishList> {
   }
 
   _getPriceText(List product, int index) {
-    if(product[index]["doNotApplyDiscounts"].toString()=='0'){
+    if (product[index]["doNotApplyDiscounts"].toString() == '0') {
       return Text(
         "BDT " + product[index]["mrp"].toString(),
         style: TextStyle(
@@ -74,15 +66,19 @@ class _WishListState extends State<WishList> {
           color: Theme.of(context).primaryColor,
         ),
       );
-    }
-    else{
+    } else {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               Text(
-                "BDT " + (product[index]["price"] - (product[index]["price"]*product[index]["doNotApplyDiscounts"]/100)).toString(),
+                "BDT " +
+                    (product[index]["price"] -
+                            (product[index]["price"] *
+                                product[index]["doNotApplyDiscounts"] /
+                                100))
+                        .toString(),
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
@@ -90,10 +86,8 @@ class _WishListState extends State<WishList> {
                 ),
               ),
               const Padding(padding: EdgeInsets.only(left: 5)),
-              Text(
-                  "BDT " + (product[index]["price"]).toString(),
-                  style: Theme.of(context).textTheme.headline3
-              )
+              Text("BDT " + (product[index]["price"]).toString(),
+                  style: Theme.of(context).textTheme.headline3)
             ],
           ),
           const Padding(padding: EdgeInsets.all(3)),
@@ -109,7 +103,7 @@ class _WishListState extends State<WishList> {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: Container(
-        height: displayHeight(context)*0.8,
+        height: displayHeight(context) * 0.8,
         decoration: BoxDecoration(
           color: Theme.of(context).canvasColor,
           borderRadius: BorderRadius.vertical(
@@ -125,82 +119,86 @@ class _WishListState extends State<WishList> {
             itemCount: wishList.length,
             itemBuilder: (BuildContext context, index) {
               return Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: OpenContainer(
-                    closedElevation: 6,
-                    closedColor: Theme.of(context).canvasColor,
-                    transitionType: ContainerTransitionType.fadeThrough,
-                    closedBuilder: (BuildContext _, VoidCallback openContainer) {
-                      return GestureDetector(
-                        child: Container(
-                            color: Theme.of(context).backgroundColor,
-                            height: 300,
-                            width: displayWidth(context) * 0.49,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                    height: 200,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(4.0), topRight: Radius.circular(4.0)),
-                                      image: getImage(index),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Align(
-                                            alignment: Alignment.topRight,
-                                            child: _getContainer(wishList, index)
-                                        ),
-                                        Align(
-                                          alignment: Alignment.topLeft,
-                                          child: IconButton(
-                                            onPressed: () {
-                                              wishList.remove(wishList[index]);
-                                              setState(() {});
-                                            },
-                                            icon: const Icon(Icons.favorite_border, color: Colors.red,),
+                padding: const EdgeInsets.all(5),
+                child: OpenContainer(
+                  closedElevation: 6,
+                  closedColor: Theme.of(context).canvasColor,
+                  transitionType: ContainerTransitionType.fadeThrough,
+                  closedBuilder: (BuildContext _, VoidCallback openContainer) {
+                    return GestureDetector(
+                      child: Container(
+                          color: Theme.of(context).backgroundColor,
+                          height: 300,
+                          width: displayWidth(context) * 0.49,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(4.0),
+                                        topRight: Radius.circular(4.0)),
+                                    image: getImage(index),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Align(
+                                          alignment: Alignment.topRight,
+                                          child:
+                                              _getContainer(wishList, index)),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: IconButton(
+                                          onPressed: () {
+                                            wishList.remove(wishList[index]);
+                                            setState(() {});
+                                          },
+                                          icon: const Icon(
+                                            Icons.favorite_border,
+                                            color: Colors.red,
                                           ),
                                         ),
-                                      ],
-                                    )
+                                      ),
+                                    ],
+                                  )),
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Text(
+                                  textShortener(
+                                      wishList[index]["name"].toString()),
+                                  style: TextStyle(
+                                      color: Theme.of(context).highlightColor,
+                                      fontSize: 18),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Text(
-                                    textShortener(wishList[index]["name"].toString()),
-                                    style: TextStyle(
-                                        color: Theme.of(context).accentColor,
-                                        fontSize: 18
-                                    ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                                child: Text(
+                                  "BDT " + wishList[index]["price"].toString(),
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).primaryColor,
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                                  child: Text(
-                                    "BDT " + wishList[index]["price"].toString(),
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                        ),
-                        onTap: openContainer,
-                      );
-                    },
-                    openBuilder: (BuildContext _, VoidCallback closeContainer) {
-                      return ProductDetails(productList: wishList, index: index);
-                    },
-                    onClosed: (_) => print('Closed'),
-                  ),
+                              ),
+                            ],
+                          )),
+                      onTap: openContainer,
+                    );
+                  },
+                  openBuilder: (BuildContext _, VoidCallback closeContainer) {
+                    return ProductDetails(productList: wishList, index: index);
+                  },
+                  onClosed: (_) => print('Closed'),
+                ),
               );
-            }
-        ),
+            }),
       ),
     );
   }
@@ -217,14 +215,16 @@ class _WishListState extends State<WishList> {
       ),
       body: wishList.isEmpty
           ? Container(
-              height: displayHeight(context)*0.7,
+              height: displayHeight(context) * 0.7,
               decoration: BoxDecoration(
                 color: Theme.of(context).canvasColor,
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.elliptical(displayHeight(context), 150.0),
                 ),
               ),
-              child: Center(child: Text("You have not added anything to your cart yet",
+              child: Center(
+                  child: Text(
+                "You have not added anything to your cart yet",
                 style: Theme.of(context).textTheme.subtitle1,
               )),
             )

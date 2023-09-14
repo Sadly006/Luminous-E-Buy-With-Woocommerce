@@ -44,7 +44,7 @@ class _OnBoardState extends State<OnBoard> {
     const pageDecoration = PageDecoration(
       titleTextStyle: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w700, color: Colors.black),
       bodyTextStyle: bodyStyle,
-      descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+      bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       pageColor: Colors.white,
       imagePadding: EdgeInsets.zero,
     );
@@ -77,13 +77,13 @@ class _OnBoardState extends State<OnBoard> {
       onDone: () => _onIntroEnd(context),
       //onSkip: () => _onIntroEnd(context), // You can override onSkip callback
       showSkipButton: true,
-      skipFlex: 0,
+      skipOrBackFlex: 0,
       nextFlex: 0,
       //rtl: true, // Display as right-to-left
       skip: Text('Skip', style: TextStyle(color: Theme.of(context).primaryColor),),
       next: Icon(Icons.arrow_forward, color: Theme.of(context).primaryColor),
       done: Text('Done', style: TextStyle(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor)),
-      curve: Curves.fastLinearToSlowEaseIn, color: Theme.of(context).primaryColor,
+      curve: Curves.fastLinearToSlowEaseIn,
       controlsMargin: const EdgeInsets.all(16),
       controlsPadding: kIsWeb
           ? const EdgeInsets.all(12.0)

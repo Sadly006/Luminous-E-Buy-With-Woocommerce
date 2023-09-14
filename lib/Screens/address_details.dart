@@ -13,28 +13,28 @@ class AddressDetails extends StatefulWidget {
 class _AddressDetailsState extends State<AddressDetails> {
   final _formKey = GlobalKey<FormState>();
 
-  int selectedAddress =1;
+  int selectedAddress = 1;
 
-  getColor(int id, int selected){
-    if(id==selected) {
+  getColor(int id, int selected) {
+    if (id == selected) {
       selectedAddress = id;
       return Theme.of(context).canvasColor;
     }
   }
 
-  getAddress(){
+  getAddress() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Icon(
           Icons.location_on,
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).highlightColor,
         ),
         Text(
           addressList[selectedAddress]["address"],
           style: TextStyle(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).highlightColor,
             fontSize: 16.0,
           ),
         )
@@ -46,14 +46,14 @@ class _AddressDetailsState extends State<AddressDetails> {
     return Column(
       children: [
         GestureDetector(
-          onTap: (){
+          onTap: () {
             NewAddressPopUp().NewAddress(_formKey, context, setState);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
             child: Container(
                 height: 40.0,
-                width: displayWidth(context)*0.45,
+                width: displayWidth(context) * 0.45,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: Theme.of(context).canvasColor,
@@ -66,69 +66,94 @@ class _AddressDetailsState extends State<AddressDetails> {
                 ),
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text(
-                      "Add New Address",
-                      style: Theme.of(context).textTheme.headline5
-                  ),
-                )
-            ),
+                  child: Text("Add New Address",
+                      style: Theme.of(context).textTheme.headline5),
+                )),
           ),
         ),
         SizedBox(
-          height: displayHeight(context)*0.71,
+          height: displayHeight(context) * 0.71,
           child: CustomScrollView(
             slivers: [
-              SliverList(delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, index){
-                  return GestureDetector(
-                    onTap: (){
-                      setState(() {
-                        selectedAddress = index;
-                        _getAddressList();
-                        getAddress();
-                      });
-                    },
-                    child: Container(
-                      width: displayWidth(context),
-                      color: getColor(addressList[index]["id"], selectedAddress),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                    padding: const EdgeInsets.fromLTRB(5, 10, 5, 5),
-                                    child: Icon(Icons.location_on, size: 20, color: Theme.of(context).primaryColor,)
-                                ),
-                                const Padding(padding: EdgeInsets.all(5)),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Padding(padding: EdgeInsets.only(top: 10)),
-                                    Text(addressList[index]['title'], style: TextStyle(color: Theme.of(context).accentColor, fontWeight: FontWeight.w500),),
-                                    const Padding(padding: EdgeInsets.only(top: 3)),
-                                    Text(addressList[index]['address'], style: TextStyle(color: Theme.of(context).accentColor, fontSize: 12),),
-                                    Text(addressList[index]['city'], style: TextStyle(color: Theme.of(context).accentColor, fontSize: 12),),
-                                  ],
-                                ),
-                              ],
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedAddress = index;
+                          _getAddressList();
+                          getAddress();
+                        });
+                      },
+                      child: Container(
+                        width: displayWidth(context),
+                        color:
+                            getColor(addressList[index]["id"], selectedAddress),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 2),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          5, 10, 5, 5),
+                                      child: Icon(
+                                        Icons.location_on,
+                                        size: 20,
+                                        color: Theme.of(context).primaryColor,
+                                      )),
+                                  const Padding(padding: EdgeInsets.all(5)),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Padding(
+                                          padding: EdgeInsets.only(top: 10)),
+                                      Text(
+                                        addressList[index]['title'],
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .highlightColor,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      const Padding(
+                                          padding: EdgeInsets.only(top: 3)),
+                                      Text(
+                                        addressList[index]['address'],
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .highlightColor,
+                                            fontSize: 12),
+                                      ),
+                                      Text(
+                                        addressList[index]['city'],
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .highlightColor,
+                                            fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          const Padding(padding: EdgeInsets.all(5)),
-                          Container(
-                            height: 0.15,
-                            color: Theme.of(context).accentColor,
-                          )
-                        ],
+                            const Padding(padding: EdgeInsets.all(5)),
+                            Container(
+                              height: 0.15,
+                              color: Theme.of(context).highlightColor,
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-                childCount: addressList.length,
-              ),
+                    );
+                  },
+                  childCount: addressList.length,
+                ),
               ),
             ],
           ),
@@ -136,7 +161,6 @@ class _AddressDetailsState extends State<AddressDetails> {
       ],
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +173,7 @@ class _AddressDetailsState extends State<AddressDetails> {
           children: <Widget>[
             Text("My Address",
                 style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).highlightColor,
                   fontWeight: FontWeight.w800,
                   fontSize: 20.0,
                 )),
