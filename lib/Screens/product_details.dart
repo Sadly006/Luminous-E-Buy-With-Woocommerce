@@ -8,7 +8,6 @@ import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:luminous_e_buy/Templates/product_tile.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import '../Constant_Values/lists.dart';
 import 'image_view.dart';
 
 class ProductDetails extends StatefulWidget {
