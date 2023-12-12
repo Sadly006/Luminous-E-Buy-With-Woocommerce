@@ -34,8 +34,8 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
-  var token;
-  bool? onboarded;
+  final token;
+  final bool? onboarded;
   MyApp({Key? key, required this.token, required this.onboarded}) : super(key: key);
 
   @override

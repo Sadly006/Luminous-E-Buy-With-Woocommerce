@@ -11,7 +11,7 @@ import '../Models/timeline.dart';
 
 class TrackOrder extends StatefulWidget {
   TrackOrder({Key? key, required this.id}) : super(key: key);
-  int id;
+  final int id;
 
   @override
   _TrackOrderState createState() => _TrackOrderState();

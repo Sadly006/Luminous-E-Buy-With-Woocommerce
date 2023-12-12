@@ -19,9 +19,9 @@ class OrderProcessing extends StatelessWidget {
       required this.paymentMethod})
       : super(key: key);
 
-  int selectedAddress;
-  double cost;
-  String paymentMethod;
+  final int selectedAddress;
+  final double cost;
+  final String paymentMethod;
   late Map<String, dynamic> postBody;
 
   double roundDouble(double value, int places) {

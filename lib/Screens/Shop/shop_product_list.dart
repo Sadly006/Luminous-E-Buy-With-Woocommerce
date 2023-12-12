@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class ShopProductList extends StatefulWidget {
-  int shopId;
+  final int shopId;
   ShopProductList({Key? key, required this.shopId}) : super(key: key);
 
   @override

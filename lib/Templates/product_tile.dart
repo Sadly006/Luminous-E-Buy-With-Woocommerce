@@ -7,7 +7,7 @@ import 'package:luminous_e_buy/Screens/shimmer_loading.dart';
 import 'package:luminous_e_buy/Services/product_functions.dart';
 
 class ProductTile extends StatefulWidget {
-  List<dynamic> productList = [];
+  List<dynamic> productList;
   int index = 0;
   bool isLoading;
   ProductTile(

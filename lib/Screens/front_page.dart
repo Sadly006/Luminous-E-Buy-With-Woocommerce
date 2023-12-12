@@ -15,7 +15,7 @@ import 'home_page.dart';
 class FrontPage extends StatefulWidget {
   FrontPage({Key? key, required this.consKey, required this.consSecret})
       : super(key: key);
-  String consKey, consSecret;
+  final String consKey, consSecret;
 
   @override
   _FrontPageState createState() => _FrontPageState();

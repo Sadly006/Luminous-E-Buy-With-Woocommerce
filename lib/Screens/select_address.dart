@@ -7,7 +7,7 @@ import 'new_address_popup.dart';
 
 class SelectAddress extends StatefulWidget {
   SelectAddress({Key? key, required this.cost}) : super(key: key);
-  double cost;
+  final double cost;
 
   @override
   _SelectAddressState createState() => _SelectAddressState();

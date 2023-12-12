@@ -6,7 +6,6 @@ import 'package:luminous_e_buy/Services/google_sign_in.dart';
 import '../../Services/woocommerce_api_call.dart';
 import '../front_page.dart';
 import 'sign_up.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignIn extends StatefulWidget {

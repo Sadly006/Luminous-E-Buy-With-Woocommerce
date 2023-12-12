@@ -18,8 +18,8 @@ import '../../Services/order_redirect.dart';
 class SSLCommerzePayment extends StatefulWidget {
   SSLCommerzePayment({Key? key, required this.cost, required this.addressId}) : super(key: key);
 
-  double cost;
-  int addressId;
+  final double cost;
+  final int addressId;
 
   @override
   _SSLCommerzePaymentState createState() => _SSLCommerzePaymentState();

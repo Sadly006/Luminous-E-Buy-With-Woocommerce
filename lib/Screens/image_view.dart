@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ImageView extends StatelessWidget {
-  List<dynamic> productList;
-  int index;
+  final List<dynamic> productList;
+  final int index;
   ImageView({Key? key, required this.productList, required this.index}) : super(key: key);
 
   getImage(){

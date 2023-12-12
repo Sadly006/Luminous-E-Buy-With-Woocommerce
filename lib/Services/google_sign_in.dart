@@ -26,7 +26,6 @@ class GoogleSigning {
 
       UserCredential result = await auth.signInWithCredential(authCredential);
       User? user = result.user;
-      print(user);
 
       if (result != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();

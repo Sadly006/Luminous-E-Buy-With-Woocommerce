@@ -10,8 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoryProductList extends StatefulWidget {
   CategoryProductList({Key? key, required this.categoryID, required this.categoryName}) : super(key: key);
-  String categoryID;
-  String categoryName;
+  final String categoryID;
+  final String categoryName;
 
   @override
   _CategoryProductListState createState() => _CategoryProductListState();

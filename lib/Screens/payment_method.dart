@@ -10,8 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PaymentMethods extends StatefulWidget {
   PaymentMethods({Key? key, required this.cost, required this.selectedAddress})
       : super(key: key);
-  double cost;
-  int selectedAddress;
+  final double cost;
+  final int selectedAddress;
 
   @override
   _PaymentMethodsState createState() => _PaymentMethodsState();

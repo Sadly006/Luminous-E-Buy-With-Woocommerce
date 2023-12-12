@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:luminous_e_buy/Screen%20Sizes/screen_size_page.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../Constant_Values/lists.dart';
-import '../Services/product_functions.dart';
-import 'Authentications/sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
